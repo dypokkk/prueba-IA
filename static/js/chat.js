@@ -298,17 +298,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const formattedAnswer = renderMarkdownSimple(data.answer);
 
-        let badgeTier = "";
-        if (data.tier === "deterministic") {
-            badgeTier = `<span class="badge-deterministic px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider"><i class="fa-solid fa-bolt text-[8px] mr-1"></i>Determinista (${data.latency_ms}ms)</span>`;
-        } else if (data.tier === "ai_rag") {
-            badgeTier = `<span class="badge-ai px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider"><i class="fa-solid fa-wand-magic-sparkles text-[8px] mr-1"></i>Gemini 3.5 Flash Lite (${data.latency_ms}ms)</span>`;
-        } else if (data.tier === "cache") {
-            badgeTier = `<span class="badge-cache px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider"><i class="fa-solid fa-database text-[8px] mr-1"></i>Caché (${data.latency_ms}ms)</span>`;
-        } else if (data.tier === "escalation") {
-            badgeTier = `<span class="badge-escalated px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider"><i class="fa-solid fa-headset text-[8px] mr-1"></i>Escalado a Soporte</span>`;
-        }
-
         let ticketBadge = "";
         if (data.ticket_id) {
             ticketBadge = `
@@ -319,31 +308,19 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
         }
 
-        let sourcesBadge = "";
-        if (data.sources && data.sources.length > 0 && !data.escalate_to_human) {
-            const sourceTags = data.sources.map(s => `<span class="bg-white/5 border border-white/10 px-1.5 py-0.2 rounded text-[9px] text-slate-300 font-mono">${escapeHtml(s)}</span>`).join(" ");
-            sourcesBadge = `
-                <div class="mt-2.5 pt-2 border-t border-white/10 flex flex-wrap items-center gap-1">
-                    <span class="text-[9px] text-slate-400 font-medium"><i class="fa-solid fa-book-open mr-1"></i>Fuentes:</span>
-                    ${sourceTags}
-                </div>
-            `;
-        }
-
         msgDiv.innerHTML = `
             <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-500 flex items-center justify-center text-white flex-shrink-0 text-xs shadow border border-white/20">
                 <i class="fa-solid fa-graduation-cap"></i>
             </div>
             <div class="glass-bubble rounded-2xl rounded-tl-none p-4 text-slate-100 max-w-[85%] text-xs sm:text-sm leading-relaxed">
-                <div class="flex flex-wrap items-center justify-between gap-1.5 mb-1.5">
+                <div class="flex items-center justify-between gap-1.5 mb-1.5">
                     <span class="text-[11px] font-bold text-brand-300 tracking-wide uppercase">Global Language Academy</span>
-                    ${badgeTier}
+                    <span class="text-[10px] text-slate-400 font-mono">En vivo</span>
                 </div>
                 <div class="prose prose-invert prose-xs sm:prose-sm max-w-none text-slate-200 leading-relaxed">
                     ${formattedAnswer}
                 </div>
                 ${ticketBadge}
-                ${sourcesBadge}
             </div>
         `;
 
