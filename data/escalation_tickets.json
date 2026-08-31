@@ -1,7 +1,7 @@
 [
   {
-    "ticket_id": "TKT-7A1CF56B",
-    "timestamp": "2026-08-31 14:47:35 UTC",
+    "ticket_id": "TKT-A4BA9528",
+    "timestamp": "2026-08-31 14:50:23 UTC",
     "user_query": "I demand a 90% scholarship and personal phone number of the director",
     "escalation_reason": "EXPLICIT_ESCALATION_INTENT",
     "confidence": 0.3,
@@ -10,36 +10,26 @@
     "resolution_notes": null
   },
   {
-    "ticket_id": "TKT-3477D877",
-    "timestamp": "2026-08-31 14:47:35 UTC",
+    "ticket_id": "TKT-28726015",
+    "timestamp": "2026-08-31 14:50:23 UTC",
     "user_query": "Customer demanding special terms",
     "escalation_reason": "DISPUTE_TEST",
     "confidence": 0.0,
     "channel": "web",
     "status": "RESOLVED",
     "resolution_notes": "Handled by senior advisor",
-    "resolved_at": "2026-08-31 14:47:35 UTC"
+    "resolved_at": "2026-08-31 14:50:23 UTC"
   },
   {
-    "ticket_id": "TKT-4A95CA25",
-    "timestamp": "2026-08-31 14:46:07 UTC",
-    "user_query": "I demand a 90% scholarship and personal phone number of the director",
-    "escalation_reason": "EXPLICIT_ESCALATION_INTENT",
-    "confidence": 0.3,
-    "channel": "web",
-    "status": "PENDING",
-    "resolution_notes": null
-  },
-  {
-    "ticket_id": "TKT-6E8EFE1E",
-    "timestamp": "2026-08-31 14:46:07 UTC",
-    "user_query": "Customer demanding special terms",
-    "escalation_reason": "DISPUTE_TEST",
-    "confidence": 0.0,
+    "ticket_id": "TKT-7D5C74AF",
+    "timestamp": "2026-08-31 14:50:15 UTC",
+    "user_query": "Solicitud especial para probar resolucion ajax",
+    "escalation_reason": "SPECIAL_TECHNICAL_OR_CUSTOM_REQUEST",
+    "confidence": 0.4,
     "channel": "web",
     "status": "RESOLVED",
-    "resolution_notes": "Handled by senior advisor",
-    "resolved_at": "2026-08-31 14:46:07 UTC"
+    "resolution_notes": "",
+    "resolved_at": "2026-08-31 14:50:15 UTC"
   },
   {
     "ticket_id": "TKT-58327997",
@@ -564,8 +554,9 @@
     "escalation_reason": "SPECIAL_SCHOLARSHIP_AND_DIRECTOR_CONTACT_REQUEST",
     "confidence": 0.3,
     "channel": "web",
-    "status": "PENDING",
-    "resolution_notes": null
+    "status": "RESOLVED",
+    "resolution_notes": "",
+    "resolved_at": "2026-08-31 14:48:49 UTC"
   },
   {
     "ticket_id": "TKT-0DC680DD",
@@ -585,8 +576,9 @@
     "escalation_reason": "EXPLICIT_ESCALATION_INTENT",
     "confidence": 0.3,
     "channel": "web",
-    "status": "PENDING",
-    "resolution_notes": null
+    "status": "RESOLVED",
+    "resolution_notes": "",
+    "resolved_at": "2026-08-31 14:48:35 UTC"
   },
   {
     "ticket_id": "TKT-212B134F",

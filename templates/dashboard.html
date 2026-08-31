@@ -156,7 +156,7 @@
                         Haz clic en <strong>Abrir WebSocket</strong> para conectarte en vivo con el contexto del estudiante.
                     </p>
                 </div>
-                <span class="px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-400/30">
+                <span id="header-pending-count" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-400/30">
                     {{ pending_count }} Pendientes
                 </span>
             </div>
@@ -164,7 +164,7 @@
             {% if tickets and tickets|length > 0 %}
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {% for ticket in tickets %}
-                <div class="glass-card rounded-3xl p-5 sm:p-6 space-y-4 flex flex-col justify-between border {% if ticket.status == 'PENDING' %}border-amber-500/30 bg-amber-950/10 hover:border-amber-400/50{% else %}border-white/10 opacity-80 hover:opacity-100{% endif %} transition-all shadow-xl hover:scale-[1.01]">
+                <div id="ticket-card-{{ ticket.ticket_id }}" class="glass-card rounded-3xl p-5 sm:p-6 space-y-4 flex flex-col justify-between border {% if ticket.status == 'PENDING' %}border-amber-500/30 bg-amber-950/10 hover:border-amber-400/50{% else %}border-white/10 opacity-80 hover:opacity-100{% endif %} transition-all shadow-xl hover:scale-[1.01]">
                     
                     <!-- Card Header -->
                     <div class="space-y-2">
@@ -176,15 +176,13 @@
                                 <span class="font-mono font-bold text-sm text-white">{{ ticket.ticket_id }}</span>
                             </div>
                             
-                            {% if ticket.status == 'PENDING' %}
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-400/30">
+                            <span id="ticket-status-{{ ticket.ticket_id }}" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold {% if ticket.status == 'PENDING' %}bg-amber-500/20 text-amber-300 border border-amber-400/30{% else %}bg-emerald-500/20 text-emerald-300 border border-emerald-400/30{% endif %}">
+                                {% if ticket.status == 'PENDING' %}
                                 <i class="fa-solid fa-clock mr-1 text-[8px]"></i> Pendiente
-                            </span>
-                            {% else %}
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">
+                                {% else %}
                                 <i class="fa-solid fa-check mr-1 text-[8px]"></i> Resuelto
+                                {% endif %}
                             </span>
-                            {% endif %}
                         </div>
 
                         <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1">
@@ -226,13 +224,22 @@
                             <span>Abrir WebSocket</span>
                         </button>
 
-                        {% if ticket.status == 'PENDING' %}
-                        <form action="/escalations/{{ ticket.ticket_id }}/resolve" method="POST" class="inline">
-                            <button type="submit" class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold px-3 py-2 rounded-xl transition-all shadow border border-white/20 flex items-center gap-1" title="Marcar como atendido y resuelto">
+                        <div id="ticket-action-resolve-{{ ticket.ticket_id }}" class="flex items-center">
+                            {% if ticket.status == 'PENDING' %}
+                            <button 
+                                type="button" 
+                                onclick="resolveTicketAsync('{{ ticket.ticket_id }}', this)"
+                                class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold px-3 py-2 rounded-xl transition-all shadow border border-white/20 flex items-center gap-1" 
+                                title="Marcar como atendido y resuelto sin recargar la página"
+                            >
                                 <i class="fa-solid fa-check"></i>
                             </button>
-                        </form>
-                        {% endif %}
+                            {% else %}
+                            <span class="text-emerald-400 text-xs italic font-medium flex items-center gap-1">
+                                <i class="fa-solid fa-check text-[10px]"></i> Atendido
+                            </span>
+                            {% endif %}
+                        </div>
                     </div>
 
                 </div>
@@ -622,6 +629,70 @@ function hideDashTyping() {
     const typing = document.getElementById("dash-ws-typing-indicator");
     if (typing) typing.classList.add("hidden");
 }
+
+window.resolveTicketAsync = function(ticketId, btn) {
+    if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-[10px]"></i>';
+    }
+
+    fetch(`/escalations/${ticketId}/resolve`, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' }
+    })
+    .then(res => res.json())
+    .then(data => {
+        // 1. Update status badge in ticket card
+        const statusBadge = document.getElementById(`ticket-status-${ticketId}`);
+        if (statusBadge) {
+            statusBadge.className = "inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30";
+            statusBadge.innerHTML = '<i class="fa-solid fa-check mr-1 text-[8px]"></i> Resuelto';
+        }
+
+        // 2. Update ticket card border and opacity
+        const card = document.getElementById(`ticket-card-${ticketId}`);
+        if (card) {
+            card.classList.remove("border-amber-500/30", "bg-amber-950/10");
+            card.classList.add("border-white/10", "opacity-80");
+        }
+
+        // 3. Update action button to checked status
+        const actionWrapper = document.getElementById(`ticket-action-resolve-${ticketId}`);
+        if (actionWrapper) {
+            actionWrapper.innerHTML = '<span class="text-emerald-400 text-xs italic font-medium flex items-center gap-1"><i class="fa-solid fa-check text-[10px]"></i> Atendido</span>';
+        }
+
+        // 4. Update pending counter in header
+        const headerCount = document.getElementById("header-pending-count");
+        if (headerCount) {
+            const current = parseInt(headerCount.textContent) || 0;
+            const updated = Math.max(0, current - 1);
+            headerCount.textContent = `${updated} Pendientes`;
+        }
+
+        // 5. Update tab pending badge
+        const tabBtns = document.querySelectorAll(".admin-main-tab-btn");
+        tabBtns.forEach(btn => {
+            const badge = btn.querySelector("span.bg-white");
+            if (badge) {
+                const current = parseInt(badge.textContent) || 0;
+                const updated = Math.max(0, current - 1);
+                if (updated > 0) {
+                    badge.textContent = updated;
+                } else {
+                    badge.remove();
+                }
+            }
+        });
+    })
+    .catch(err => {
+        console.error("Error resolving ticket:", err);
+        if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-solid fa-check"></i>';
+        }
+    });
+};
 
 function escapeHtml(text) {
     if (!text) return "";

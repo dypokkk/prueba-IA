@@ -76,9 +76,15 @@ async def escalations_view():
     return RedirectResponse(url="/dashboard#tickets", status_code=302)
 
 @router.post("/escalations/{ticket_id}/resolve")
-async def resolve_ticket_action(ticket_id: str, notes: str = Form(default="")):
-    """Handles ticket resolution and redirects back to dashboard."""
+async def resolve_ticket_action(request: Request, ticket_id: str, notes: str = Form(default="")):
+    """Handles ticket resolution supporting both AJAX JSON and form redirects."""
     success = escalation_service.resolve_ticket(ticket_id=ticket_id, notes=notes)
     if not success:
         raise HTTPException(status_code=404, detail="Ticket not found")
-    return RedirectResponse(url="/dashboard", status_code=303)
+    
+    # Check if AJAX / JSON request
+    accept = request.headers.get("accept", "")
+    if "application/json" in accept or request.headers.get("x-requested-with") == "XMLHttpRequest":
+        return {"success": True, "ticket_id": ticket_id, "status": "RESOLVED"}
+    
+    return RedirectResponse(url="/dashboard#tickets", status_code=303)
