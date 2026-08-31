@@ -204,13 +204,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function showTypingIndicator() {
+        messagesContainer.appendChild(typingIndicator);
         typingIndicator.classList.remove("hidden");
+        typingIndicator.classList.add("flex");
         sendBtn.disabled = true;
         scrollToBottom();
     }
 
     function hideTypingIndicator() {
         typingIndicator.classList.add("hidden");
+        typingIndicator.classList.remove("flex");
         sendBtn.disabled = false;
     }
 

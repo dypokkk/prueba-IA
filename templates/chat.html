@@ -61,14 +61,16 @@
 
     </div>
 
-    <!-- Typing Indicator (Hidden by default) -->
-    <div id="typing-indicator" class="hidden px-6 py-2 flex items-center space-x-2 text-slate-400 text-xs bg-slate-800/40">
-        <div class="flex space-x-1">
-            <div class="w-2 h-2 rounded-full bg-brand-400 animate-bounce"></div>
-            <div class="w-2 h-2 rounded-full bg-brand-400 animate-bounce [animation-delay:0.2s]"></div>
-            <div class="w-2 h-2 rounded-full bg-brand-400 animate-bounce [animation-delay:0.4s]"></div>
+    <!-- 3 Animated Thinking Dots Indicator (Hidden by default) -->
+    <div id="typing-indicator" class="hidden px-6 py-2 flex items-start space-x-3 bot-message">
+        <div class="w-8 h-8 rounded-full bg-brand-600 flex items-center justify-center text-white flex-shrink-0 text-xs shadow">
+            <i class="fa-solid fa-graduation-cap"></i>
         </div>
-        <span>Consulting Knowledge Base & Grounding Context...</span>
+        <div class="bg-slate-700/60 border border-slate-600/60 rounded-2xl rounded-tl-none px-4 py-3 shadow-sm flex items-center space-x-1.5">
+            <span class="thinking-dot"></span>
+            <span class="thinking-dot"></span>
+            <span class="thinking-dot"></span>
+        </div>
     </div>
 
     <!-- Chat Input Bar -->
