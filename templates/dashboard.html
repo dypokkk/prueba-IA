@@ -12,7 +12,7 @@
                 <i class="fa-solid fa-chart-pie text-brand-400"></i> Analytics & RAG Observability
             </h1>
             <p class="text-sm text-slate-300 mt-1">
-                Seguimiento en tiempo real de consumo de tokens Gemini, eficiencia de enrutamiento determinista y escalamiento a soporte humano.
+                Seguimiento en tiempo real de consumo de tokens Gemini 3.5 Flash Lite, eficiencia de enrutamiento determinista y escalamiento a soporte humano.
             </p>
         </div>
         <div class="flex items-center space-x-3">
@@ -41,8 +41,8 @@
                 <span class="text-xs text-slate-400 ml-1">consultas</span>
             </div>
             <div class="mt-2 text-xs text-slate-400 flex items-center gap-2">
-                <span class="text-brand-400 font-medium">{{ metrics.deterministic_matches }} Deterministas</span> &bull;
-                <span class="text-emerald-400 font-medium">{{ metrics.ai_completions }} AI RAG</span>
+                <span class="text-brand-400 font-medium"><span id="metric-deterministic-matches">{{ metrics.deterministic_matches }}</span> Deterministas</span> &bull;
+                <span class="text-emerald-400 font-medium"><span id="metric-ai-completions">{{ metrics.ai_completions }}</span> AI RAG</span>
             </div>
         </div>
 
@@ -58,8 +58,8 @@
                 <span id="metric-cache-rate" class="text-3xl font-extrabold text-cyan-400 tracking-tight">{{ metrics.cache_hit_rate_pct }}%</span>
             </div>
             <div class="mt-2 text-xs text-slate-400">
-                <span class="text-cyan-300 font-medium">{{ metrics.cache_hits }} aciertos</span> &bull;
-                <span class="text-emerald-400 font-medium">~${{ metrics.estimated_savings_usd }} USD ahorrados</span>
+                <span class="text-cyan-300 font-medium"><span id="metric-cache-hits">{{ metrics.cache_hits }}</span> aciertos</span> &bull;
+                <span class="text-emerald-400 font-medium">~$<span id="metric-estimated-savings">{{ metrics.estimated_savings_usd }}</span> USD ahorrados</span>
             </div>
         </div>
 
@@ -92,7 +92,7 @@
                 <span id="metric-escalation-rate" class="text-3xl font-extrabold text-rose-400 tracking-tight">{{ metrics.escalation_rate_pct }}%</span>
             </div>
             <div class="mt-2 text-xs text-slate-400">
-                <span class="text-rose-300 font-medium">{{ metrics.escalations }} tickets generados</span>
+                <span class="text-rose-300 font-medium"><span id="metric-escalations-count">{{ metrics.escalations }}</span> tickets generados</span>
             </div>
         </div>
 
@@ -106,11 +106,11 @@
                     <i class="fa-solid fa-book-bookmark text-brand-400"></i> Documentos Indexados de la Base de Conocimiento
                 </h2>
                 <p class="text-xs text-slate-400 mt-0.5">
-                    3 documentos oficiales en Markdown con segmentación por fragmentos (chunks) y ranking BM25 multilingüe.
+                    {{ documents|length }} documentos oficiales en Markdown con segmentación por fragmentos (chunks) y ranking BM25 multilingüe.
                 </p>
             </div>
             <div class="text-xs font-mono bg-white/5 border border-white/10 px-3.5 py-1.5 rounded-2xl text-slate-300 backdrop-blur-md">
-                39 Chunks en <code class="text-brand-300 font-bold">vector_store.json</code>
+                {{ total_chunks }} Chunks en <code class="text-brand-300 font-bold">vector_store.json</code>
             </div>
         </div>
 

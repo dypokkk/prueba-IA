@@ -19,7 +19,7 @@ class MetricsService:
         self.total_completion_tokens = 0
         self.total_latency_ms = 0.0
 
-        # Cost rates ($ per 1 Million tokens) - Default for Gemini 1.5 Flash / GPT-4o-mini
+        # Cost rates ($ per 1 Million tokens) - Default for Gemini 3.5 Flash Lite
         self.PRICE_PER_M_INPUT = 0.075
         self.PRICE_PER_M_OUTPUT = 0.300
 
@@ -43,8 +43,10 @@ class MetricsService:
 
             if tier == "deterministic":
                 self.deterministic_matches += 1
-            elif tier == "ai_rag":
+            elif tier in ("ai_rag", "escalation"):
                 self.ai_completions += 1
+
+            if prompt_tokens > 0 or completion_tokens > 0:
                 self.total_prompt_tokens += prompt_tokens
                 self.total_completion_tokens += completion_tokens
 
@@ -54,9 +56,9 @@ class MetricsService:
     def get_summary(self) -> Dict[str, Any]:
         with self._lock:
             total = max(self.total_queries, 1)
-            cache_hit_rate = (self.cache_hits / total) * 100
-            escalation_rate = (self.escalated_queries / total) * 100
-            avg_latency = self.total_latency_ms / total
+            cache_hit_rate = (self.cache_hits / total) * 100 if self.total_queries > 0 else 0.0
+            escalation_rate = (self.escalated_queries / total) * 100 if self.total_queries > 0 else 0.0
+            avg_latency = (self.total_latency_ms / total) if self.total_queries > 0 else 0.0
 
             # Calculate actual incurred cost
             cost_input = (self.total_prompt_tokens / 1_000_000) * self.PRICE_PER_M_INPUT
@@ -73,21 +75,24 @@ class MetricsService:
                 (est_saved_tokens_output / 1_000_000) * self.PRICE_PER_M_OUTPUT
             )
 
+            total_tokens = self.total_prompt_tokens + self.total_completion_tokens
+
             return {
                 "total_queries": self.total_queries,
                 "deterministic_matches": self.deterministic_matches,
                 "ai_completions": self.ai_completions,
                 "cache_hits": self.cache_hits,
                 "cache_misses": self.cache_misses,
-                "cache_hit_rate_pct": round(cache_hit_rate, 2),
+                "cache_hit_rate_pct": round(cache_hit_rate, 1),
+                "escalations": self.escalated_queries,
                 "escalated_queries": self.escalated_queries,
-                "escalation_rate_pct": round(escalation_rate, 2),
+                "escalation_rate_pct": round(escalation_rate, 1),
                 "total_prompt_tokens": self.total_prompt_tokens,
                 "total_completion_tokens": self.total_completion_tokens,
-                "total_tokens": self.total_prompt_tokens + self.total_completion_tokens,
-                "total_cost_usd": round(total_cost_usd, 6),
-                "estimated_savings_usd": round(savings_usd, 6),
-                "average_latency_ms": round(avg_latency, 2)
+                "total_tokens": total_tokens,
+                "total_cost_usd": f"{total_cost_usd:.6f}",
+                "estimated_savings_usd": f"{savings_usd:.4f}",
+                "average_latency_ms": round(avg_latency, 1)
             }
 
 metrics_service = MetricsService()

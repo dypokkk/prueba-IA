@@ -37,6 +37,7 @@ async def dashboard_view(request: Request):
             raw_text = f.read()
         html_content = markdown.markdown(raw_text, extensions=['tables', 'fenced_code'])
         documents.append({
+            "name": doc_path.stem,
             "filename": doc_path.name,
             "title": doc_path.stem.replace("_", " ").title(),
             "raw_text": raw_text,
