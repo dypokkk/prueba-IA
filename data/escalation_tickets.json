@@ -1,7 +1,28 @@
 [
   {
-    "ticket_id": "TKT-38CE20B9",
-    "timestamp": "2026-08-31 12:38:45 UTC",
+    "ticket_id": "TKT-5C349060",
+    "timestamp": "2026-08-31 12:43:11 UTC",
+    "user_query": "I demand a 90% scholarship and personal phone number of the director",
+    "escalation_reason": "SPECIAL_SCHOLARSHIP_OR_MANAGEMENT_REQUEST",
+    "confidence": 0.3,
+    "channel": "web",
+    "status": "PENDING",
+    "resolution_notes": null
+  },
+  {
+    "ticket_id": "TKT-C59F5FA0",
+    "timestamp": "2026-08-31 12:43:09 UTC",
+    "user_query": "Customer demanding special terms",
+    "escalation_reason": "DISPUTE_TEST",
+    "confidence": 0.0,
+    "channel": "web",
+    "status": "RESOLVED",
+    "resolution_notes": "Handled by senior advisor",
+    "resolved_at": "2026-08-31 12:43:09 UTC"
+  },
+  {
+    "ticket_id": "TKT-B004D107",
+    "timestamp": "2026-08-31 12:43:03 UTC",
     "user_query": "I demand a 90% scholarship and personal phone number of the director",
     "escalation_reason": "EXPLICIT_ESCALATION_INTENT",
     "confidence": 0.3,
@@ -10,15 +31,35 @@
     "resolution_notes": null
   },
   {
-    "ticket_id": "TKT-036938DA",
-    "timestamp": "2026-08-31 12:38:45 UTC",
+    "ticket_id": "TKT-854400A1",
+    "timestamp": "2026-08-31 12:43:03 UTC",
     "user_query": "Customer demanding special terms",
     "escalation_reason": "DISPUTE_TEST",
     "confidence": 0.0,
     "channel": "web",
     "status": "RESOLVED",
     "resolution_notes": "Handled by senior advisor",
-    "resolved_at": "2026-08-31 12:38:45 UTC"
+    "resolved_at": "2026-08-31 12:43:03 UTC"
+  },
+  {
+    "ticket_id": "TKT-A580AAC4",
+    "timestamp": "2026-08-31 12:42:59 UTC",
+    "user_query": "¿Cuál es la diferencia entre el curso intensivo mensual y el grupal estándar, y qué incluye el campus virtual?",
+    "escalation_reason": "MISSING_INFORMATION_ON_INTENSIVE_VS_STANDARD_COURSE_COMPARISON",
+    "confidence": 0.4,
+    "channel": "web",
+    "status": "PENDING",
+    "resolution_notes": null
+  },
+  {
+    "ticket_id": "TKT-31115034",
+    "timestamp": "2026-08-31 12:40:17 UTC",
+    "user_query": "chicharrón",
+    "escalation_reason": "OUT_OF_SCOPE_QUERY",
+    "confidence": 0.1,
+    "channel": "telegram",
+    "status": "PENDING",
+    "resolution_notes": null
   },
   {
     "ticket_id": "TKT-393DD54B",

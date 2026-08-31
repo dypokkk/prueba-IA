@@ -27,8 +27,9 @@ class Settings:
 
         self.AI_PROVIDER = os.getenv("AI_PROVIDER", "gemini")
 
+        # Google Gemini Model (Default: gemini-3.5-flash-lite for ultra-fast, low-cost RAG)
         self.GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "").strip()
-        self.GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.6-flash").strip()
+        self.GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.5-flash-lite").strip()
         self.GEMINI_EMBEDDING_MODEL = os.getenv("GEMINI_EMBEDDING_MODEL", "text-embedding-004").strip()
 
         self.OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "").strip()

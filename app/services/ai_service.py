@@ -17,10 +17,12 @@ class AIService:
     def __init__(self):
         self.provider = settings.AI_PROVIDER
         self.gemini_models_cascade = [
-            settings.GEMINI_MODEL or "gemini-3.6-flash",
-            "gemini-3.7-flash",
-            "gemini-flash-latest",
-            "gemini-2.5-flash-lite"
+            settings.GEMINI_MODEL or "gemini-3.5-flash-lite",
+            "gemini-3.5-flash-lite",
+            "gemini-3.1-flash-lite",
+            "gemini-flash-lite-latest",
+            "gemini-3.6-flash",
+            "gemini-3.7-flash"
         ]
 
     def generate_grounded_response(self, query: str, context_chunks: List[Dict[str, Any]]) -> Tuple[Dict[str, Any], int, int, float]:
