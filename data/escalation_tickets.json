@@ -1,5 +1,56 @@
 [
   {
+    "ticket_id": "TKT-F5C5C4B7",
+    "timestamp": "2026-08-31 14:41:04 UTC",
+    "user_query": "I demand a 90% scholarship and personal phone number of the director",
+    "escalation_reason": "EXPLICIT_ESCALATION_INTENT",
+    "confidence": 0.3,
+    "channel": "web",
+    "status": "PENDING",
+    "resolution_notes": null
+  },
+  {
+    "ticket_id": "TKT-05ED02FB",
+    "timestamp": "2026-08-31 14:41:04 UTC",
+    "user_query": "Customer demanding special terms",
+    "escalation_reason": "DISPUTE_TEST",
+    "confidence": 0.0,
+    "channel": "web",
+    "status": "RESOLVED",
+    "resolution_notes": "Handled by senior advisor",
+    "resolved_at": "2026-08-31 14:41:04 UTC"
+  },
+  {
+    "ticket_id": "TKT-152FF030",
+    "timestamp": "2026-08-31 14:40:55 UTC",
+    "user_query": "Exijo una beca del 90% y el celular personal del rector",
+    "escalation_reason": "EXPLICIT_HUMAN_SUPPORT_REQUEST",
+    "confidence": 1.0,
+    "channel": "web",
+    "status": "PENDING",
+    "resolution_notes": null
+  },
+  {
+    "ticket_id": "TKT-B045E4C2",
+    "timestamp": "2026-08-31 14:40:55 UTC",
+    "user_query": "Por favor necesito abrir un ticket de soporte",
+    "escalation_reason": "EXPLICIT_HUMAN_SUPPORT_REQUEST",
+    "confidence": 1.0,
+    "channel": "web",
+    "status": "PENDING",
+    "resolution_notes": null
+  },
+  {
+    "ticket_id": "TKT-5913D25F",
+    "timestamp": "2026-08-31 14:40:55 UTC",
+    "user_query": "Quiero hablar con un asesor humano para una duda especial",
+    "escalation_reason": "EXPLICIT_HUMAN_SUPPORT_REQUEST",
+    "confidence": 1.0,
+    "channel": "web",
+    "status": "PENDING",
+    "resolution_notes": null
+  },
+  {
     "ticket_id": "TKT-FAE2C260",
     "timestamp": "2026-08-31 14:35:25 UTC",
     "user_query": "I demand a 90% scholarship and personal phone number of the director",
