@@ -1,0 +1,85 @@
+[
+  {
+    "ticket_id": "TKT-51A532B4",
+    "timestamp": "2026-08-31 12:16:26 UTC",
+    "user_query": "I demand a 90% discount and direct personal contact with the school president",
+    "escalation_reason": "EXPLICIT_ESCALATION_INTENT",
+    "confidence": 0.3,
+    "channel": "web",
+    "status": "PENDING",
+    "resolution_notes": null
+  },
+  {
+    "ticket_id": "TKT-D189C31E",
+    "timestamp": "2026-08-31 12:15:13 UTC",
+    "user_query": "I demand a 90% scholarship and personal phone number of the director",
+    "escalation_reason": "Special scholarship petition and request for management contact details.",
+    "confidence": 0.3,
+    "channel": "web",
+    "status": "PENDING",
+    "resolution_notes": null
+  },
+  {
+    "ticket_id": "TKT-7610711A",
+    "timestamp": "2026-08-31 12:15:07 UTC",
+    "user_query": "Customer demanding special terms",
+    "escalation_reason": "DISPUTE_TEST",
+    "confidence": 0.0,
+    "channel": "web",
+    "status": "RESOLVED",
+    "resolution_notes": "Handled by senior advisor",
+    "resolved_at": "2026-08-31 12:15:07 UTC"
+  },
+  {
+    "ticket_id": "TKT-D6355AEC",
+    "timestamp": "2026-08-31 12:14:52 UTC",
+    "user_query": "I demand a 90% scholarship and personal phone number of the director",
+    "escalation_reason": "EXPLICIT_ESCALATION_INTENT",
+    "confidence": 0.3,
+    "channel": "web",
+    "status": "PENDING",
+    "resolution_notes": null
+  },
+  {
+    "ticket_id": "TKT-010EE10B",
+    "timestamp": "2026-08-31 12:14:52 UTC",
+    "user_query": "Customer demanding special terms",
+    "escalation_reason": "DISPUTE_TEST",
+    "confidence": 0.0,
+    "channel": "web",
+    "status": "RESOLVED",
+    "resolution_notes": "Handled by senior advisor",
+    "resolved_at": "2026-08-31 12:14:52 UTC"
+  },
+  {
+    "ticket_id": "TKT-54D86981",
+    "timestamp": "2026-08-31 12:14:19 UTC",
+    "user_query": "Customer demanding special terms",
+    "escalation_reason": "DISPUTE_TEST",
+    "confidence": 0.0,
+    "channel": "web",
+    "status": "RESOLVED",
+    "resolution_notes": "Handled by senior advisor",
+    "resolved_at": "2026-08-31 12:14:19 UTC"
+  },
+  {
+    "ticket_id": "TKT-10E89844",
+    "timestamp": "2026-08-31 12:01:19 UTC",
+    "user_query": "hola",
+    "escalation_reason": "LOW_SIMILARITY_SCORE (0.161)",
+    "confidence": 0.16,
+    "channel": "websocket",
+    "status": "PENDING",
+    "resolution_notes": null
+  },
+  {
+    "ticket_id": "TKT-245EB6FE",
+    "timestamp": "2026-08-31 11:58:23 UTC",
+    "user_query": "I demand a 90% discount and direct personal contact with the school president",
+    "escalation_reason": "LOW_SIMILARITY_SCORE (0.221)",
+    "confidence": 0.22,
+    "channel": "web",
+    "status": "PENDING",
+    "resolution_notes": null
+  }
+]

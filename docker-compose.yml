@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  assistant-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: global_language_academy_assistant
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - APP_ENV=development
+      - DEBUG=true
+      - PORT=8000
+      - HOST=0.0.0.0
+    volumes:
+      # Live-reload bind mounts
+      - .:/app
+    restart: unless-stopped

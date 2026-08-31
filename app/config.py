@@ -1,0 +1,54 @@
+import os
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Try loading via python-dotenv if installed, else fallback to standard library parser
+try:
+    from dotenv import load_dotenv
+    load_dotenv(dotenv_path=BASE_DIR / ".env", override=True)
+except ImportError:
+    env_path = BASE_DIR / ".env"
+    if env_path.exists():
+        with open(env_path, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#") and "=" in line:
+                    k, v = line.split("=", 1)
+                    os.environ[k.strip()] = v.strip().strip('"').strip("'")
+
+class Settings:
+    def __init__(self):
+        self.APP_NAME = os.getenv("APP_NAME", "Global Language Academy Assistant")
+        self.APP_ENV = os.getenv("APP_ENV", "development")
+        self.DEBUG = os.getenv("DEBUG", "true").lower() == "true"
+        self.PORT = int(os.getenv("PORT", "8000"))
+        self.HOST = os.getenv("HOST", "0.0.0.0")
+
+        self.AI_PROVIDER = os.getenv("AI_PROVIDER", "gemini")
+
+        self.GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "").strip()
+        self.GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.6-flash").strip()
+        self.GEMINI_EMBEDDING_MODEL = os.getenv("GEMINI_EMBEDDING_MODEL", "text-embedding-004").strip()
+
+        self.OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "").strip()
+        self.OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini").strip()
+        self.OPENAI_EMBEDDING_MODEL = os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small").strip()
+
+        self.SIMILARITY_THRESHOLD = float(os.getenv("SIMILARITY_THRESHOLD", "0.20"))
+        self.TOP_K_CHUNKS = int(os.getenv("TOP_K_CHUNKS", "3"))
+        self.ENABLE_DETERMINISTIC_TIER = os.getenv("ENABLE_DETERMINISTIC_TIER", "true").lower() == "true"
+        self.TEMPERATURE = float(os.getenv("TEMPERATURE", "0.1"))
+        self.MAX_OUTPUT_TOKENS = int(os.getenv("MAX_OUTPUT_TOKENS", "2048"))
+
+        self.CACHE_TTL_SECONDS = int(os.getenv("CACHE_TTL_SECONDS", "3600"))
+        self.MAX_CACHE_SIZE = int(os.getenv("MAX_CACHE_SIZE", "500"))
+        self.ESCALATION_WEBHOOK_URL = os.getenv("ESCALATION_WEBHOOK_URL", "")
+
+        self.DATA_DIR = BASE_DIR / "data"
+        self.STATIC_DIR = BASE_DIR / "static"
+        self.TEMPLATES_DIR = BASE_DIR / "templates"
+        self.VECTOR_STORE_PATH = BASE_DIR / "data" / "vector_store.json"
+        self.TICKETS_STORE_PATH = BASE_DIR / "data" / "escalation_tickets.json"
+
+settings = Settings()
