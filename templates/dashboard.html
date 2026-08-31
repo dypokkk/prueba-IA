@@ -162,79 +162,81 @@
             </div>
 
             {% if tickets and tickets|length > 0 %}
-            <div class="glass-card rounded-2xl overflow-hidden border border-white/10">
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-white/10 text-left text-xs">
-                        <thead class="bg-slate-900/60 uppercase text-slate-400 font-semibold tracking-wider">
-                            <tr>
-                                <th class="px-5 py-3.5">Ticket ID</th>
-                                <th class="px-5 py-3.5">Fecha</th>
-                                <th class="px-5 py-3.5">Canal</th>
-                                <th class="px-5 py-3.5">Consulta del Estudiante</th>
-                                <th class="px-5 py-3.5">Motivo</th>
-                                <th class="px-5 py-3.5">Estado</th>
-                                <th class="px-5 py-3.5 text-right">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-white/5 text-slate-200">
-                            {% for ticket in tickets %}
-                            <tr class="hover:bg-white/5 transition-colors">
-                                <td class="px-5 py-3.5 font-mono font-bold text-brand-300">
-                                    {{ ticket.ticket_id }}
-                                </td>
-                                <td class="px-5 py-3.5 text-slate-400 whitespace-nowrap">
-                                    {{ ticket.timestamp }}
-                                </td>
-                                <td class="px-5 py-3.5">
-                                    <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-[10px] font-medium bg-white/5 border border-white/10 text-slate-300">
-                                        <i class="fa-solid {% if ticket.channel == 'telegram' %}fa-paper-plane text-sky-400{% else %}fa-globe text-brand-400{% endif %} mr-1"></i>
-                                        {{ ticket.channel }}
-                                    </span>
-                                </td>
-                                <td class="px-5 py-3.5 max-w-xs truncate" title="{{ ticket.user_query }}">
-                                    "{{ ticket.user_query }}"
-                                </td>
-                                <td class="px-5 py-3.5">
-                                    <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-[10px] font-medium bg-rose-500/20 text-rose-300 border border-rose-400/30">
-                                        {{ ticket.escalation_reason }}
-                                    </span>
-                                </td>
-                                <td class="px-5 py-3.5">
-                                    {% if ticket.status == 'PENDING' %}
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-500/20 text-amber-300 border border-amber-400/30">
-                                        <i class="fa-solid fa-clock mr-1 text-[9px]"></i> Pendiente
-                                    </span>
-                                    {% else %}
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">
-                                        <i class="fa-solid fa-check mr-1 text-[9px]"></i> Resuelto
-                                    </span>
-                                    {% endif %}
-                                </td>
-                                <td class="px-5 py-3.5 text-right space-x-1.5 whitespace-nowrap">
-                                    <!-- Open WebSocket Button -->
-                                    <button 
-                                        type="button"
-                                        onclick="openTicketInWebSocket('{{ ticket.ticket_id }}', '{{ ticket.user_query | replace("'", "\\'") }}', '{{ ticket.channel }}')"
-                                        class="bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white text-[11px] font-bold px-3 py-1.5 rounded-xl transition-all shadow border border-white/20 inline-flex items-center gap-1.5"
-                                        title="Abrir conexión WebSocket para este ticket"
-                                    >
-                                        <i class="fa-solid fa-bolt text-amber-300 text-[10px]"></i>
-                                        <span>Abrir WebSocket</span>
-                                    </button>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {% for ticket in tickets %}
+                <div class="glass-card rounded-3xl p-5 sm:p-6 space-y-4 flex flex-col justify-between border {% if ticket.status == 'PENDING' %}border-amber-500/30 bg-amber-950/10 hover:border-amber-400/50{% else %}border-white/10 opacity-80 hover:opacity-100{% endif %} transition-all shadow-xl hover:scale-[1.01]">
+                    
+                    <!-- Card Header -->
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <span class="p-1.5 rounded-xl bg-brand-500/20 text-brand-300 border border-brand-400/30">
+                                    <i class="fa-solid fa-ticket text-xs"></i>
+                                </span>
+                                <span class="font-mono font-bold text-sm text-white">{{ ticket.ticket_id }}</span>
+                            </div>
+                            
+                            {% if ticket.status == 'PENDING' %}
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-400/30">
+                                <i class="fa-solid fa-clock mr-1 text-[8px]"></i> Pendiente
+                            </span>
+                            {% else %}
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">
+                                <i class="fa-solid fa-check mr-1 text-[8px]"></i> Resuelto
+                            </span>
+                            {% endif %}
+                        </div>
 
-                                    {% if ticket.status == 'PENDING' %}
-                                    <form action="/escalations/{{ ticket.ticket_id }}/resolve" method="POST" class="inline">
-                                        <button type="submit" class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-[11px] font-bold px-3 py-1.5 rounded-xl transition-all shadow border border-white/20">
-                                            <i class="fa-solid fa-check mr-1"></i> Resuelto
-                                        </button>
-                                    </form>
-                                    {% endif %}
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                        <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1">
+                            <span class="flex items-center gap-1.5">
+                                <i class="fa-solid {% if ticket.channel == 'telegram' %}fa-paper-plane text-sky-400{% else %}fa-globe text-brand-400{% endif %}"></i>
+                                Canal: <strong class="text-slate-300">{{ ticket.channel }}</strong>
+                            </span>
+                            <span class="font-mono text-[10px] text-slate-400">{{ ticket.timestamp }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="space-y-2.5 flex-1">
+                        <div>
+                            <span class="text-[10px] uppercase font-bold tracking-wider text-slate-400">Motivo:</span>
+                            <div class="mt-0.5 inline-block">
+                                <span class="px-2 py-0.5 rounded-md text-[10px] font-medium bg-rose-500/20 text-rose-300 border border-rose-400/30">
+                                    {{ ticket.escalation_reason }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10 text-xs text-slate-200">
+                            <span class="text-[10px] text-slate-400 block font-semibold mb-1">Consulta del Estudiante:</span>
+                            <p class="italic leading-relaxed">"{{ ticket.user_query }}"</p>
+                        </div>
+                    </div>
+
+                    <!-- Card Footer Actions -->
+                    <div class="pt-3 border-t border-white/10 flex items-center justify-between gap-2">
+                        <!-- Open WebSocket Action -->
+                        <button 
+                            type="button"
+                            onclick="openTicketInWebSocket('{{ ticket.ticket_id }}', '{{ ticket.user_query | replace("'", "\\'") }}', '{{ ticket.channel }}')"
+                            class="flex-1 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white text-xs font-bold py-2 rounded-xl transition-all shadow border border-white/20 flex items-center justify-center gap-1.5"
+                            title="Abrir sesión en vivo por WebSocket para este ticket"
+                        >
+                            <i class="fa-solid fa-bolt text-amber-300 text-[10px]"></i>
+                            <span>Abrir WebSocket</span>
+                        </button>
+
+                        {% if ticket.status == 'PENDING' %}
+                        <form action="/escalations/{{ ticket.ticket_id }}/resolve" method="POST" class="inline">
+                            <button type="submit" class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold px-3 py-2 rounded-xl transition-all shadow border border-white/20 flex items-center gap-1" title="Marcar como atendido y resuelto">
+                                <i class="fa-solid fa-check"></i>
+                            </button>
+                        </form>
+                        {% endif %}
+                    </div>
+
                 </div>
+                {% endfor %}
             </div>
             {% else %}
             <div class="glass-card rounded-2xl p-10 text-center text-slate-400 space-y-2">
