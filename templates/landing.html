@@ -3,263 +3,471 @@
 {% block title %}Global Language Academy - Aprende Idiomas con Inmersión Total en Bogotá, Medellín y Online{% endblock %}
 
 {% block content %}
-<div class="space-y-16 sm:space-y-20 py-6 sm:py-8 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="space-y-20 sm:space-y-28 py-6 sm:py-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-    <!-- 1. HERO SECTION (Clean & Impactful) -->
-    <section class="pt-4 sm:pt-10 pb-4 text-center max-w-4xl mx-auto">
-        <!-- Floating Pill Badge -->
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-500/10 border border-brand-400/30 text-brand-300 text-xs font-semibold backdrop-blur-md mb-6 shadow-sm">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            Matrículas Abiertas • Módulos Trimestrales, Intensivos y Sábados 2026
+    <!-- ========================================================================= -->
+    <!-- 1. HERO SECTION (SPLIT SCREEN LAYOUT)                                     -->
+    <!-- ========================================================================= -->
+    <section class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center pt-4 sm:pt-8">
+        
+        <!-- Left Column: High-Impact Messaging & Action -->
+        <div class="lg:col-span-7 space-y-6 text-left">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-500/10 border border-brand-400/30 text-brand-300 text-xs font-semibold backdrop-blur-md">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                Matrículas Abiertas • Módulos 2026 en Bogotá, Medellín y Online
+            </div>
+
+            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.15]">
+                Habla un nuevo idioma con <br>
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-brand-400 via-indigo-300 to-emerald-400">
+                    inmersión real y fluidez natural
+                </span>
+            </h1>
+
+            <p class="text-sm sm:text-base text-slate-300 max-w-xl leading-relaxed">
+                Aprende <strong>Inglés, Francés, Alemán, Italiano, Portugués o Español</strong> con nuestra metodología de inmersión comunicativa, docentes certificados internacionalmente y grupos de <strong>máximo 8 estudiantes</strong>.
+            </p>
+
+            <!-- Primary CTAs -->
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 pt-2">
+                <button onclick="openChatModalWithQuery('Quiero información general sobre los cursos, horarios y precios')" class="glass-button bg-gradient-to-r from-brand-600 via-indigo-600 to-emerald-500 text-white font-bold px-7 py-3.5 rounded-2xl shadow-xl shadow-brand-600/30 flex items-center justify-center gap-2.5 border border-white/20 hover:scale-105 transition-all text-sm">
+                    <i class="fa-solid fa-comments text-base"></i>
+                    <span>Consultar con Asesor IA en Vivo</span>
+                </button>
+                <a href="#prueba-nivel" class="glass-card hover:bg-white/10 text-slate-200 font-semibold px-6 py-3.5 rounded-2xl border border-white/10 flex items-center justify-center gap-2 transition-all hover:scale-105 text-sm">
+                    <i class="fa-solid fa-graduation-cap text-brand-400"></i>
+                    <span>Prueba Diagnóstica Gratuita</span>
+                </a>
+            </div>
+
+            <!-- Trust Highlights Strip -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-white/10 text-xs text-slate-300">
+                <div class="flex items-center gap-2"><i class="fa-solid fa-users text-brand-400"></i> Máx. 8 alumnos</div>
+                <div class="flex items-center gap-2"><i class="fa-solid fa-book-open text-emerald-400"></i> Libros incluidos</div>
+                <div class="flex items-center gap-2"><i class="fa-solid fa-credit-card text-indigo-400"></i> 0% interés cuotas</div>
+                <div class="flex items-center gap-2"><i class="fa-solid fa-award text-cyan-400"></i> Certificado MCER</div>
+            </div>
         </div>
 
-        <h1 class="text-3xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-tight">
-            Aprende un nuevo idioma con <br class="hidden sm:inline">
-            <span class="bg-clip-text text-transparent bg-gradient-to-r from-brand-400 via-indigo-300 to-emerald-400">
-                inmersión real y certificación oficial
-            </span>
-        </h1>
+        <!-- Right Column: Interactive Academy Status & Progression Panel -->
+        <div class="lg:col-span-5">
+            <div class="glass-panel p-6 sm:p-7 rounded-3xl space-y-5 border border-white/20 shadow-2xl relative overflow-hidden">
+                <!-- Floating Decorative Ambient Glow -->
+                <div class="absolute -top-10 -right-10 w-40 h-40 bg-brand-500/20 rounded-full blur-2xl pointer-events-none"></div>
 
-        <p class="mt-5 text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            Programas de <strong>Inglés, Francés, Alemán, Italiano, Portugués y Español</strong>. Metodología 80% comunicativa, docentes internacionales certificados y grupos de <strong>máximo 8 estudiantes</strong> en Bogotá, Medellín y Live Online.
-        </p>
+                <div class="flex items-center justify-between border-b border-white/10 pb-4">
+                    <div class="flex items-center space-x-2.5">
+                        <div class="w-8 h-8 rounded-xl bg-brand-600/30 border border-brand-500/30 flex items-center justify-center text-brand-300">
+                            <i class="fa-solid fa-layer-group text-xs"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs font-bold text-white block">Ecosistema Global Academy</span>
+                            <span class="text-[10px] text-slate-400">Progreso según Marco MCER</span>
+                        </div>
+                    </div>
+                    <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-bold border border-emerald-400/30">
+                        En vivo
+                    </span>
+                </div>
 
-        <!-- CTA Buttons -->
-        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3.5">
-            <button onclick="openChatModalWithQuery('Quiero información general sobre los cursos, horarios y precios')" class="w-full sm:w-auto glass-button bg-gradient-to-r from-brand-600 via-indigo-600 to-emerald-500 text-white font-bold px-7 py-3.5 rounded-2xl shadow-xl shadow-brand-600/30 flex items-center justify-center gap-2.5 border border-white/20 hover:scale-105 transition-all text-sm">
-                <i class="fa-solid fa-comments"></i>
-                <span>Consultar Asesor IA en Vivo</span>
+                <!-- CEFR Progress Stepper Visual -->
+                <div class="space-y-3 text-xs">
+                    <div class="flex items-center justify-between p-3 rounded-2xl bg-white/5 border border-white/10">
+                        <div class="flex items-center gap-3">
+                            <span class="w-7 h-7 rounded-xl bg-brand-500/20 text-brand-300 flex items-center justify-center font-bold text-xs">A1</span>
+                            <div>
+                                <strong class="text-white block">Principiante (Breakthrough)</strong>
+                                <span class="text-[10px] text-slate-400">Bases sólidas y confianza oral</span>
+                            </div>
+                        </div>
+                        <span class="text-[10px] font-mono text-slate-400">120h</span>
+                    </div>
+
+                    <div class="flex items-center justify-between p-3 rounded-2xl bg-white/5 border border-white/10">
+                        <div class="flex items-center gap-3">
+                            <span class="w-7 h-7 rounded-xl bg-indigo-500/20 text-indigo-300 flex items-center justify-center font-bold text-xs">B1</span>
+                            <div>
+                                <strong class="text-white block">Intermedio (Threshold)</strong>
+                                <span class="text-[10px] text-slate-400">Conversación fluida en viajes y trabajo</span>
+                            </div>
+                        </div>
+                        <span class="text-[10px] font-mono text-slate-400">120h</span>
+                    </div>
+
+                    <div class="flex items-center justify-between p-3 rounded-2xl bg-gradient-to-r from-emerald-950/30 to-brand-950/30 border border-emerald-500/30">
+                        <div class="flex items-center gap-3">
+                            <span class="w-7 h-7 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center font-bold text-xs">B2</span>
+                            <div>
+                                <strong class="text-white block">Avanzado (Vantage)</strong>
+                                <span class="text-[10px] text-emerald-300">Fluidez profesional y exámenes IELTS/TOEFL</span>
+                            </div>
+                        </div>
+                        <span class="text-[10px] font-mono text-emerald-300 font-bold">Meta Clave</span>
+                    </div>
+                </div>
+
+                <!-- Quick Action Trigger in Terminal -->
+                <div class="pt-2">
+                    <button onclick="openChatModalWithQuery('¿Cuánto tiempo me toma llegar a nivel B2 y cómo son las clases?')" class="w-full py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-slate-100 text-xs font-semibold border border-white/15 transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-wand-magic-sparkles text-brand-300"></i>
+                        <span>Consultar mi Plan a Medida</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- 2. PROGRAMS & METHODOLOGY (SPLIT-SCREEN SECTION)                         -->
+    <!-- ========================================================================= -->
+    <section id="programas" class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center pt-8 border-t border-white/10">
+        
+        <!-- Left Column: Academic Philosophy & Inclusions -->
+        <div class="lg:col-span-5 space-y-6">
+            <div class="space-y-2">
+                <span class="text-xs font-bold text-brand-400 uppercase tracking-wider">Metodología Directa</span>
+                <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight">
+                    80% Producción Oral en Cada Sesión
+                </h2>
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                    Sin memorización pasiva. Aprendes mediante simulaciones reales, debates de actualidad, presentaciones ejecutivas y clínicas de pronunciación.
+                </p>
+            </div>
+
+            <div class="space-y-3 text-xs text-slate-300">
+                <div class="flex items-start gap-3 p-3 rounded-2xl bg-white/5 border border-white/10">
+                    <div class="w-7 h-7 rounded-xl bg-brand-500/20 text-brand-300 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <i class="fa-solid fa-microphone-lines"></i>
+                    </div>
+                    <div>
+                        <strong class="text-white block">Clubes de Conversación Ilimitados</strong>
+                        <span class="text-slate-400">Participa gratis en sesiones temáticas semanales divididas por nivel.</span>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-3 p-3 rounded-2xl bg-white/5 border border-white/10">
+                    <div class="w-7 h-7 rounded-xl bg-indigo-500/20 text-indigo-300 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <i class="fa-solid fa-chalkboard-user"></i>
+                    </div>
+                    <div>
+                        <strong class="text-white block">Docentes Certificados (CELTA / DELTA)</strong>
+                        <span class="text-slate-400">Equipo balanceado de nativos angloparlantes/europeos y expertos C2.</span>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-3 p-3 rounded-2xl bg-white/5 border border-white/10">
+                    <div class="w-7 h-7 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <i class="fa-solid fa-rotate-left"></i>
+                    </div>
+                    <div>
+                        <strong class="text-white block">Tutorías de Reposición Gratuitas</strong>
+                        <span class="text-slate-400">Hasta 2 sesiones 1 a 1 por módulo para resolver dudas si faltas a una clase.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Language Offerings Catalog -->
+        <div class="lg:col-span-7 space-y-4">
+            <!-- English Row -->
+            <div class="glass-panel p-5 rounded-2xl border border-white/15 hover:border-brand-400/40 transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div class="flex items-start gap-3.5">
+                    <span class="text-3xl">🇬🇧</span>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h3 class="text-sm font-bold text-white">Inglés General & de Negocios</h3>
+                            <span class="text-[10px] px-2 py-0.2 rounded-full bg-brand-500/20 text-brand-300 font-semibold">A1 - C1</span>
+                        </div>
+                        <p class="text-xs text-slate-300 mt-1">Fluidez para trabajo, viajes y certificaciones oficiales IELTS y TOEFL iBT.</p>
+                    </div>
+                </div>
+                <button onclick="openChatModalWithQuery('Quiero información del programa de inglés general y de negocios')" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-brand-600/30 text-brand-300 hover:text-white text-xs font-semibold whitespace-nowrap transition-all border border-white/10">
+                    Consultar Inglés
+                </button>
+            </div>
+
+            <!-- French & German Row -->
+            <div class="glass-panel p-5 rounded-2xl border border-white/15 hover:border-indigo-400/40 transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div class="flex items-start gap-3.5">
+                    <span class="text-3xl">🇫🇷 🇩🇪</span>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h3 class="text-sm font-bold text-white">Francés (DELF) & Alemán (Goethe)</h3>
+                            <span class="text-[10px] px-2 py-0.2 rounded-full bg-indigo-500/20 text-indigo-300 font-semibold">A1 - B2</span>
+                        </div>
+                        <p class="text-xs text-slate-300 mt-1">Programas orientados a migración académica, laboral y visas en Francia, Canadá y Alemania.</p>
+                    </div>
+                </div>
+                <button onclick="openChatModalWithQuery('Quiero información de los cursos de francés y alemán')" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-indigo-600/30 text-indigo-300 hover:text-white text-xs font-semibold whitespace-nowrap transition-all border border-white/10">
+                    Consultar Francés/Alemán
+                </button>
+            </div>
+
+            <!-- Italian, Portuguese & Spanish Row -->
+            <div class="glass-panel p-5 rounded-2xl border border-white/15 hover:border-emerald-400/40 transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div class="flex items-start gap-3.5">
+                    <span class="text-3xl">🇮🇹 🇧🇷 🇨🇴</span>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h3 class="text-sm font-bold text-white">Italiano, Portugués & Español</h3>
+                            <span class="text-[10px] px-2 py-0.2 rounded-full bg-emerald-500/20 text-emerald-300 font-semibold">A1 - C2</span>
+                        </div>
+                        <p class="text-xs text-slate-300 mt-1">Cursos para turismo, negocios en América Latina y español de inmersión para extranjeros.</p>
+                    </div>
+                </div>
+                <button onclick="openChatModalWithQuery('Quiero información sobre italiano, portugués y español para extranjeros')" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-emerald-600/30 text-emerald-300 hover:text-white text-xs font-semibold whitespace-nowrap transition-all border border-white/10">
+                    Consultar Idiomas
+                </button>
+            </div>
+
+            <!-- 1-on-1 VIP Mentorship Row -->
+            <div class="glass-panel p-5 rounded-2xl border border-purple-500/30 bg-purple-950/20 hover:border-purple-400/50 transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div class="flex items-start gap-3.5">
+                    <span class="text-3xl">👑</span>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h3 class="text-sm font-bold text-white">Clases Particulares 1 a 1</h3>
+                            <span class="text-[10px] px-2 py-0.2 rounded-full bg-purple-500/20 text-purple-300 font-semibold">10, 25 y 50h</span>
+                        </div>
+                        <p class="text-xs text-slate-300 mt-1">Mentoría personalizada con horarios flexibles y posibilidad de reprogramar con 12h de aviso.</p>
+                    </div>
+                </div>
+                <button onclick="openChatModalWithQuery('¿Qué paquetes y tarifas tienen de clases particulares 1 a 1?')" class="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold whitespace-nowrap transition-all shadow">
+                    Ver Paquetes VIP
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- 3. PRICING & FINANCING (SPLIT-SCREEN SECTION)                             -->
+    <!-- ========================================================================= -->
+    <section id="precios" class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center pt-8 border-t border-white/10">
+        
+        <!-- Left Column: Pricing Matrix Table -->
+        <div class="lg:col-span-7 space-y-5">
+            <div class="space-y-1">
+                <span class="text-xs font-bold text-brand-400 uppercase tracking-wider">Tarifas Transparentes</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                    Inversión por Módulo de 60 Horas
+                </h2>
+                <p class="text-xs text-slate-400">
+                    Valores individuales por estudiante. Sin costo de matrícula adicional ni cobros ocultos.
+                </p>
+            </div>
+
+            <div class="glass-panel rounded-2xl overflow-hidden border border-white/15 divide-y divide-white/10 text-xs">
+                <!-- Row 1: Standard -->
+                <div class="p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 hover:bg-white/5 transition-colors">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <strong class="text-white text-sm">Trimestral Estándar</strong>
+                            <span class="text-[10px] text-slate-400">(10 Semanas)</span>
+                        </div>
+                        <p class="text-slate-300 mt-0.5">Lunes a Jueves (1.5h/día) o Mar/Jue (3h/día).</p>
+                    </div>
+                    <div class="flex items-center gap-3 self-end sm:self-center">
+                        <div class="text-right">
+                            <span class="text-base font-black text-white">$1,250,000 COP</span>
+                            <span class="text-[10px] text-slate-400 block">~$320 USD</span>
+                        </div>
+                        <button onclick="openChatModalWithQuery('Quiero inscribirme en el curso estándar trimestral')" class="px-3.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold border border-white/10 transition-all">
+                            Elegir
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Row 2: Intensive (Featured) -->
+                <div class="p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-brand-950/30 border-l-4 border-brand-400 hover:bg-brand-950/40 transition-colors">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <strong class="text-white text-sm">Intensivo Mensual</strong>
+                            <span class="text-[10px] px-2 py-0.2 rounded-full bg-emerald-500/20 text-emerald-300 font-bold">Acelerado</span>
+                            <span class="text-[10px] text-slate-400">(4 Semanas)</span>
+                        </div>
+                        <p class="text-slate-300 mt-0.5">Lunes a Viernes (3h/día mañana o noche). 1 sub-nivel completo por mes.</p>
+                    </div>
+                    <div class="flex items-center gap-3 self-end sm:self-center">
+                        <div class="text-right">
+                            <span class="text-base font-black text-white">$1,450,000 COP</span>
+                            <span class="text-[10px] text-slate-400 block">~$370 USD</span>
+                        </div>
+                        <button onclick="openChatModalWithQuery('Quiero inscribirme en el curso intensivo mensual')" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 text-white text-xs font-bold shadow border border-white/20 transition-all">
+                            Elegir
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Row 3: Saturday Intensive -->
+                <div class="p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 hover:bg-white/5 transition-colors">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <strong class="text-white text-sm">Sábados Inmersión</strong>
+                            <span class="text-[10px] text-slate-400">(12 Sábados)</span>
+                        </div>
+                        <p class="text-slate-300 mt-0.5">Sábados de 8:00 AM a 1:00 PM (5 horas continuas). Presencial u Online.</p>
+                    </div>
+                    <div class="flex items-center gap-3 self-end sm:self-center">
+                        <div class="text-right">
+                            <span class="text-base font-black text-white">$1,350,000 COP</span>
+                            <span class="text-[10px] text-slate-400 block">~$345 USD</span>
+                        </div>
+                        <button onclick="openChatModalWithQuery('Quiero inscribirme en el curso intensivo de los sábados')" class="px-3.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold border border-white/10 transition-all">
+                            Elegir
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Discounts & Payment Channels Box -->
+        <div class="lg:col-span-5">
+            <div class="glass-panel p-6 sm:p-7 rounded-3xl space-y-5 border border-emerald-500/30 bg-emerald-950/20">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-2xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center text-lg border border-emerald-400/30">
+                        <i class="fa-solid fa-credit-card"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-white">Facilidades de Pago & Beneficios</h3>
+                        <span class="text-[11px] text-slate-300">Opciones adaptadas a tu presupuesto</span>
+                    </div>
+                </div>
+
+                <div class="space-y-3 text-xs text-slate-200">
+                    <div class="flex items-start gap-2.5">
+                        <i class="fa-solid fa-tag text-emerald-400 mt-0.5"></i>
+                        <div>
+                            <strong class="text-white">15% OFF Pronto Pago:</strong> Al cancelar 10 días antes del inicio.
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-2.5">
+                        <i class="fa-solid fa-users text-emerald-400 mt-0.5"></i>
+                        <div>
+                            <strong class="text-white">10% OFF Familiar:</strong> Dos o más familiares matriculados.
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-2.5">
+                        <i class="fa-solid fa-layer-group text-emerald-400 mt-0.5"></i>
+                        <div>
+                            <strong class="text-white">25% OFF Paquete Anual:</strong> 4 niveles consecutivos con descuento total.
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-2.5">
+                        <i class="fa-solid fa-circle-check text-emerald-400 mt-0.5"></i>
+                        <div>
+                            <strong class="text-white">Hasta 3 Cuotas 0% Interés:</strong> Con tarjetas de crédito o plan directo.
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="openChatModalWithQuery('¿Cómo puedo pagar en cuotas sin interés y qué descuentos aplican para mí?')" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-md transition-all">
+                    Consultar Mis Opciones de Pago
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- 4. CAMPUSES & PLACEMENT TEST (SPLIT-SCREEN SECTION)                      -->
+    <!-- ========================================================================= -->
+    <section id="sedes" class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center pt-8 border-t border-white/10">
+        
+        <!-- Left Column: Campuses Locations -->
+        <div class="lg:col-span-6 space-y-5">
+            <div class="space-y-1">
+                <span class="text-xs font-bold text-brand-400 uppercase tracking-wider">Presencial & Virtual</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                    Nuestras Sedes & Live Online
+                </h2>
+                <p class="text-xs text-slate-400">
+                    Instalaciones de primer nivel en Bogotá y Medellín o clases interactivas por Zoom.
+                </p>
+            </div>
+
+            <div class="space-y-3 text-xs text-slate-300">
+                <!-- Bogotá -->
+                <div class="glass-panel p-4 rounded-2xl border border-white/10 flex items-start gap-3.5">
+                    <div class="w-8 h-8 rounded-xl bg-brand-500/20 text-brand-300 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <div>
+                        <strong class="text-white block text-sm">Sede Bogotá Chapinero Central</strong>
+                        <span class="text-slate-300">Calle 63 # 9-45 (a 2 cuadras de estación Calle 63 TransMilenio).</span>
+                        <div class="text-slate-400 text-[11px] mt-1">Lun–Vie: 6:00 AM – 9:00 PM | Sáb: 7:30 AM – 2:30 PM</div>
+                    </div>
+                </div>
+
+                <!-- Medellín -->
+                <div class="glass-panel p-4 rounded-2xl border border-white/10 flex items-start gap-3.5">
+                    <div class="w-8 h-8 rounded-xl bg-indigo-500/20 text-indigo-300 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <div>
+                        <strong class="text-white block text-sm">Sede Medellín El Poblado</strong>
+                        <span class="text-slate-300">Carrera 43A # 7-50, El Poblado (a 10 min de estación Metro Poblado).</span>
+                        <div class="text-slate-400 text-[11px] mt-1">Lun–Vie: 6:30 AM – 8:30 PM | Sáb: 8:00 AM – 2:00 PM</div>
+                    </div>
+                </div>
+
+                <!-- Live Online -->
+                <div class="glass-panel p-4 rounded-2xl border border-white/10 flex items-start gap-3.5">
+                    <div class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <i class="fa-solid fa-laptop"></i>
+                    </div>
+                    <div>
+                        <strong class="text-white block text-sm">100% Live Online por Zoom</strong>
+                        <span class="text-slate-300">Clases interactivas en vivo con grabaciones HD y laboratorio de pronunciación.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Free Placement Diagnostic Test Callout (prueba-nivel) -->
+        <div id="prueba-nivel" class="lg:col-span-6">
+            <div class="glass-panel p-7 sm:p-8 rounded-3xl border border-brand-500/40 bg-gradient-to-b from-brand-950/40 to-slate-900/60 shadow-2xl space-y-5 text-center relative overflow-hidden">
+                <span class="px-3 py-1 rounded-full bg-brand-500/20 text-brand-300 text-[11px] font-bold uppercase tracking-wider">
+                    Diagnóstico Oficial Gratuito ($0 COP)
+                </span>
+                
+                <h3 class="text-xl sm:text-2xl font-extrabold text-white">
+                    ¿Ya sabes algo del idioma? <br>
+                    No comiences desde cero.
+                </h3>
+                
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-md mx-auto">
+                    Realiza nuestra <strong>Prueba de Nivelación Online</strong>: 35 min escrita adaptativa + 10 min de entrevista oral con un docente evaluador. Recibe tu informe oficial en menos de 2 horas.
+                </p>
+
+                <button onclick="openChatModalWithQuery('si sé algo de inglés pero no sé en qué nivel estoy puedo hacer un examen para saber donde puedo comenzar?')" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-brand-600 via-indigo-600 to-emerald-500 text-white font-bold shadow-xl border border-white/20 text-xs sm:text-sm hover:scale-105 transition-all flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-circle-play"></i>
+                    <span>Solicitar Prueba Diagnóstica Ahora</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- 5. FREQUENTLY ASKED QUESTIONS (SPLIT-SCREEN ACCORDION)                   -->
+    <!-- ========================================================================= -->
+    <section id="faq" class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 pt-8 border-t border-white/10">
+        
+        <!-- Left Column: FAQ Overview -->
+        <div class="lg:col-span-4 space-y-4">
+            <span class="text-xs font-bold text-brand-400 uppercase tracking-wider">Respuestas Rápidas</span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                Preguntas Frecuentes
+            </h2>
+            <p class="text-xs text-slate-400 leading-relaxed">
+                ¿Tienes una duda específica? Nuestro asesor virtual con inteligencia artificial está disponible 24/7 para responderte al instante.
+            </p>
+            <button onclick="openChatModal()" class="py-2.5 px-4 rounded-xl bg-white/10 hover:bg-white/20 text-slate-200 text-xs font-semibold border border-white/10 transition-all flex items-center gap-2">
+                <i class="fa-solid fa-comments text-brand-400"></i>
+                <span>Hacer otra pregunta al Asesor</span>
             </button>
-            <a href="#prueba-nivel" class="w-full sm:w-auto glass-card hover:bg-white/10 text-slate-200 font-semibold px-7 py-3.5 rounded-2xl border border-white/10 flex items-center justify-center gap-2 transition-all hover:scale-105 text-sm">
-                <i class="fa-solid fa-graduation-cap text-brand-400"></i>
-                <span>Prueba Diagnóstica Gratuita</span>
-            </a>
         </div>
 
-        <!-- Sleek Feature Strip (No bulky cards) -->
-        <div class="mt-10 flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-xs text-slate-300 pt-6 border-t border-white/10">
-            <span class="flex items-center gap-2"><i class="fa-solid fa-users text-brand-400"></i> Máx. 8 alumnos por grupo</span>
-            <span class="flex items-center gap-2"><i class="fa-solid fa-book-open text-emerald-400"></i> Libros digitales incluidos</span>
-            <span class="flex items-center gap-2"><i class="fa-solid fa-credit-card text-indigo-400"></i> 0% interés con tarjeta</span>
-            <span class="flex items-center gap-2"><i class="fa-solid fa-award text-cyan-400"></i> Certificado oficial MCER</span>
-        </div>
-    </section>
-
-    <!-- 2. UNIFIED PROGRAM CATALOG (Clean 3-Column Layout) -->
-    <section id="programas" class="space-y-6">
-        <div class="text-center max-w-xl mx-auto">
-            <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Programas de Idiomas</h2>
-            <p class="text-xs sm:text-sm text-slate-400 mt-1">
-                Alineados al Marco Común Europeo de Referencia (MCER) desde A1 hasta C2.
-            </p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-            <!-- English -->
-            <div class="glass-panel p-6 rounded-3xl space-y-4 flex flex-col justify-between hover:border-brand-400/40 transition-all">
-                <div>
-                    <div class="flex items-center justify-between">
-                        <span class="text-2xl">🇬🇧 🇺🇸</span>
-                        <span class="px-2.5 py-0.5 rounded-full bg-brand-500/20 text-brand-300 text-[11px] font-bold border border-brand-400/30">Niveles A1 a C1</span>
-                    </div>
-                    <h3 class="text-base font-bold text-white mt-3">Inglés General & de Negocios</h3>
-                    <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">
-                        Fluidez verbal para viajes, entorno laboral y preparación para certificaciones oficiales <strong>IELTS</strong> y <strong>TOEFL iBT</strong>.
-                    </p>
-                    <ul class="text-xs text-slate-400 mt-3 space-y-1">
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400 text-[10px]"></i> Clubes de conversación semanales</li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400 text-[10px]"></i> Laboratorio de pronunciación con IA</li>
-                    </ul>
-                </div>
-                <button onclick="openChatModalWithQuery('Quiero información y precios del programa de inglés')" class="w-full py-2 rounded-xl bg-white/5 hover:bg-brand-600/30 text-brand-300 hover:text-white text-xs font-semibold border border-white/10 transition-all flex items-center justify-center gap-1.5">
-                    <span>Consultar Inglés</span> <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                </button>
-            </div>
-
-            <!-- European Languages (French, German, Italian, Portuguese) -->
-            <div class="glass-panel p-6 rounded-3xl space-y-4 flex flex-col justify-between hover:border-indigo-400/40 transition-all">
-                <div>
-                    <div class="flex items-center justify-between">
-                        <span class="text-2xl">🇫🇷 🇩🇪 🇮🇹 🇧🇷</span>
-                        <span class="px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 text-[11px] font-bold border border-indigo-400/30">Niveles A1 a B2</span>
-                    </div>
-                    <h3 class="text-base font-bold text-white mt-3">Francés, Alemán & Otros</h3>
-                    <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">
-                        Cursos orientados a migración laboral, estudios universitarios y homologaciones (DELF/DALF, Goethe-Institut, CILS, Celpe-Bras).
-                    </p>
-                    <ul class="text-xs text-slate-400 mt-3 space-y-1">
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400 text-[10px]"></i> Enfoque para visas de estudio y trabajo</li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400 text-[10px]"></i> Docentes certificados nativos y C2</li>
-                    </ul>
-                </div>
-                <button onclick="openChatModalWithQuery('Quiero información de los cursos de francés y alemán')" class="w-full py-2 rounded-xl bg-white/5 hover:bg-indigo-600/30 text-indigo-300 hover:text-white text-xs font-semibold border border-white/10 transition-all flex items-center justify-center gap-1.5">
-                    <span>Consultar Francés / Alemán</span> <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                </button>
-            </div>
-
-            <!-- Spanish for Foreigners & 1-on-1 VIP -->
-            <div class="glass-panel p-6 rounded-3xl space-y-4 flex flex-col justify-between hover:border-emerald-400/40 transition-all">
-                <div>
-                    <div class="flex items-center justify-between">
-                        <span class="text-2xl">🇨🇴 👑</span>
-                        <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[11px] font-bold border border-emerald-400/30">Personalizado</span>
-                    </div>
-                    <h3 class="text-base font-bold text-white mt-3">Español & Clases Particulares</h3>
-                    <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">
-                        Español para extranjeros viviendo en Colombia y paquetes de mentoría 1 a 1 de 10, 25 y 50 horas con horario 100% flexible.
-                    </p>
-                    <ul class="text-xs text-slate-400 mt-3 space-y-1">
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400 text-[10px]"></i> Cancela o reprograma con 12h de aviso</li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400 text-[10px]"></i> Inmersión cultural y profesional</li>
-                    </ul>
-                </div>
-                <button onclick="openChatModalWithQuery('Quiero información de clases particulares y español para extranjeros')" class="w-full py-2 rounded-xl bg-white/5 hover:bg-emerald-600/30 text-emerald-300 hover:text-white text-xs font-semibold border border-white/10 transition-all flex items-center justify-center gap-1.5">
-                    <span>Consultar Particulares</span> <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- 3. COMPACT PRICING MATRIX -->
-    <section id="precios" class="space-y-6">
-        <div class="text-center max-w-xl mx-auto">
-            <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Tarifas por Módulo (60 Horas)</h2>
-            <p class="text-xs sm:text-sm text-slate-400 mt-1">
-                Valores individuales por estudiante. Sin cobros de matrícula ni costos ocultos.
-            </p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-            <!-- Standard Group -->
-            <div class="glass-card p-6 rounded-3xl space-y-4 flex flex-col justify-between">
-                <div>
-                    <div class="flex items-center justify-between text-xs">
-                        <span class="font-bold text-brand-400 uppercase tracking-wider">Trimestral Estándar</span>
-                        <span class="text-slate-400">10 Semanas</span>
-                    </div>
-                    <div class="mt-3">
-                        <span class="text-3xl font-black text-white">$1,250,000</span>
-                        <span class="text-xs text-slate-400">COP (~$320 USD)</span>
-                    </div>
-                    <p class="text-xs text-slate-300 mt-2">
-                        Lun–Jue (1.5h/día) o Mar/Jue (3h/día). Ideal para combinar con estudio o trabajo.
-                    </p>
-                </div>
-                <button onclick="openChatModalWithQuery('Quiero inscribirme en el curso estándar trimestral')" class="w-full py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold border border-white/10 transition-all">
-                    Inscribirme en Estándar
-                </button>
-            </div>
-
-            <!-- Intensive Monthly (Featured) -->
-            <div class="glass-panel p-6 rounded-3xl space-y-4 flex flex-col justify-between border border-brand-400/50 shadow-xl shadow-brand-500/10 relative">
-                <div class="absolute -top-3 right-4 bg-gradient-to-r from-brand-500 to-emerald-400 text-slate-900 text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow">
-                    Más Rápido
-                </div>
-                <div>
-                    <div class="flex items-center justify-between text-xs">
-                        <span class="font-bold text-brand-300 uppercase tracking-wider">Intensivo Mensual</span>
-                        <span class="text-slate-400">4 Semanas</span>
-                    </div>
-                    <div class="mt-3">
-                        <span class="text-3xl font-black text-white">$1,450,000</span>
-                        <span class="text-xs text-slate-400">COP (~$370 USD)</span>
-                    </div>
-                    <p class="text-xs text-slate-300 mt-2">
-                        Lun–Vie (3h/día mañana o noche). Avanza 1 sub-nivel completo cada mes.
-                    </p>
-                </div>
-                <button onclick="openChatModalWithQuery('Quiero inscribirme en el curso intensivo mensual')" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 text-white text-xs font-bold shadow border border-white/20 transition-all">
-                    Inscribirme en Intensivo
-                </button>
-            </div>
-
-            <!-- Saturday Intensive -->
-            <div class="glass-card p-6 rounded-3xl space-y-4 flex flex-col justify-between">
-                <div>
-                    <div class="flex items-center justify-between text-xs">
-                        <span class="font-bold text-indigo-400 uppercase tracking-wider">Sábados Inmersión</span>
-                        <span class="text-slate-400">12 Sábados</span>
-                    </div>
-                    <div class="mt-3">
-                        <span class="text-3xl font-black text-white">$1,350,000</span>
-                        <span class="text-xs text-slate-400">COP (~$345 USD)</span>
-                    </div>
-                    <p class="text-xs text-slate-300 mt-2">
-                        Sábados 8:00 AM a 1:00 PM (5h continuas). Formato presencial u online en vivo.
-                    </p>
-                </div>
-                <button onclick="openChatModalWithQuery('Quiero inscribirme en el curso de los sábados')" class="w-full py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold border border-white/10 transition-all">
-                    Inscribirme en Sábados
-                </button>
-            </div>
-        </div>
-
-        <!-- Sleek Discounts Note -->
-        <div class="text-center text-xs text-slate-400">
-            💡 <strong class="text-slate-200">15% de descuento</strong> por Pronto Pago • <strong class="text-slate-200">10% familiar</strong> • <strong class="text-slate-200">25% en paquete anual</strong> • Hasta <strong class="text-emerald-400">3 cuotas 0% interés</strong> con tarjeta de crédito.
-        </div>
-    </section>
-
-    <!-- 4. CAMPUSES & LIVE ONLINE (Unified Single Panel) -->
-    <section id="sedes" class="glass-panel p-6 sm:p-8 rounded-3xl space-y-6">
-        <div class="text-center max-w-xl mx-auto">
-            <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">Sedes Presenciales & Modalidad Virtual</h2>
-            <p class="text-xs text-slate-400 mt-1">Instalaciones acústicas de primer nivel o clases en vivo vía Zoom Education.</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2 text-xs text-slate-300 divide-y md:divide-y-0 md:divide-x divide-white/10">
-            <!-- Bogotá -->
-            <div class="space-y-2 pt-4 md:pt-0 md:px-4">
-                <div class="text-brand-400 font-bold text-sm flex items-center gap-2">
-                    <i class="fa-solid fa-location-dot"></i> Sede Bogotá Chapinero
-                </div>
-                <p><strong>Calle 63 # 9-45</strong>, Chapinero Central (a 2 cuadras de TransMilenio Cl 63).</p>
-                <div class="text-slate-400">Lun–Vie: 6:00 AM – 9:00 PM | Sáb: 7:30 AM – 2:30 PM</div>
-            </div>
-
-            <!-- Medellín -->
-            <div class="space-y-2 pt-4 md:pt-0 md:px-4">
-                <div class="text-indigo-400 font-bold text-sm flex items-center gap-2">
-                    <i class="fa-solid fa-location-dot"></i> Sede Medellín El Poblado
-                </div>
-                <p><strong>Carrera 43A # 7-50</strong>, El Poblado (a 10 min de la estación Metro Poblado).</p>
-                <div class="text-slate-400">Lun–Vie: 6:30 AM – 8:30 PM | Sáb: 8:00 AM – 2:00 PM</div>
-            </div>
-
-            <!-- Live Online -->
-            <div class="space-y-2 pt-4 md:pt-0 md:px-4">
-                <div class="text-emerald-400 font-bold text-sm flex items-center gap-2">
-                    <i class="fa-solid fa-laptop"></i> 100% Live Online
-                </div>
-                <p>Clases interactivas en vivo con grabaciones HD disponibles en menos de 2 horas.</p>
-                <div class="text-slate-400">Conéctate desde cualquier lugar del mundo.</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 5. FREE PLACEMENT TEST (Minimalist High-Impact Callout) -->
-    <section id="prueba-nivel" class="glass-card p-6 sm:p-8 rounded-3xl border border-brand-500/30 text-center space-y-4 max-w-3xl mx-auto">
-        <span class="px-3 py-1 rounded-full bg-brand-500/20 text-brand-300 text-[11px] font-bold uppercase tracking-wider">
-            Diagnóstico Gratuito MCER
-        </span>
-        <h2 class="text-xl sm:text-3xl font-extrabold text-white">
-            ¿Ya tienes bases de inglés? No empieces desde cero.
-        </h2>
-        <p class="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto">
-            Realiza nuestra <strong>Prueba de Nivelación Online ($0 COP)</strong>: 35 min escrita adaptativa + 10 min entrevista oral. Resultados en menos de 2 horas.
-        </p>
-        <button onclick="openChatModalWithQuery('si sé algo de inglés pero no sé en qué nivel estoy puedo hacer un examen para saber donde puedo comenzar?')" class="glass-button bg-gradient-to-r from-brand-600 to-emerald-500 text-white font-bold px-6 py-3 rounded-xl shadow-lg border border-white/20 text-xs sm:text-sm hover:scale-105 transition-all">
-            Solicitar Prueba Diagnóstica Gratuita
-        </button>
-    </section>
-
-    <!-- 6. FREQUENTLY ASKED QUESTIONS (Concise Accordion) -->
-    <section id="faq" class="space-y-4 max-w-2xl mx-auto">
-        <div class="text-center">
-            <h2 class="text-xl sm:text-2xl font-bold text-white">Preguntas Frecuentes</h2>
-        </div>
-
-        <div class="space-y-3 text-xs">
+        <!-- Right Column: Accordion Items -->
+        <div class="lg:col-span-8 space-y-3 text-xs">
             <details class="glass-card rounded-2xl p-4 group cursor-pointer">
                 <summary class="font-bold text-white flex items-center justify-between list-none">
                     <span>¿Debo tener mi propio grupo de 8 personas para inscribirme?</span>
@@ -286,7 +494,7 @@
                     <i class="fa-solid fa-chevron-down text-brand-400 transition-transform group-open:rotate-180 text-[10px]"></i>
                 </summary>
                 <p class="text-slate-300 mt-2 leading-relaxed">
-                    <strong>No.</strong> Todos los libros digitales de Cambridge University Press, Oxford o Didier y el acceso al campus virtual están 100% incluidos en el precio.
+                    <strong>No.</strong> Todos los libros digitales oficiales de Cambridge University Press, Oxford o Didier y el acceso al campus virtual están 100% incluidos en el precio.
                 </p>
             </details>
 
