@@ -1,5 +1,8 @@
 # 🛡️ Guía Maestra de Sustentación Técnica & Rúbricas de Evaluación (100/100)
 
+> ### 🌐 **Despliegue Oficial en Producción (Railway)**
+> **URL en Vivo:** [https://prueba-ia-production.up.railway.app/](https://prueba-ia-production.up.railway.app/) | **Dashboard:** [https://prueba-ia-production.up.railway.app/dashboard](https://prueba-ia-production.up.railway.app/dashboard) | **Swagger:** [https://prueba-ia-production.up.railway.app/docs](https://prueba-ia-production.up.railway.app/docs)
+
 Este documento contiene la **justificación arquitectónica, económica, de ingeniería y de negocio** del sistema desarrollado para **Global Language Academy**, estructurada punto por punto para responder con máxima solvencia durante la sustentación ante el comité evaluador.
 
 ---

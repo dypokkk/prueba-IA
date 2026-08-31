@@ -1,8 +1,21 @@
 # 🎓 Global Language Academy - Intelligent Customer Support & Academic Advising Assistant
 
+> ### 🚀 **Live Production Deployment (Railway)**
+> **Public URL:** [https://prueba-ia-production.up.railway.app/](https://prueba-ia-production.up.railway.app/)
+> 
+> | Service / View | Production Live URL | Description |
+> | :--- | :--- | :--- |
+> | 🌐 **Landing Page & Student Chat** | [https://prueba-ia-production.up.railway.app/](https://prueba-ia-production.up.railway.app/) | Main portal with interactive Glassmorphic floating modal chat |
+> | 💬 **Full-Screen Chat Interface** | [https://prueba-ia-production.up.railway.app/chat](https://prueba-ia-production.up.railway.app/chat) | Dedicated distraction-free conversational view |
+> | ⚡ **Admin Escalation Dashboard** | [https://prueba-ia-production.up.railway.app/dashboard](https://prueba-ia-production.up.railway.app/dashboard) | Real-time ticket management, 2-way WebSocket console & metrics |
+> | 📖 **Interactive Swagger API Docs** | [https://prueba-ia-production.up.railway.app/docs](https://prueba-ia-production.up.railway.app/docs) | OpenAPI specification with live testing tools & endpoints |
+> | 🩺 **System Health & Metrics** | [https://prueba-ia-production.up.railway.app/health](https://prueba-ia-production.up.railway.app/health) | System uptime, latency, and index health verification |
+
+---
+
 A production-grade, highly cost-efficient, and grounded Customer Support & Academic Advising System engineered for **Global Language Academy** (*Academia de Idiomas*).
 
-Built with **Python 3, FastAPI, Jinja2, Tailwind CSS (Glassmorphism Design System), Google Gemini 3.5 Flash Lite, In-Memory Multi-Turn Session Memory, WebSockets, Telegram Bot Integration, and Docker with Hot Live-Reload**.
+Built with **Python 3, FastAPI, Jinja2, Tailwind CSS (Glassmorphism Design System), Google Gemini 3.5 Flash Lite, SQLite Persistent Multi-Turn Session Memory, WebSockets, Resend Transactional Email API, Telegram Bot Integration, and Docker with Hot Live-Reload**.
 
 ---
 
