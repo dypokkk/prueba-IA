@@ -186,9 +186,15 @@
                                     <span class="font-mono font-bold text-sm text-white">{{ ticket.ticket_id }}</span>
                                 </div>
                                 
+                                {% if ticket.status == 'IN_PROGRESS' %}
+                                <span id="ticket-status-{{ ticket.ticket_id }}" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-400/30">
+                                    <i class="fa-solid fa-headset mr-1 text-[8px] animate-pulse"></i> En Atención
+                                </span>
+                                {% else %}
                                 <span id="ticket-status-{{ ticket.ticket_id }}" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-400/30">
                                     <i class="fa-solid fa-clock mr-1 text-[8px]"></i> Pendiente
                                 </span>
+                                {% endif %}
                             </div>
 
                             <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1">
@@ -242,6 +248,16 @@
                             >
                                 <i class="fa-solid fa-bolt text-amber-300 text-[10px]"></i>
                                 <span>Abrir WebSocket</span>
+                            </button>
+
+                            <!-- Mark In Progress Action -->
+                            <button
+                                type="button"
+                                onclick="markInProgressAsync('{{ ticket.ticket_id }}', this)"
+                                class="bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 text-xs font-bold px-2.5 py-2 rounded-xl transition-all border border-cyan-400/30 flex items-center gap-1"
+                                title="Marcar que estás atendiendo este ticket"
+                            >
+                                <i class="fa-solid fa-headset text-[10px]"></i>
                             </button>
 
                             <div id="ticket-action-resolve-{{ ticket.ticket_id }}" class="flex items-center">
@@ -911,6 +927,36 @@ window.resolveTicketAsync = function(ticketId, btn) {
         if (btn) {
             btn.disabled = false;
             btn.innerHTML = '<i class="fa-solid fa-check"></i>';
+        }
+    });
+};
+
+window.markInProgressAsync = function(ticketId, btn) {
+    if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-[10px]"></i>';
+    }
+    fetch(`/escalations/${ticketId}/in-progress`, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' }
+    })
+    .then(res => res.json())
+    .then(data => {
+        const statusBadge = document.getElementById(`ticket-status-${ticketId}`);
+        if (statusBadge) {
+            statusBadge.className = "inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-400/30";
+            statusBadge.innerHTML = '<i class="fa-solid fa-headset mr-1 text-[8px] animate-pulse"></i> En Atención';
+        }
+        if (btn) {
+            btn.className = "bg-cyan-500/10 text-cyan-400 text-xs px-2.5 py-2 rounded-xl border border-cyan-400/20 flex items-center gap-1 cursor-default opacity-80";
+            btn.innerHTML = '<i class="fa-solid fa-check text-[10px]"></i>';
+        }
+    })
+    .catch(err => {
+        console.error("Error marking ticket in progress:", err);
+        if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-solid fa-headset text-[10px]"></i>';
         }
     });
 };

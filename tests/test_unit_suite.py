@@ -121,6 +121,21 @@ class TestEscalationService(unittest.TestCase):
         resolved_ticket = next(t for t in escalation_service.get_tickets() if t["ticket_id"] == ticket["ticket_id"])
         self.assertEqual(resolved_ticket["status"], "RESOLVED")
 
+    def test_mark_ticket_in_progress(self):
+        ticket = escalation_service.create_ticket(
+            user_query="Schedule change inquiry",
+            escalation_reason="IN_PROGRESS_TEST",
+            channel="web"
+        )
+        self.assertEqual(ticket["status"], "PENDING")
+
+        success = escalation_service.mark_in_progress(ticket["ticket_id"], advisor="Carlos Asesor")
+        self.assertTrue(success)
+
+        in_prog_ticket = next(t for t in escalation_service.get_tickets() if t["ticket_id"] == ticket["ticket_id"])
+        self.assertEqual(in_prog_ticket["status"], "IN_PROGRESS")
+        self.assertIn("Carlos Asesor", in_prog_ticket.get("resolution_notes", ""))
+
 class TestHybridPipeline(unittest.TestCase):
     def setUp(self):
         cache_service.clear()
@@ -142,6 +157,41 @@ class TestHybridPipeline(unittest.TestCase):
         res = process_inquiry("I demand a 90% scholarship and personal phone number of the director")
         self.assertTrue(res["escalate_to_human"])
         self.assertIsNotNone(res["ticket_id"])
+
+    def test_intake_cancellation_flow(self):
+        sid = "unit_test_cancel_session_1"
+        # 1. Trigger human intake
+        r1 = process_inquiry("Quiero hablar con un asesor humano", session_id=sid)
+        self.assertIn("nombre", r1["answer"].lower())
+
+        # 2. Cancel intake
+        r2 = process_inquiry("no gracias, cancelar", session_id=sid)
+        self.assertEqual(r2["tier"], "deterministic")
+        self.assertIn("cancelado", r2["answer"].lower())
+
+class TestPromptFormatting(unittest.TestCase):
+    def test_history_capping(self):
+        from app.prompts.system_prompt import format_rag_prompt
+        # Create 30 historical messages (15 turns)
+        mock_history = [{"role": "user" if i % 2 == 0 else "assistant", "content": f"msg_{i}"} for i in range(30)]
+        prompt = format_rag_prompt("query test", [{"filename": "doc.md", "section": "sec", "text": "context"}], mock_history)
+        # Should contain the latest messages but not the earliest
+        self.assertIn("msg_29", prompt)
+        self.assertIn("msg_28", prompt)
+        self.assertNotIn("msg_0", prompt)
+        self.assertNotIn("msg_5", prompt)
+
+class TestEmailService(unittest.TestCase):
+    def test_ticket_confirmation_email_generation(self):
+        from app.services.email_service import email_service
+        res = email_service.send_ticket_confirmation(
+            to_email="dypok24@gmail.com",
+            student_name="Ana Lopez",
+            ticket_id="TKT-TEST1234",
+            inquiry_details="Solicitud de cambio a grupo de las 9:00 AM",
+            phone="3001234567"
+        )
+        self.assertTrue(res["success"])
 
 class TestMetricsService(unittest.TestCase):
     def test_metrics_calculation(self):

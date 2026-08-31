@@ -129,6 +129,24 @@ class EscalationService:
                 return True
         return False
 
+    def mark_in_progress(self, ticket_id: str, advisor: str = "Asesor") -> bool:
+        """Marks a ticket as IN_PROGRESS with advisor attribution."""
+        notes = f"Siendo atendido por {advisor}"
+        # 1. Update SQLite
+        try:
+            db.update_ticket_status(ticket_id, "IN_PROGRESS", notes=notes)
+        except Exception as e:
+            print(f"[EscalationService] DB mark_in_progress error: {e}")
+
+        # 2. Update memory & JSON
+        for t in self.tickets:
+            if t["ticket_id"] == ticket_id:
+                t["status"] = "IN_PROGRESS"
+                t["resolution_notes"] = notes
+                self._save_json()
+                return True
+        return False
+
     def _dispatch_webhook(self, ticket: Dict[str, Any]):
         """Dispatches notification to external webhook."""
         try:

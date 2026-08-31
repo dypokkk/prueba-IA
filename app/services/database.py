@@ -254,13 +254,27 @@ class DatabaseManager:
                 results.append(t)
             return results
 
-    def resolve_ticket(self, ticket_id: str, notes: str = "", resolved_at: str = "") -> bool:
+    def update_ticket_status(self, ticket_id: str, status: str, notes: Optional[str] = None, resolved_at: Optional[str] = None) -> bool:
         with self._get_connection() as conn:
-            cur = conn.execute(
-                "UPDATE tickets SET status = 'RESOLVED', resolution_notes = ?, resolved_at = ? WHERE ticket_id = ?",
-                (notes, resolved_at, ticket_id)
-            )
+            if notes is not None and resolved_at is not None:
+                cur = conn.execute(
+                    "UPDATE tickets SET status = ?, resolution_notes = ?, resolved_at = ? WHERE ticket_id = ?",
+                    (status, notes, resolved_at, ticket_id)
+                )
+            elif notes is not None:
+                cur = conn.execute(
+                    "UPDATE tickets SET status = ?, resolution_notes = ? WHERE ticket_id = ?",
+                    (status, notes, ticket_id)
+                )
+            else:
+                cur = conn.execute(
+                    "UPDATE tickets SET status = ? WHERE ticket_id = ?",
+                    (status, ticket_id)
+                )
             return cur.rowcount > 0
+
+    def resolve_ticket(self, ticket_id: str, notes: str = "", resolved_at: str = "") -> bool:
+        return self.update_ticket_status(ticket_id, "RESOLVED", notes=notes, resolved_at=resolved_at)
 
     def _row_to_dict(self, row: sqlite3.Row) -> Dict[str, Any]:
         return {key: row[key] for key in row.keys()}
