@@ -38,7 +38,8 @@ class EscalationService:
         user_query: str,
         escalation_reason: str,
         channel: str = "web",
-        confidence: float = 0.0
+        confidence: float = 0.0,
+        session_id: Optional[str] = None
     ) -> Dict[str, Any]:
         """Creates and persists an escalation ticket for a human advisor."""
         ticket = {
@@ -48,6 +49,7 @@ class EscalationService:
             "escalation_reason": escalation_reason or "UNSPECIFIED_ESCALATION",
             "confidence": round(confidence, 2),
             "channel": channel,
+            "session_id": session_id or f"web_session_{uuid.uuid4().hex[:8]}",
             "status": "PENDING",
             "resolution_notes": None
         }

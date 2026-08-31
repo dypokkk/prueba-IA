@@ -222,7 +222,7 @@
                             <!-- Open WebSocket Action -->
                             <button 
                                 type="button"
-                                onclick="openTicketInWebSocket('{{ ticket.ticket_id }}', '{{ ticket.user_query | replace("'", "\\'") }}', '{{ ticket.channel }}')"
+                                onclick="openTicketInWebSocket('{{ ticket.ticket_id }}', '{{ ticket.user_query | replace("'", "\\'") }}', '{{ ticket.channel }}', '{{ ticket.session_id }}')"
                                 class="flex-1 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white text-xs font-bold py-2 rounded-xl transition-all shadow border border-white/20 flex items-center justify-center gap-1.5"
                                 title="Abrir sesión en vivo por WebSocket para este ticket"
                             >
@@ -320,7 +320,7 @@
                             <!-- Open WebSocket Action -->
                             <button 
                                 type="button"
-                                onclick="openTicketInWebSocket('{{ ticket.ticket_id }}', '{{ ticket.user_query | replace("'", "\\'") }}', '{{ ticket.channel }}')"
+                                onclick="openTicketInWebSocket('{{ ticket.ticket_id }}', '{{ ticket.user_query | replace("'", "\\'") }}', '{{ ticket.channel }}', '{{ ticket.session_id }}')"
                                 class="flex-1 bg-white/10 hover:bg-white/20 text-slate-200 text-xs font-semibold py-2 rounded-xl transition-all border border-white/10 flex items-center justify-center gap-1.5"
                                 title="Abrir sesión en vivo por WebSocket para este ticket"
                             >
@@ -495,6 +495,7 @@ window.switchAdminTab = function(tabName) {
 // WebSocket Management for Dashboard Live Chat Console
 let dashSocket = null;
 let dashSessionId = "admin_ws_" + Math.random().toString(36).substring(2, 8);
+let dashActiveTicketId = null;
 
 function initDashWebSocket() {
     if (dashSocket && dashSocket.readyState === WebSocket.OPEN) return;
@@ -512,15 +513,20 @@ function initDashWebSocket() {
         dashSocket.onopen = () => {
             if (badge) {
                 badge.className = "px-2 py-0.2 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-bold border border-emerald-400/30 flex items-center gap-1";
-                badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> WebSocket Conectado';
+                badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> WebSocket Conectado (En Vivo)';
             }
+            try {
+                dashSocket.send(JSON.stringify({ action: "join", session_id: dashSessionId, role: "admin", ticket_id: dashActiveTicketId }));
+            } catch(e) {}
         };
 
         dashSocket.onmessage = (event) => {
             hideDashTyping();
             try {
                 const data = JSON.parse(event.data);
-                if (data.tier !== "system") {
+                if (data.event === "user_message") {
+                    appendDashStudentMessage(data.message);
+                } else if (data.tier !== "system") {
                     appendDashBotMessage(data);
                 }
             } catch (e) {
@@ -531,7 +537,7 @@ function initDashWebSocket() {
         dashSocket.onclose = () => {
             if (badge) {
                 badge.className = "px-2 py-0.2 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-bold border border-amber-400/30 flex items-center gap-1";
-                badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> WebSocket Desconectado (Reintentando...)';
+                badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> WebSocket Desconectado';
             }
         };
     } catch (err) {
@@ -539,9 +545,11 @@ function initDashWebSocket() {
     }
 }
 
-window.openTicketInWebSocket = function(ticketId, userQuery, channel) {
+window.openTicketInWebSocket = function(ticketId, userQuery, channel, sessionId) {
     switchAdminTab('livechat');
-    dashSessionId = `ticket_session_${ticketId}`;
+    dashActiveTicketId = ticketId;
+    dashSessionId = sessionId || `ticket_session_${ticketId}`;
+    
     const sessionLabel = document.getElementById("dash-ws-session-id");
     if (sessionLabel) sessionLabel.textContent = dashSessionId;
 
@@ -555,23 +563,60 @@ window.openTicketInWebSocket = function(ticketId, userQuery, channel) {
     if (bannerChannel) bannerChannel.textContent = `Canal: ${channel}`;
     if (bannerQuery) bannerQuery.textContent = `"${userQuery}"`;
 
-    // Append context message in container
     const container = document.getElementById("dash-ws-messages-container");
     if (container) {
-        const ticketContextDiv = document.createElement("div");
-        ticketContextDiv.className = "p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs";
-        ticketContextDiv.innerHTML = `
-            <strong>Sesión vinculada al Ticket ${ticketId}:</strong><br>
-            Consulta inicial: <em>"${userQuery}"</em>
+        container.innerHTML = `
+            <div class="p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-headset text-amber-400 text-sm"></i>
+                    <div>
+                        <strong class="text-white">Sesión activa vinculada al Ticket ${ticketId}</strong>
+                        <p class="text-[11px] text-amber-300/80">Todo lo que respondas abajo será enviado directamente al estudiante en tiempo real.</p>
+                    </div>
+                </div>
+                <span class="px-2 py-0.5 rounded-lg bg-amber-500/20 text-amber-300 text-[10px] font-mono font-bold">${channel}</span>
+            </div>
+            <div id="dash-history-loading" class="text-center py-4 text-xs text-slate-400">
+                <i class="fa-solid fa-spinner fa-spin mr-1"></i> Sincronizando historial del estudiante...
+            </div>
         `;
-        container.appendChild(ticketContextDiv);
-        container.scrollTop = container.scrollHeight;
+    }
+
+    // Load full conversational history for this session / ticket
+    fetch(`/api/chat/history/${dashSessionId}`)
+        .then(res => res.json())
+        .then(data => {
+            const loading = document.getElementById("dash-history-loading");
+            if (loading) loading.remove();
+
+            if (data.messages && data.messages.length > 0) {
+                data.messages.forEach(msg => {
+                    if (msg.role === 'user') {
+                        appendDashStudentMessage(msg.content);
+                    } else {
+                        appendDashBotMessage({ answer: msg.content });
+                    }
+                });
+            } else {
+                appendDashStudentMessage(userQuery);
+            }
+        })
+        .catch(err => {
+            console.error("Error loading ticket history:", err);
+            const loading = document.getElementById("dash-history-loading");
+            if (loading) loading.remove();
+            appendDashStudentMessage(userQuery);
+        });
+
+    // Reconnect/Join WebSocket to this specific session ID
+    if (dashSocket && dashSocket.readyState === WebSocket.OPEN) {
+        dashSocket.send(JSON.stringify({ action: "join", session_id: dashSessionId, role: "admin", ticket_id: ticketId }));
+    } else {
+        initDashWebSocket();
     }
 
     const input = document.getElementById("dash-ws-user-input");
-    if (input) {
-        input.focus();
-    }
+    if (input) input.focus();
 };
 
 window.sendCannedResponse = function(text) {
@@ -587,6 +632,7 @@ window.resetDashWsChat = function() {
     if (dashSocket && dashSocket.readyState === WebSocket.OPEN) {
         dashSocket.send(JSON.stringify({ action: "clear", session_id: dashSessionId }));
     }
+    dashActiveTicketId = null;
     dashSessionId = "admin_ws_" + Math.random().toString(36).substring(2, 8);
     const sessionLabel = document.getElementById("dash-ws-session-id");
     if (sessionLabel) sessionLabel.textContent = dashSessionId;
@@ -632,26 +678,31 @@ document.addEventListener("DOMContentLoaded", () => {
             const text = input ? input.value.trim() : "";
             if (!text) return;
 
-            appendDashUserMessage(text);
-            showDashTyping();
+            // Render admin message in dashboard console
+            appendDashAdminMessage(text);
 
+            // Forward to student via WebSocket or API
             if (dashSocket && dashSocket.readyState === WebSocket.OPEN) {
-                dashSocket.send(JSON.stringify({ message: text, session_id: dashSessionId }));
+                dashSocket.send(JSON.stringify({ 
+                    action: "agent_reply", 
+                    role: "admin", 
+                    message: text, 
+                    session_id: dashSessionId, 
+                    ticket_id: dashActiveTicketId,
+                    author: "Asesor de Admisiones Humano"
+                }));
             } else {
-                fetch("/api/chat", {
+                fetch("/api/chat/agent-reply", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ message: text, channel: "dashboard_ws", session_id: dashSessionId })
+                    body: JSON.stringify({ 
+                        session_id: dashSessionId, 
+                        message: text, 
+                        ticket_id: dashActiveTicketId,
+                        author_name: "Asesor de Admisiones Humano"
+                    })
                 })
-                .then(res => res.json())
-                .then(data => {
-                    hideDashTyping();
-                    appendDashBotMessage(data);
-                })
-                .catch(err => {
-                    hideDashTyping();
-                    console.error("Dashboard chat error:", err);
-                });
+                .catch(err => console.error("Error sending agent reply:", err));
             }
 
             if (input) input.value = "";
@@ -659,18 +710,45 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-function appendDashUserMessage(text) {
+function appendDashStudentMessage(text) {
     const container = document.getElementById("dash-ws-messages-container");
     if (!container) return;
 
     const div = document.createElement("div");
     div.className = "flex items-start justify-end space-x-2.5";
     div.innerHTML = `
-        <div class="user-bubble text-white rounded-2xl rounded-tr-none px-4 py-2 max-w-[85%] text-xs leading-relaxed shadow">
+        <div class="user-bubble text-white rounded-2xl rounded-tr-none px-4 py-2.5 max-w-[85%] text-xs leading-relaxed shadow">
+            <div class="text-[10px] text-brand-300 font-semibold mb-0.5">Estudiante</div>
             ${escapeHtml(text)}
         </div>
         <div class="w-7 h-7 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center text-white flex-shrink-0 text-xs shadow border border-white/20">
-            <i class="fa-solid fa-headset text-[10px]"></i>
+            <i class="fa-solid fa-user text-[10px]"></i>
+        </div>
+    `;
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+}
+
+function appendDashAdminMessage(text) {
+    const container = document.getElementById("dash-ws-messages-container");
+    if (!container) return;
+
+    const div = document.createElement("div");
+    div.className = "flex items-start space-x-3";
+    div.innerHTML = `
+        <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white flex-shrink-0 text-xs shadow border border-emerald-400/40">
+            <i class="fa-solid fa-headset text-xs"></i>
+        </div>
+        <div class="glass-bubble rounded-2xl rounded-tl-none p-3.5 text-slate-100 max-w-[85%] text-xs leading-relaxed border border-emerald-500/30 bg-emerald-950/20">
+            <div class="flex items-center justify-between gap-1.5 mb-1">
+                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 uppercase tracking-wider">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse mr-1"></span> Tu Respuesta (Asesor Humano)
+                </span>
+                <span class="text-[10px] text-emerald-400/80 font-mono">Enviado al Alumno</span>
+            </div>
+            <div class="prose prose-invert prose-xs text-slate-200 leading-relaxed">
+                ${escapeHtml(text).replace(/\n/g, '<br>')}
+            </div>
         </div>
     `;
     container.appendChild(div);

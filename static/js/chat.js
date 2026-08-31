@@ -119,6 +119,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 isWebSocketReady = true;
                 if (modalConnectionDot) modalConnectionDot.className = "w-2 h-2 rounded-full bg-emerald-400";
                 if (modalConnectionStatus) modalConnectionStatus.textContent = "En línea";
+                // Register session with backend
+                try {
+                    socket.send(JSON.stringify({ action: "join", session_id: currentSessionId, role: "user" }));
+                } catch (e) {}
             };
 
             socket.onmessage = (event) => {
@@ -129,8 +133,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         currentSessionId = data.session_id;
                         sessionStorage.setItem("gla_session_id", currentSessionId);
                     }
-                    if (data.tier !== "system") {
+                    if (data.tier !== "system" && data.event !== "user_message") {
                         appendBotMessage(data);
+                        // If human agent responded, automatically open chat modal so student sees it immediately!
+                        if (data.tier === "human_agent" || data.sender_role === "admin") {
+                            window.openChatModal();
+                        }
                     }
                 } catch (e) {
                     console.error("Error parsing WebSocket response:", e);
@@ -297,6 +305,7 @@ document.addEventListener("DOMContentLoaded", () => {
         msgDiv.className = "flex items-start space-x-3 bot-message";
 
         const formattedAnswer = renderMarkdownSimple(data.answer);
+        const isHumanAgent = data.tier === "human_agent" || data.sender_role === "admin";
 
         let ticketBadge = "";
         if (data.ticket_id) {
@@ -308,15 +317,32 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
         }
 
+        const avatarHtml = isHumanAgent
+            ? `<div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white flex-shrink-0 text-xs shadow border border-emerald-400/40">
+                   <i class="fa-solid fa-headset text-xs"></i>
+               </div>`
+            : `<div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-500 flex items-center justify-center text-white flex-shrink-0 text-xs shadow border border-white/20">
+                   <i class="fa-solid fa-graduation-cap"></i>
+               </div>`;
+
+        const headerBadgeHtml = isHumanAgent
+            ? `<div class="flex items-center justify-between gap-1.5 mb-1.5">
+                   <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 uppercase tracking-wider">
+                       <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse mr-1.5"></span> Asesor Humano en Vivo
+                   </span>
+                   <span class="text-[10px] text-emerald-400/80 font-mono">Respuesta Oficial</span>
+               </div>`
+            : `<div class="flex items-center justify-between gap-1.5 mb-1.5">
+                   <span class="text-[11px] font-bold text-brand-300 tracking-wide uppercase">Global Language Academy</span>
+                   <span class="text-[10px] text-slate-400 font-mono">En vivo</span>
+               </div>`;
+
+        const bubbleBorder = isHumanAgent ? "border-emerald-500/30 bg-emerald-950/20" : "";
+
         msgDiv.innerHTML = `
-            <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-500 flex items-center justify-center text-white flex-shrink-0 text-xs shadow border border-white/20">
-                <i class="fa-solid fa-graduation-cap"></i>
-            </div>
-            <div class="glass-bubble rounded-2xl rounded-tl-none p-4 text-slate-100 max-w-[85%] text-xs sm:text-sm leading-relaxed">
-                <div class="flex items-center justify-between gap-1.5 mb-1.5">
-                    <span class="text-[11px] font-bold text-brand-300 tracking-wide uppercase">Global Language Academy</span>
-                    <span class="text-[10px] text-slate-400 font-mono">En vivo</span>
-                </div>
+            ${avatarHtml}
+            <div class="glass-bubble rounded-2xl rounded-tl-none p-4 text-slate-100 max-w-[85%] text-xs sm:text-sm leading-relaxed ${bubbleBorder}">
+                ${headerBadgeHtml}
                 <div class="prose prose-invert prose-xs sm:prose-sm max-w-none text-slate-200 leading-relaxed">
                     ${formattedAnswer}
                 </div>

@@ -51,7 +51,8 @@ def process_inquiry(message: str, channel: str = "web", session_id: Optional[str
             user_query=query,
             escalation_reason="EXPLICIT_HUMAN_SUPPORT_REQUEST",
             channel=channel,
-            confidence=1.0
+            confidence=1.0,
+            session_id=session_id
         )
         latency_ms = (time.time() - start_time) * 1000
         metrics_service.record_query(
@@ -145,7 +146,8 @@ def process_inquiry(message: str, channel: str = "web", session_id: Optional[str
             user_query=query,
             escalation_reason="NO_KNOWLEDGE_CHUNKS_FOUND",
             channel=channel,
-            confidence=0.0
+            confidence=0.0,
+            session_id=session_id
         )
         latency_ms = (time.time() - start_time) * 1000
         metrics_service.record_query(
@@ -190,7 +192,8 @@ def process_inquiry(message: str, channel: str = "web", session_id: Optional[str
             user_query=query,
             escalation_reason=ai_result.get("escalation_reason") or "AI_ESCALATION_TRIGGER",
             channel=channel,
-            confidence=ai_result.get("confidence", 0.3)
+            confidence=ai_result.get("confidence", 0.3),
+            session_id=session_id
         )
         ticket_id = ticket["ticket_id"]
 
