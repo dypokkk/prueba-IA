@@ -25,13 +25,13 @@ class AIService:
             "gemini-3.7-flash"
         ]
 
-    def generate_grounded_response(self, query: str, context_chunks: List[Dict[str, Any]]) -> Tuple[Dict[str, Any], int, int, float]:
+    def generate_grounded_response(self, query: str, context_chunks: List[Dict[str, Any]], conversation_history: List[Dict[str, str]] = None) -> Tuple[Dict[str, Any], int, int, float]:
         """
-        Executes LLM completion with prompt grounding and model cascade fallback.
+        Executes LLM completion with prompt grounding, conversation memory, and model cascade fallback.
         Returns: (parsed_response_dict, prompt_tokens, completion_tokens, latency_ms)
         """
         start_time = time.time()
-        user_prompt = format_rag_prompt(query, context_chunks)
+        user_prompt = format_rag_prompt(query, context_chunks, conversation_history)
         gemini_key = settings.GEMINI_API_KEY or os.getenv("GEMINI_API_KEY", "")
 
         # 1. Try Google Gemini API with model cascade

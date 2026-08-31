@@ -76,17 +76,26 @@ Output:
 }
 """
 
-def format_rag_prompt(user_query: str, context_chunks: list) -> str:
-    """Formats the context and user query into the final prompt."""
+def format_rag_prompt(user_query: str, context_chunks: list, conversation_history: list = None) -> str:
+    """Formats the context, multi-turn history, and user query into the final prompt."""
     context_str = ""
     for i, chunk in enumerate(context_chunks, 1):
         context_str += f"\n--- Context Document [{i}] ({chunk.get('filename', 'doc')} | Section: {chunk.get('section', 'General')}) ---\n"
         context_str += f"{chunk.get('text', '')}\n"
 
+    history_str = ""
+    if conversation_history and len(conversation_history) > 0:
+        history_lines = []
+        for msg in conversation_history:
+            role_label = "Student" if msg.get("role") == "user" else "Advisor"
+            history_lines.append(f"{role_label}: {msg.get('content', '')}")
+        history_str = f"\n<conversation_history>\n" + "\n".join(history_lines) + "\n</conversation_history>\n"
+
     return f"""<context>
 {context_str}
 </context>
+{history_str}
+Current Student Inquiry: "{user_query}"
 
-Student Inquiry: "{user_query}"
-
+Instructions: Use the conversation history to seamlessly resolve follow-up questions, pronouns, and implied topics.
 Respond with ONLY the JSON object conforming to the specification:"""

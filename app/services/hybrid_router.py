@@ -1,5 +1,6 @@
 import time
-from typing import Dict, Any
+import uuid
+from typing import Dict, Any, Optional
 
 from app.config import settings
 from app.services.cache_service import cache_service
@@ -8,61 +9,84 @@ from app.services.vector_store import vector_store
 from app.services.ai_service import ai_service
 from app.services.metrics_service import metrics_service
 from app.services.escalation_service import escalation_service
+from app.services.session_service import session_service
 
-def process_inquiry(message: str, channel: str = "web") -> Dict[str, Any]:
+def process_inquiry(message: str, channel: str = "web", session_id: Optional[str] = None) -> Dict[str, Any]:
     """
-    Central Hybrid Pipeline:
-    Cache Check -> Tier 1 Deterministic -> Tier 2 Vector RAG (Gemini/OpenAI) -> Tier 3 Escalation
+    Central Multi-Turn Hybrid Pipeline:
+    Session Context Tracking -> Cache Check -> Tier 1 Deterministic -> Tier 2 Multi-Turn Vector RAG (Gemini) -> Tier 3 Escalation
     """
     start_time = time.time()
     query = message.strip()
+    
+    if not session_id:
+        session_id = f"{channel}_session_{uuid.uuid4().hex[:8]}"
 
-    # 1. Step 1: Check Cache Layer
-    cached_data = cache_service.get(query)
-    if cached_data:
-        latency_ms = (time.time() - start_time) * 1000
-        metrics_service.record_query(
-            tier="cache",
-            is_cache_hit=True,
-            is_escalated=False,
-            latency_ms=latency_ms
-        )
-        res = dict(cached_data)
-        res["cached"] = True
-        res["latency_ms"] = round(latency_ms, 2)
-        res["tier"] = "cache"
-        return res
+    # Add user message to multi-turn conversation memory
+    session_service.add_user_message(session_id, query)
+    conversation_history = session_service.get_history(session_id)
 
-    # 2. Step 2: Tier 1 - Deterministic Pattern & Intent Matcher
-    if settings.ENABLE_DETERMINISTIC_TIER:
-        det_match = deterministic_service.match(query)
-        if det_match:
+    # 1. Step 1: Check Cache Layer (for exact repeated queries when no active history)
+    # If the user has a conversation history > 1 message, we bypass exact cache to ensure contextual freshness
+    if len(conversation_history) <= 1:
+        cached_data = cache_service.get(query)
+        if cached_data:
             latency_ms = (time.time() - start_time) * 1000
-            result = {
-                "answer": det_match["answer"],
-                "tier": "deterministic",
-                "confidence": 1.0,
-                "sources": det_match["sources"],
-                "escalate_to_human": False,
-                "escalation_reason": None,
-                "ticket_id": None,
-                "cached": False,
-                "latency_ms": round(latency_ms, 2)
-            }
-            cache_service.set(query, result)
             metrics_service.record_query(
-                tier="deterministic",
-                is_cache_hit=False,
+                tier="cache",
+                is_cache_hit=True,
                 is_escalated=False,
                 latency_ms=latency_ms
             )
-            return result
+            res = dict(cached_data)
+            res["cached"] = True
+            res["latency_ms"] = round(latency_ms, 2)
+            res["tier"] = "cache"
+            res["session_id"] = session_id
+            session_service.add_assistant_message(session_id, res.get("answer", ""))
+            return res
 
-    # 3. Step 3: Tier 2 - RAG Retrieval Engine (Top-K Chunks)
+    # 2. Step 2: Tier 1 - Deterministic Pattern & Intent Matcher
+    # If query is a canonical stand-alone intent (e.g. greetings, general schedules, test info)
+    if settings.ENABLE_DETERMINISTIC_TIER:
+        # If it's a short implicit follow-up query, we let it fall through to RAG with history
+        clean_q = query.lower().strip()
+        is_followup = clean_q.startswith(("¿y ", "y ", "¿en ", "en ", "¿como ", "como ", "¿cuanto ", "cuanto ")) and len(clean_q.split()) <= 6
+        
+        if not is_followup:
+            det_match = deterministic_service.match(query)
+            if det_match:
+                latency_ms = (time.time() - start_time) * 1000
+                result = {
+                    "answer": det_match["answer"],
+                    "tier": "deterministic",
+                    "confidence": 1.0,
+                    "sources": det_match["sources"],
+                    "escalate_to_human": False,
+                    "escalation_reason": None,
+                    "ticket_id": None,
+                    "cached": False,
+                    "session_id": session_id,
+                    "latency_ms": round(latency_ms, 2)
+                }
+                cache_service.set(query, result)
+                metrics_service.record_query(
+                    tier="deterministic",
+                    is_cache_hit=False,
+                    is_escalated=False,
+                    latency_ms=latency_ms
+                )
+                session_service.add_assistant_message(session_id, result["answer"])
+                return result
+
+    # 3. Step 3: Tier 2 - Context-Enriched RAG Retrieval Engine (Top-K Chunks)
+    # Synthesize implicit query with recent topic context (e.g. '¿y los horarios?' + 'curso de francés')
+    retrieval_query = session_service.get_combined_query_context(session_id, query)
+
     chunks, max_sim, _ = vector_store.similarity_search(
-        query=query,
+        query=retrieval_query,
         top_k=settings.TOP_K_CHUNKS,
-        threshold=0.0  # Retrieve top chunks for AI context
+        threshold=0.0
     )
 
     # If completely empty database, escalate
@@ -80,8 +104,10 @@ def process_inquiry(message: str, channel: str = "web") -> Dict[str, Any]:
             is_escalated=True,
             latency_ms=latency_ms
         )
+        answer = "He transferido tu consulta a nuestro equipo de admisiones humanas para brindarte información exacta y personalizada. Un asesor se comunicará contigo en breve."
+        session_service.add_assistant_message(session_id, answer)
         return {
-            "answer": "He transferido tu consulta a nuestro equipo de admisiones humanas para brindarte información exacta y personalizada. Un asesor se comunicará contigo en breve.",
+            "answer": answer,
             "tier": "escalation",
             "confidence": 0.0,
             "sources": [],
@@ -89,11 +115,16 @@ def process_inquiry(message: str, channel: str = "web") -> Dict[str, Any]:
             "escalation_reason": "NO_KNOWLEDGE_CHUNKS_FOUND",
             "ticket_id": ticket["ticket_id"],
             "cached": False,
+            "session_id": session_id,
             "latency_ms": round(latency_ms, 2)
         }
 
-    # 4. Step 4: Tier 2 - AI Grounded Reasoning (Google Gemini)
-    ai_result, pt, ct, ai_latency = ai_service.generate_grounded_response(query, chunks)
+    # 4. Step 4: Tier 2 - Multi-Turn AI Grounded Reasoning (Google Gemini 3.5 Flash Lite)
+    ai_result, pt, ct, ai_latency = ai_service.generate_grounded_response(
+        query=query,
+        context_chunks=chunks,
+        conversation_history=conversation_history
+    )
     latency_ms = (time.time() - start_time) * 1000
 
     is_escalated = ai_result.get("escalate_to_human", False)
@@ -117,11 +148,12 @@ def process_inquiry(message: str, channel: str = "web") -> Dict[str, Any]:
         "escalation_reason": ai_result.get("escalation_reason"),
         "ticket_id": ticket_id,
         "cached": False,
+        "session_id": session_id,
         "latency_ms": round(latency_ms, 2)
     }
 
-    # Cache successful non-escalated responses
-    if not is_escalated:
+    # Cache successful non-escalated responses only for single-turn queries
+    if not is_escalated and len(conversation_history) <= 1:
         cache_service.set(query, result)
 
     metrics_service.record_query(
@@ -133,4 +165,5 @@ def process_inquiry(message: str, channel: str = "web") -> Dict[str, Any]:
         latency_ms=latency_ms
     )
 
+    session_service.add_assistant_message(session_id, result["answer"])
     return result

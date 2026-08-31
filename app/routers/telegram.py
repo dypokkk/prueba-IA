@@ -23,8 +23,8 @@ def handle_telegram_message(chat_id: int | str, user_text: str):
         telegram_service.send_message(chat_id, welcome_text)
         return
 
-    # Process inquiry through hybrid pipeline
-    result = process_inquiry(message=user_text, channel="telegram")
+    # Process inquiry through hybrid pipeline with session context
+    result = process_inquiry(message=user_text, channel="telegram", session_id=f"tg_{chat_id}")
 
     answer = result.get("answer", "")
     is_escalated = result.get("escalate_to_human", False)

@@ -242,13 +242,15 @@ class TelegramService:
                         continue
 
                     if user_text.lower() == "/clear":
+                        from app.services.session_service import session_service
+                        session_service.clear(f"tg_{chat_id}")
                         cache_service.clear()
-                        await asyncio.to_thread(self.send_message, chat_id, "🧹 Caché de respuestas reiniciada.")
+                        await asyncio.to_thread(self.send_message, chat_id, "🧹 Historial de conversación y caché reiniciados.")
                         continue
 
-                    # Process inquiry through hybrid pipeline
-                    print(f"[TelegramBot] 🧠 Processing query for {chat_id} via Hybrid Router...", flush=True)
-                    res = await asyncio.to_thread(process_inquiry, user_text, "telegram")
+                    # Process inquiry through hybrid pipeline with session context
+                    print(f"[TelegramBot] 🧠 Processing query for {chat_id} via Hybrid Router with session tg_{chat_id}...", flush=True)
+                    res = await asyncio.to_thread(process_inquiry, user_text, "telegram", f"tg_{chat_id}")
                     answer = res.get("answer", "")
                     is_escalated = res.get("escalate_to_human", False)
                     ticket_id = res.get("ticket_id")
