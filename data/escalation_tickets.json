@@ -1,5 +1,36 @@
 [
   {
+    "ticket_id": "TKT-1022E995",
+    "timestamp": "2026-08-31 12:59:42 UTC",
+    "user_query": "I demand a 90% scholarship and personal phone number of the director",
+    "escalation_reason": "EXPLICIT_ESCALATION_INTENT",
+    "confidence": 0.3,
+    "channel": "web",
+    "status": "PENDING",
+    "resolution_notes": null
+  },
+  {
+    "ticket_id": "TKT-B5DE50BE",
+    "timestamp": "2026-08-31 12:59:42 UTC",
+    "user_query": "Customer demanding special terms",
+    "escalation_reason": "DISPUTE_TEST",
+    "confidence": 0.0,
+    "channel": "web",
+    "status": "RESOLVED",
+    "resolution_notes": "Handled by senior advisor",
+    "resolved_at": "2026-08-31 12:59:42 UTC"
+  },
+  {
+    "ticket_id": "TKT-5C282476",
+    "timestamp": "2026-08-31 12:57:48 UTC",
+    "user_query": "¿Si falto a clases por trabajo me ayudan a recuperar la clase o me dan grabaciones?",
+    "escalation_reason": "MISSING_INFORMATION_OR_STUDENT_POLICY_QUESTION_NOT_IN_CONTEXT",
+    "confidence": 0.2,
+    "channel": "web",
+    "status": "PENDING",
+    "resolution_notes": null
+  },
+  {
     "ticket_id": "TKT-9B8D967B",
     "timestamp": "2026-08-31 12:50:19 UTC",
     "user_query": "I demand a 90% scholarship and personal phone number of the director",
