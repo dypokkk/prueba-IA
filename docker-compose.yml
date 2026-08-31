@@ -15,6 +15,7 @@ services:
       - DEBUG=true
       - PORT=8000
       - HOST=0.0.0.0
+      - PYTHONUNBUFFERED=1
     volumes:
       # Live-reload bind mounts
       - .:/app
