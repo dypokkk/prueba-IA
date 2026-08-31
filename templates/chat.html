@@ -3,37 +3,37 @@
 {% block title %}Student Chat Assistant - Global Language Academy{% endblock %}
 
 {% block content %}
-<div class="flex-1 flex flex-col max-w-4xl w-full mx-auto glass-panel rounded-3xl overflow-hidden shadow-2xl transition-all duration-300">
+<div class="w-full max-w-4xl mx-auto h-[calc(100vh-6.5rem)] min-h-[580px] flex flex-col glass-panel rounded-3xl overflow-hidden shadow-2xl transition-all duration-300">
 
     <!-- Glass Chat Header -->
-    <div class="bg-slate-900/40 border-b border-white/10 px-6 py-4 flex items-center justify-between backdrop-blur-md">
+    <div class="bg-slate-900/40 border-b border-white/10 px-6 py-3.5 flex items-center justify-between backdrop-blur-md flex-shrink-0">
         <div class="flex items-center space-x-3.5">
-            <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-brand-500 via-indigo-500 to-emerald-400 flex items-center justify-center text-white shadow-lg shadow-brand-500/30 border border-white/20">
-                <i class="fa-solid fa-robot text-lg drop-shadow"></i>
+            <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-brand-500 via-indigo-500 to-emerald-400 flex items-center justify-center text-white shadow-lg shadow-brand-500/30 border border-white/20">
+                <i class="fa-solid fa-robot text-base drop-shadow"></i>
             </div>
             <div>
-                <h2 class="text-base font-semibold text-white tracking-tight flex items-center gap-2">
-                    <span>Academic Support Advisor</span>
+                <h2 class="text-sm sm:text-base font-semibold text-white tracking-tight flex items-center gap-2">
+                    <span>Asesor Académico Virtual</span>
                     <span class="px-2 py-0.5 text-[10px] font-semibold bg-emerald-500/20 text-emerald-300 rounded-full border border-emerald-500/30">AI Active</span>
                 </h2>
                 <p class="text-xs text-slate-400 flex items-center gap-1.5 mt-0.5">
                     <span id="connection-dot" class="w-2 h-2 rounded-full bg-emerald-400 shadow-sm shadow-emerald-400"></span>
-                    <span id="connection-status">Connected via Real-Time WebSocket</span>
+                    <span id="connection-status">Conectado en tiempo real</span>
                 </p>
             </div>
         </div>
 
         <div class="flex items-center space-x-2">
-            <button id="clear-chat-btn" title="Clear Conversation" class="text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 px-3 py-1.5 rounded-xl text-xs transition-all duration-200 backdrop-blur-md flex items-center gap-1.5 shadow-sm">
-                <i class="fa-solid fa-rotate-right text-brand-400"></i> Clear Chat
+            <button id="clear-chat-btn" title="Limpiar Conversación" class="text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 px-3 py-1.5 rounded-xl text-xs transition-all duration-200 backdrop-blur-md flex items-center gap-1.5 shadow-sm">
+                <i class="fa-solid fa-rotate-right text-brand-400"></i> <span class="hidden sm:inline">Limpiar Chat</span>
             </button>
         </div>
     </div>
 
     <!-- Suggested Question Quick Glass Chips -->
-    <div class="bg-slate-950/30 border-b border-white/5 px-4 py-2.5 overflow-x-auto flex items-center space-x-2 no-scrollbar backdrop-blur-sm">
+    <div class="bg-slate-950/30 border-b border-white/5 px-4 py-2.5 overflow-x-auto flex items-center space-x-2 no-scrollbar backdrop-blur-sm flex-shrink-0">
         <span class="text-xs text-slate-400 whitespace-nowrap mr-1 font-medium flex items-center gap-1">
-            <i class="fa-solid fa-wand-magic-sparkles text-brand-400"></i> Quick Inquiries:
+            <i class="fa-solid fa-wand-magic-sparkles text-brand-400"></i> Sugerencias:
         </span>
         <button class="chip-btn" data-query="¿Qué son los cursos grupales y cómo funcionan?">👥 Cursos Grupales</button>
         <button class="chip-btn" data-query="¿Qué precios tienen los cursos de inglés y qué medios de pago aceptan?">💳 Precios & Financiación</button>
@@ -45,7 +45,7 @@
     </div>
 
     <!-- Messages Stream Container -->
-    <div id="messages-container" class="flex-1 p-4 sm:p-6 overflow-y-auto space-y-4 min-h-[380px] max-h-[550px] scroll-smooth">
+    <div id="messages-container" class="flex-1 min-h-0 p-4 sm:p-6 overflow-y-auto space-y-4 scroll-smooth">
         
         <!-- Welcome Message in Frosted Glass Bubble -->
         <div class="flex items-start space-x-3.5 bot-message">
@@ -55,7 +55,7 @@
             <div class="flex-1 bot-bubble rounded-3xl rounded-tl-none p-4 sm:p-5 max-w-2xl">
                 <div class="flex items-center justify-between mb-2">
                     <span class="text-xs font-semibold text-brand-300 tracking-wide">Global Language Academy</span>
-                    <span class="text-[10px] text-slate-400">Just now</span>
+                    <span class="text-[10px] text-slate-400">Ahora</span>
                 </div>
                 <div class="text-sm text-slate-200 leading-relaxed space-y-2.5 bot-response-content">
                     <p>¡Hola! Te damos la bienvenida a <strong>Global Language Academy</strong>. Soy tu asesor académico virtual.</p>
@@ -68,7 +68,7 @@
     </div>
 
     <!-- 3 Animated Thinking Dots Indicator in Glass Bubble (Hidden by default) -->
-    <div id="typing-indicator" class="hidden px-6 py-2 items-start space-x-3.5 bot-message">
+    <div id="typing-indicator" class="hidden px-6 py-2 items-start space-x-3.5 bot-message flex-shrink-0">
         <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-600 flex items-center justify-center text-white flex-shrink-0 text-xs shadow-md border border-white/10">
             <i class="fa-solid fa-graduation-cap"></i>
         </div>
@@ -80,7 +80,7 @@
     </div>
 
     <!-- Glass Chat Input Bar -->
-    <div class="bg-slate-900/50 border-t border-white/10 p-4 backdrop-blur-md">
+    <div class="bg-slate-900/50 border-t border-white/10 p-3.5 sm:p-4 backdrop-blur-md flex-shrink-0">
         <form id="chat-form" class="flex items-center space-x-3">
             <div class="relative flex-1">
                 <input 
@@ -94,7 +94,7 @@
             <button 
                 type="submit" 
                 id="send-btn" 
-                class="glass-btn-primary text-white font-medium px-5 py-3 rounded-2xl transition-all flex items-center space-x-2 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+                class="glass-btn-primary text-white font-medium px-5 py-3 rounded-2xl transition-all flex items-center space-x-2 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer flex-shrink-0"
             >
                 <span class="hidden sm:inline">Enviar</span>
                 <i class="fa-solid fa-paper-plane text-xs"></i>

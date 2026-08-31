@@ -1,7 +1,7 @@
 [
   {
-    "ticket_id": "TKT-7CE00FFA",
-    "timestamp": "2026-08-31 13:14:33 UTC",
+    "ticket_id": "TKT-FE4B3302",
+    "timestamp": "2026-08-31 13:20:34 UTC",
     "user_query": "I demand a 90% scholarship and personal phone number of the director",
     "escalation_reason": "EXPLICIT_ESCALATION_INTENT",
     "confidence": 0.3,
@@ -10,36 +10,35 @@
     "resolution_notes": null
   },
   {
-    "ticket_id": "TKT-F13FC152",
-    "timestamp": "2026-08-31 13:14:33 UTC",
+    "ticket_id": "TKT-5846EA6E",
+    "timestamp": "2026-08-31 13:20:34 UTC",
     "user_query": "Customer demanding special terms",
     "escalation_reason": "DISPUTE_TEST",
     "confidence": 0.0,
     "channel": "web",
     "status": "RESOLVED",
     "resolution_notes": "Handled by senior advisor",
-    "resolved_at": "2026-08-31 13:14:33 UTC"
+    "resolved_at": "2026-08-31 13:20:34 UTC"
   },
   {
-    "ticket_id": "TKT-A5984240",
-    "timestamp": "2026-08-31 13:13:08 UTC",
-    "user_query": "I demand a 90% scholarship and personal phone number of the director",
-    "escalation_reason": "SPECIAL_SCHOLARSHIP_OR_MANAGEMENT_REQUEST",
-    "confidence": 0.2,
-    "channel": "web",
+    "ticket_id": "TKT-63BDDB80",
+    "timestamp": "2026-08-31 13:18:53 UTC",
+    "user_query": "si sé algo de inglés pero no sé en qué nivel estoy puedo hacer un examen para saber  donde puedo comenzar?",
+    "escalation_reason": "PLACEMENT_TEST_INFO_NOT_FOUND_IN_CONTEXT",
+    "confidence": 0.4,
+    "channel": "websocket",
     "status": "PENDING",
     "resolution_notes": null
   },
   {
-    "ticket_id": "TKT-AAD5833A",
-    "timestamp": "2026-08-31 13:13:06 UTC",
-    "user_query": "Customer demanding special terms",
-    "escalation_reason": "DISPUTE_TEST",
-    "confidence": 0.0,
-    "channel": "web",
-    "status": "RESOLVED",
-    "resolution_notes": "Handled by senior advisor",
-    "resolved_at": "2026-08-31 13:13:06 UTC"
+    "ticket_id": "TKT-E0F1E234",
+    "timestamp": "2026-08-31 13:15:45 UTC",
+    "user_query": "pizza",
+    "escalation_reason": "OUT_OF_SCOPE_QUERY",
+    "confidence": 0.2,
+    "channel": "telegram",
+    "status": "PENDING",
+    "resolution_notes": null
   },
   {
     "ticket_id": "TKT-5DA634BE",
