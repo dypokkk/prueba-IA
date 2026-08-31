@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function appendUserMessage(text) {
         const msgDiv = document.createElement("div");
-        msgDiv.className = "flex items-start justify-end space-x-3.5";
+        msgDiv.className = "flex items-start justify-end space-x-3.5 user-message-wrapper";
         msgDiv.innerHTML = `
             <div class="user-bubble text-white rounded-3xl rounded-tr-none px-5 py-3.5 max-w-xl text-sm leading-relaxed shadow-lg">
                 ${escapeHtml(text)}
