@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
 from app.services.vector_store import vector_store
-from app.routers import chat, metrics, views
+from app.routers import chat, metrics, views, telegram
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -44,6 +44,7 @@ app.mount("/static", StaticFiles(directory=str(settings.STATIC_DIR)), name="stat
 app.include_router(views.router)
 app.include_router(chat.router)
 app.include_router(metrics.router)
+app.include_router(telegram.router)
 
 if __name__ == "__main__":
     import uvicorn

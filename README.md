@@ -1,6 +1,6 @@
 # Intelligent Customer Support Assistant with Tiered Deterministic-RAG & Multi-Channel Automation
 
-A production-grade, highly cost-efficient, and grounded Customer Support Assistant tailored for **Global Language Academy** (*Academia de Idiomas*). Engineered with **Python 3, FastAPI, Jinja2, Tailwind CSS, Google Gemini API, WebSockets, and Docker with Live-Reload**.
+A production-grade, highly cost-efficient, and grounded Customer Support Assistant tailored for **Global Language Academy** (*Academia de Idiomas*). Engineered with **Python 3, FastAPI, Jinja2, Tailwind CSS, Google Gemini API, WebSockets, Telegram Bot Integration, and Docker with Live-Reload**.
 
 ---
 
@@ -8,12 +8,13 @@ A production-grade, highly cost-efficient, and grounded Customer Support Assista
 
 1. **Tiered Hybrid Routing Strategy**:
    - **Tier 1 (Deterministic Engine)**: High-speed pattern & FAQ matcher for standard queries (pricing tables, payment methods, campus locations, schedules). Responds in **$<2\text{ms}$** with **\$0.00 AI token cost**.
-   - **Tier 2 (AI Grounded RAG)**: Semantic vector retrieval over 3 official English markdown knowledge documents + **Google Gemini API** (`gemini-1.5-flash` / `text-embedding-004`) with few-shot prompt grounding (`temperature: 0.1`) to eliminate hallucinations.
-   - **Tier 3 (Automated Human Escalation)**: Automatically routes out-of-scope, refund, or low-similarity inquiries to the human support queue (`/escalations`) with webhook dispatch.
+   - **Tier 2 (AI Grounded RAG)**: BM25 + semantic vector retrieval over 3 official English markdown knowledge documents + **Google Gemini API** (`gemini-3.6-flash` / `gemini-3.7-flash` cascade) with few-shot prompt grounding (`temperature: 0.1`) to eliminate hallucinations.
+   - **Tier 3 (Automated Human Escalation)**: Automatically routes out-of-scope, refund, or sensitive inquiries to the human support queue (`/escalations`) with webhook dispatch.
 2. **In-Memory Query Response Cache**:
    - Normalized LRU cache returning instant zero-cost responses for repeated inquiries.
-3. **Real-Time WebSockets & Interactive Web UI**:
-   - Modern Jinja2 + Tailwind CSS interface with bidirectional WebSockets (`/ws/chat`), instant prompt chips, live typing indicators, and collapsible RAG source citations.
+3. **Multi-Channel Support (WebSockets & Telegram Bot)**:
+   - **Web UI**: Modern Jinja2 + Tailwind CSS interface with bidirectional WebSockets (`/ws/chat`), instant prompt chips, 3 animated thinking dots, and full Markdown rendering via `Marked.js`.
+   - **Telegram Bot**: Full integration with two modes: **Standalone Long-Polling Runner** (`scripts/telegram_bot.py`) and **FastAPI Webhook** (`POST /api/telegram/webhook`).
 4. **Real-Time Operational Metrics Dashboard (`/dashboard`)**:
    - Tracks total queries, cache hit rate %, token consumption, estimated USD costs, and human escalation rates.
 5. **Developer Experience (Docker with Hot Live-Reload)**:
@@ -26,7 +27,7 @@ A production-grade, highly cost-efficient, and grounded Customer Support Assista
 ```
                                   +---------------------------------------+
                                   |            Inquiry Channels           |
-                                  | (Tailwind UI / WebSocket / REST API)  |
+                                  | (Tailwind UI / WebSocket / Telegram)  |
                                   +-------------------+-------------------+
                                                       |
                                                       v
@@ -46,13 +47,12 @@ A production-grade, highly cost-efficient, and grounded Customer Support Assista
                     |                                 | No Match                        |
                     |                                 v                                 |
                     |  +-------------------------------------------------------------+  |
-                    |  | STEP 3: Tier 2 - Vector RAG Engine (Cosine Similarity)      |  |
+                    |  | STEP 3: Tier 2 - BM25 & Semantic Knowledge Retrieval        |  |
                     |  | -> 01_courses_and_pricing.md                                |  |
                     |  | -> 02_schedules_and_modalities.md                           |  |
                     |  | -> 03_enrollment_and_certifications.md                      |  |
-                    |  | -> Check SIMILARITY_THRESHOLD (0.65)                        |  |
                     |  +------------------------------+------------------------------+  |
-                    |                                 | Similarity >= 0.65              |
+                    |                                 | Context Chunks Retrieved        |
                     |                                 v                                 |
                     |  +-------------------------------------------------------------+  |
                     |  | STEP 4: Google Gemini API (Grounding & Few-Shots)           |  |
@@ -85,165 +85,116 @@ prueba-IA/
 │   ├── config.py                             # Settings, environment variables (.env loading)
 │   ├── services/
 │   │   ├── document_loader.py                # Markdown chunking with overlap & metadata extraction
-│   │   ├── vector_store.py                   # Vector embeddings, indexing & cosine similarity retrieval
+│   │   ├── vector_store.py                   # BM25 & multilingual query expansion retrieval engine
 │   │   ├── deterministic_service.py          # Tier 1 deterministic pattern & FAQ rule matcher
-│   │   ├── ai_service.py                     # Google Gemini API & OpenAI provider integration
+│   │   ├── ai_service.py                     # Google Gemini API & model cascade failover
+│   │   ├── telegram_service.py               # Telegram Bot API client & dispatcher
 │   │   ├── cache_service.py                  # In-memory query response cache (cost & latency optimizer)
 │   │   ├── metrics_service.py                # Analytics: query counts, token cost estimation, escalation rate
 │   │   └── escalation_service.py             # Human escalation dispatcher & ticket queue manager
 │   ├── prompts/
-│   │   └── system_prompt.py                  # Grounding instructions, brand persona & 3+ few-shot examples
+│   │   └── system_prompt.py                  # Grounding instructions, brand persona & few-shot examples
 │   ├── tools/
 │   │   └── custom_tools.py                   # Custom skills (Course quoter & CEFR level placement advisor)
 │   ├── routers/
 │   │   ├── chat.py                           # REST & WebSocket endpoints (/api/chat, /ws/chat, /api/webhook)
+│   │   ├── telegram.py                       # Telegram Webhook & Status endpoints (/api/telegram/webhook)
 │   │   ├── metrics.py                        # Analytics endpoints (/api/metrics, /api/cache/clear)
-│   │   └── views.py                          # Jinja2 + Tailwind frontend views (Chat, Dashboard, Escalations)
-│   └── main.py                               # FastAPI application setup, static mounting & lifespan startup
+│   │   └── views.py                          # Jinja2 template views (Chat, Dashboard, Escalations)
+│   └── main.py                               # FastAPI application entrypoint with lifespan startup
 ├── templates/
-│   ├── base.html                             # Tailwind CSS base layout & navigation bar
-│   ├── chat.html                             # Interactive Web Chat customer interface with live streaming
-│   ├── dashboard.html                        # Real-time Metrics & Knowledge Base Explorer
-│   └── escalation_queue.html                 # Human Agent Escalation Management Panel
+│   ├── base.html                             # Base layout with Tailwind CSS CDN & Marked.js
+│   ├── chat.html                             # Chat interface with WebSockets & thinking animation
+│   ├── dashboard.html                        # Real-time metrics & Knowledge Base inspector
+│   └── escalation_queue.html                 # Human support escalation desk
 ├── static/
-│   ├── css/
-│   │   └── custom.css                        # Supplementary custom styling & animations
-│   └── js/
-│       ├── chat.js                           # Asynchronous REST & WebSocket chat client logic
-│       └── dashboard.js                      # Real-time metrics auto-refresh logic
+│   ├── css/custom.css                        # Custom styling, markdown typography & thinking dots
+│   ├── js/chat.js                            # Bidirectional WebSocket client & Marked.js rendering
+│   └── js/dashboard.js                       # Real-time polling & metrics graphs
 ├── scripts/
-│   ├── ingest.py                             # Standalone script to populate & verify vector index
-│   ├── test_pipeline.py                      # Automated end-to-end unit & integration verification
-│   └── package_deliverable.py                # Automated packaging to create final .zip bundle
+│   ├── ingest.py                             # Knowledge Base chunking & BM25 indexing pipeline
+│   ├── telegram_bot.py                       # Standalone Telegram Bot Long-Polling runner
+│   ├── test_pipeline.py                      # End-to-end integration test runner (6/6 tests)
+│   └── package_deliverable.py                # Automated .zip packaging script
+├── tests/
+│   └── test_unit_suite.py                    # Complete unit test suite (16/16 tests passing)
+├── Dockerfile                                # Python 3.11-slim container with live-reload
+├── docker-compose.yml                        # Docker Compose with bind mount (.:/app)
 ├── requirements.txt                          # Python dependencies
-├── .env.example                              # Comprehensive environment variables template
-├── Dockerfile                                # Container definition with hot-reload support
-├── docker-compose.yml                        # Docker Compose setup with volume bind mounts
+├── .env.example                              # Environment variable template
 └── README.md                                 # Complete documentation
 ```
 
 ---
 
-## 🚀 Quickstart Guide
+## 🚀 Quick Start Guide
 
-### Option 1: Local Execution with Python 3.11+
-
-1. **Clone or Navigate to the Project**:
-   ```bash
-   cd prueba-IA
-   ```
-
-2. **Create and Activate a Virtual Environment**:
-   ```bash
-   python3 -m venv .venv
-   source .venv/bin/activate   # On Windows: .venv\Scripts\activate
-   ```
-
-3. **Install Dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Configure Environment Variables**:
-   ```bash
-   cp .env.example .env
-   ```
-   *Edit `.env` and insert your `GEMINI_API_KEY` (or `OPENAI_API_KEY`). Note: The app also includes an offline fallback synthesizer if no API key is provided.*
-
-5. **Run Knowledge Base Ingestion**:
-   ```bash
-   python scripts/ingest.py
-   ```
-
-6. **Start the FastAPI Server**:
-   ```bash
-   uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
-   ```
-
-7. **Open Your Browser**:
-   - 💬 **Interactive Chat**: [http://localhost:8000/chat](http://localhost:8000/chat)
-   - 📊 **Metrics & Knowledge Base**: [http://localhost:8000/dashboard](http://localhost:8000/dashboard)
-   - 🚨 **Human Escalation Desk**: [http://localhost:8000/escalations](http://localhost:8000/escalations)
-   - 📚 **Swagger API Docs**: [http://localhost:8000/docs](http://localhost:8000/docs)
-
----
-
-### Option 2: Run with Docker Compose (Auto Live-Reload)
-
-The container uses volume bind-mounts (`.:/app`) so any edits in Python files, Jinja2 templates, or Markdown documents update live without rebuilding the container.
-
-1. **Launch Container**:
-   ```bash
-   docker compose up --build
-   ```
-
-2. **Access Web Application**:
-   Open [http://localhost:8000](http://localhost:8000)
-
-3. **Stop Container**:
-   ```bash
-   docker compose down
-   ```
-
----
-
-## 📡 API & Multi-Channel Endpoints
-
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| `POST` | `/api/chat` | Standard JSON REST endpoint for student inquiries. |
-| `WS` | `/ws/chat` | Real-time bidirectional WebSocket chat with status badges. |
-| `POST` | `/api/webhook` | Generic multi-channel webhook endpoint (Telegram/CRM compatible). |
-| `GET` | `/api/metrics` | Returns real-time metrics (query volume, token costs, cache savings). |
-| `POST` | `/api/cache/clear` | Flushes all in-memory query response cache entries. |
-| `GET` | `/api/health` | Health check reporting vector store index status. |
-
-### Sample cURL Request (`POST /api/chat`):
+### 1. Configure Environment Variables
+Copy `.env.example` to `.env`:
 ```bash
-curl -X POST "http://localhost:8000/api/chat" \
-     -H "Content-Type: application/json" \
-     -d '{"message": "What are the Saturday intensive class schedules?", "channel": "api"}'
+cp .env.example .env
+```
+Ensure your `GEMINI_API_KEY` is set in `.env`:
+```env
+GEMINI_API_KEY=your_gemini_api_key_here
+GEMINI_MODEL=gemini-3.6-flash
 ```
 
-### Sample JSON Response:
-```json
-{
-  "answer": "Our Saturday Intensive Track runs from 8:00 AM to 1:00 PM (5 continuous hours with a 20-minute break). You complete 60 class hours in 12 consecutive Saturdays. Tuition is $1,350,000 COP (~$345 USD).",
-  "tier": "deterministic",
-  "confidence": 1.0,
-  "sources": [
-    "02_schedules_and_modalities.md#1-class-schedules-and-timetables"
-  ],
-  "escalate_to_human": false,
-  "escalation_reason": null,
-  "ticket_id": null,
-  "cached": false,
-  "latency_ms": 1.45
-}
+### 2. Run with Docker Compose (Recommended)
+```bash
+docker compose up --build
+```
+The server will start at **http://localhost:8000** with hot-reload enabled.
+
+### 3. Access Web Interfaces
+- **Chat Interface**: [http://localhost:8000/chat](http://localhost:8000/chat)
+- **Analytics Dashboard**: [http://localhost:8000/dashboard](http://localhost:8000/dashboard)
+- **Escalation Desk**: [http://localhost:8000/escalations](http://localhost:8000/escalations)
+- **Interactive Swagger Docs**: [http://localhost:8000/docs](http://localhost:8000/docs)
+
+---
+
+## 🤖 Telegram Bot Integration
+
+### Setup Telegram Bot in 1 Minute:
+1. Open Telegram and search for **[@BotFather](https://t.me/BotFather)**.
+2. Send `/newbot`, name your bot (e.g. `GlobalLanguageAcademyBot`), and copy the provided **HTTP API Token**.
+3. Add the token to your `.env` file:
+   ```env
+   TELEGRAM_BOT_TOKEN=123456789:ABCdefGHIjklMNOpqrSTUvwxYZ
+   ```
+
+### Running the Telegram Bot:
+#### Option A: Standalone Polling Mode (Local Development)
+No public IP or ngrok needed! Run:
+```bash
+python3 scripts/telegram_bot.py
+# Or inside docker:
+docker exec -it global_language_academy_assistant python3 scripts/telegram_bot.py
+```
+
+#### Option B: Webhook Mode (Production)
+Set your public URL in `.env`:
+```env
+TELEGRAM_WEBHOOK_URL=https://your-domain.com/api/telegram/webhook
+```
+Telegram will automatically push updates to `/api/telegram/webhook`.
+
+---
+
+## 🧪 Running Unit Tests
+Execute the 16-test automated suite:
+```bash
+python3 -m unittest discover tests
+# Or inside Docker:
+docker exec global_language_academy_assistant python3 -m unittest discover tests
 ```
 
 ---
 
-## 🧪 Automated Testing & Verification
-
-Run the comprehensive end-to-end test suite:
+## 📦 Packaging Deliverable
+Generate the submission `.zip` file:
 ```bash
-python scripts/test_pipeline.py
+python3 scripts/package_deliverable.py
 ```
-This tests:
-1. **Tier 1**: Deterministic rule matcher execution and response accuracy.
-2. **Cache**: Sub-millisecond response and zero-token consumption on repeated queries.
-3. **Tier 2**: Vector similarity search and RAG grounding.
-4. **Tier 3**: Automatic ticket generation and human escalation on complex/unanswerable queries.
-5. **Custom Skills**: Tuition quote calculation and CEFR level placement advisor.
-6. **Observability**: Metrics calculation and cost estimation accuracy.
-
----
-
-## 📦 Packaging Deliverable Bundle
-
-To generate the final `.zip` file for submission:
-```bash
-python scripts/package_deliverable.py
-```
-This creates `customer_support_rag_assistant.zip` excluding virtual environments, cache, and sensitive `.env` files.
+Outputs `customer_support_rag_assistant.zip`.

@@ -1,13 +1,56 @@
 [
   {
+    "ticket_id": "TKT-DB3EB861",
+    "timestamp": "2026-08-31 12:26:43 UTC",
+    "user_query": "I demand a 90% scholarship and personal phone number of the director",
+    "escalation_reason": "SPECIAL_SCHOLARSHIP_AND_DIRECTOR_CONTACT_REQUEST",
+    "confidence": 0.3,
+    "channel": "web",
+    "status": "PENDING",
+    "resolution_notes": null
+  },
+  {
+    "ticket_id": "TKT-0DC680DD",
+    "timestamp": "2026-08-31 12:26:38 UTC",
+    "user_query": "Customer demanding special terms",
+    "escalation_reason": "DISPUTE_TEST",
+    "confidence": 0.0,
+    "channel": "web",
+    "status": "RESOLVED",
+    "resolution_notes": "Handled by senior advisor",
+    "resolved_at": "2026-08-31 12:26:38 UTC"
+  },
+  {
+    "ticket_id": "TKT-8214C904",
+    "timestamp": "2026-08-31 12:26:35 UTC",
+    "user_query": "I demand a 90% scholarship and personal phone number of the director",
+    "escalation_reason": "EXPLICIT_ESCALATION_INTENT",
+    "confidence": 0.3,
+    "channel": "web",
+    "status": "PENDING",
+    "resolution_notes": null
+  },
+  {
+    "ticket_id": "TKT-212B134F",
+    "timestamp": "2026-08-31 12:26:35 UTC",
+    "user_query": "Customer demanding special terms",
+    "escalation_reason": "DISPUTE_TEST",
+    "confidence": 0.0,
+    "channel": "web",
+    "status": "RESOLVED",
+    "resolution_notes": "Handled by senior advisor",
+    "resolved_at": "2026-08-31 12:26:35 UTC"
+  },
+  {
     "ticket_id": "TKT-C6689D31",
     "timestamp": "2026-08-31 12:20:15 UTC",
     "user_query": "tienen cursos de chino?",
     "escalation_reason": "UNSUPPORTED_LANGUAGE_REQUESTED",
     "confidence": 0.95,
     "channel": "websocket",
-    "status": "PENDING",
-    "resolution_notes": null
+    "status": "RESOLVED",
+    "resolution_notes": "",
+    "resolved_at": "2026-08-31 12:24:59 UTC"
   },
   {
     "ticket_id": "TKT-54D86981",
@@ -27,8 +70,9 @@
     "escalation_reason": "LOW_SIMILARITY_SCORE (0.161)",
     "confidence": 0.16,
     "channel": "websocket",
-    "status": "PENDING",
-    "resolution_notes": null
+    "status": "RESOLVED",
+    "resolution_notes": "",
+    "resolved_at": "2026-08-31 12:24:58 UTC"
   },
   {
     "ticket_id": "TKT-245EB6FE",
@@ -37,7 +81,8 @@
     "escalation_reason": "LOW_SIMILARITY_SCORE (0.221)",
     "confidence": 0.22,
     "channel": "web",
-    "status": "PENDING",
-    "resolution_notes": null
+    "status": "RESOLVED",
+    "resolution_notes": "",
+    "resolved_at": "2026-08-31 12:24:57 UTC"
   }
 ]

@@ -35,6 +35,10 @@ class Settings:
         self.OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini").strip()
         self.OPENAI_EMBEDDING_MODEL = os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small").strip()
 
+        # Telegram Bot Settings
+        self.TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
+        self.TELEGRAM_WEBHOOK_URL = os.getenv("TELEGRAM_WEBHOOK_URL", "").strip()
+
         self.SIMILARITY_THRESHOLD = float(os.getenv("SIMILARITY_THRESHOLD", "0.20"))
         self.TOP_K_CHUNKS = int(os.getenv("TOP_K_CHUNKS", "3"))
         self.ENABLE_DETERMINISTIC_TIER = os.getenv("ENABLE_DETERMINISTIC_TIER", "true").lower() == "true"

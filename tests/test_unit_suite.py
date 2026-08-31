@@ -152,5 +152,11 @@ class TestMetricsService(unittest.TestCase):
         self.assertIn("escalation_rate_pct", summary)
         self.assertGreaterEqual(summary["total_queries"], 1)
 
+class TestTelegramService(unittest.TestCase):
+    def test_telegram_service_defaults(self):
+        from app.services.telegram_service import telegram_service
+        self.assertIsInstance(telegram_service.is_configured, bool)
+        self.assertFalse(telegram_service.send_message(12345, "Test"))
+
 if __name__ == "__main__":
     unittest.main()
