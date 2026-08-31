@@ -40,9 +40,14 @@ class DatabaseManager:
                     target_language TEXT,
                     modality TEXT,
                     intake_state TEXT DEFAULT 'IDLE',
+                    active_ticket_id TEXT,
                     intake_data TEXT
                 )
             """)
+            try:
+                conn.execute("ALTER TABLE sessions ADD COLUMN active_ticket_id TEXT;")
+            except Exception:
+                pass
 
             # 2. Messages Table
             conn.execute("""
@@ -169,7 +174,23 @@ class DatabaseManager:
     def clear_session_messages(self, session_id: str):
         with self._get_connection() as conn:
             conn.execute("DELETE FROM messages WHERE session_id = ?", (session_id,))
-            conn.execute("UPDATE sessions SET intake_state = 'IDLE', intake_data = '{}' WHERE session_id = ?", (session_id,))
+            conn.execute("UPDATE sessions SET intake_state = 'IDLE', active_ticket_id = NULL, intake_data = '{}' WHERE session_id = ?", (session_id,))
+
+    def get_active_ticket_for_session(self, session_id: str) -> Optional[Dict[str, Any]]:
+        with self._get_connection() as conn:
+            row = conn.execute(
+                "SELECT * FROM tickets WHERE session_id = ? AND status = 'PENDING' ORDER BY timestamp DESC LIMIT 1",
+                (session_id,)
+            ).fetchone()
+            if row:
+                t = self._row_to_dict(row)
+                if t.get("dossier") and isinstance(t["dossier"], str):
+                    try:
+                        t["dossier"] = json.loads(t["dossier"])
+                    except Exception:
+                        t["dossier"] = {}
+                return t
+            return None
 
     # ==================== TICKETS ====================
     def save_ticket(self, ticket_data: Dict[str, Any]) -> Dict[str, Any]:

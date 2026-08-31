@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("gla_persistent_session_id", currentSessionId);
     }
 
-    // Load full conversational history from SQLite API on startup
+    // Load full conversational history from SQLite API on startup and ask user if they want to resume or start new
     async function loadHistory() {
         if (!currentSessionId) return;
         try {
@@ -115,27 +115,84 @@ document.addEventListener("DOMContentLoaded", () => {
             if (resp.ok) {
                 const data = await resp.json();
                 if (data.history && data.history.length > 0) {
-                    // Only populate if messages container only has initial greeting
-                    const count = (modalMessagesContainer ? modalMessagesContainer.children.length : 0);
-                    if (count <= 1) {
-                        data.history.forEach(item => {
-                            if (item.role === "user") {
-                                appendUserMessage(item.content);
-                            } else if (item.role === "assistant" || item.role === "admin") {
-                                appendBotMessage({
-                                    answer: item.content,
-                                    tier: item.tier || "ai_rag",
-                                    sender_role: item.role,
-                                    author: item.role === "admin" ? "Asesor de Admisiones Humano" : "Global Language Academy"
-                                });
-                            }
-                        });
-                    }
+                    showResumePrompt(data.history);
                 }
             }
         } catch (e) {
             console.warn("Could not load previous history from SQLite:", e);
         }
+    }
+
+    function showResumePrompt(historyData) {
+        // Prevent duplicate prompt
+        if (document.getElementById("gla-resume-prompt")) return;
+
+        const promptDiv = document.createElement("div");
+        promptDiv.id = "gla-resume-prompt";
+        promptDiv.className = "p-4 mx-3 my-3 rounded-2xl bg-slate-900/95 border border-brand-500/40 text-slate-200 shadow-2xl space-y-2.5 backdrop-blur-md";
+        promptDiv.innerHTML = `
+            <div class="flex items-center justify-between text-xs">
+                <span class="font-bold text-amber-300 flex items-center gap-1.5">
+                    <i class="fa-solid fa-clock-rotate-left"></i> Conversación anterior detectada
+                </span>
+                <span class="text-[10px] text-slate-400 font-mono bg-white/10 px-2 py-0.5 rounded-full">${historyData.length} mensajes</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">
+                Detectamos un chat anterior guardado. ¿Deseas retomar esta conversación con tu historial o iniciar una nueva desde cero?
+            </p>
+            <div class="flex items-center gap-2 pt-1">
+                <button type="button" id="btn-do-resume" class="flex-1 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-bold text-xs py-2 px-3 rounded-xl transition-all shadow border border-white/20 flex items-center justify-center gap-1.5 cursor-pointer">
+                    <i class="fa-solid fa-rotate-right text-[10px]"></i> Retomar
+                </button>
+                <button type="button" id="btn-do-new" class="flex-1 bg-white/10 hover:bg-white/20 text-slate-200 font-semibold text-xs py-2 px-3 rounded-xl transition-all border border-white/10 flex items-center justify-center gap-1.5 cursor-pointer">
+                    <i class="fa-solid fa-plus text-[10px]"></i> Iniciar Nueva
+                </button>
+            </div>
+        `;
+
+        if (modalMessagesContainer) {
+            modalMessagesContainer.prepend(promptDiv.cloneNode(true));
+        }
+        if (standaloneContainer) {
+            standaloneContainer.prepend(promptDiv);
+        }
+
+        // Attach event listeners to all instances of the buttons
+        setTimeout(() => {
+            document.querySelectorAll("#btn-do-resume").forEach(btn => {
+                btn.onclick = () => {
+                    document.querySelectorAll("#gla-resume-prompt").forEach(el => el.remove());
+                    // Render all historical messages
+                    historyData.forEach(item => {
+                        if (item.role === "user") {
+                            appendUserMessage(item.content);
+                        } else if (item.role === "assistant" || item.role === "admin") {
+                            appendBotMessage({
+                                answer: item.content,
+                                tier: item.tier || "ai_rag",
+                                sender_role: item.role,
+                                author: item.role === "admin" ? "Asesor de Admisiones Humano" : "Global Language Academy"
+                            });
+                        }
+                    });
+                    scrollToModalBottom();
+                };
+            });
+
+            document.querySelectorAll("#btn-do-new").forEach(btn => {
+                btn.onclick = () => {
+                    document.querySelectorAll("#gla-resume-prompt").forEach(el => el.remove());
+                    // Start new fresh session
+                    currentSessionId = "web_" + Math.random().toString(36).substring(2, 10);
+                    localStorage.setItem("gla_persistent_session_id", currentSessionId);
+                    if (socket && socket.readyState === WebSocket.OPEN) {
+                        try {
+                            socket.send(JSON.stringify({ action: "join", session_id: currentSessionId, role: "user" }));
+                        } catch (e) {}
+                    }
+                };
+            });
+        }, 50);
     }
 
     // 1. Establish WebSocket Connection

@@ -56,6 +56,26 @@ def process_inquiry(message: str, channel: str = "web", session_id: Optional[str
     conversation_history = session_service.get_history(session_id)
 
     # ==================== INTAKE STATE MACHINE (PRE-ESCALATION QUALIFICATION) ====================
+    # Step 0: Active Human Support Session -> NO AUTOMATED BOT RESPONSES
+    active_ticket = db.get_active_ticket_for_session(session_id)
+    if intake_state == "HUMAN_SUPPORT_ACTIVE" or (active_ticket and active_ticket.get("status") == "PENDING"):
+        ticket_id = (active_ticket.get("ticket_id") if active_ticket else None) or session_data.get("active_ticket_id")
+        answer = "Tu mensaje ha sido entregado a tu asesor humano asignado. Te responderá por este chat en breve."
+        session_service.add_assistant_message(session_id, answer, tier="human_support_queue", ticket_id=ticket_id)
+        latency_ms = (time.time() - start_time) * 1000
+        return {
+            "answer": answer,
+            "tier": "human_support_queue",
+            "confidence": 1.0,
+            "sources": [],
+            "escalate_to_human": True,
+            "ticket_id": ticket_id,
+            "session_id": session_id,
+            "is_human_session": True,
+            "cached": False,
+            "latency_ms": round(latency_ms, 2)
+        }
+
     # Step A: User is providing Name
     if intake_state == "AWAITING_NAME":
         intake_data["student_name"] = query
@@ -136,8 +156,13 @@ def process_inquiry(message: str, channel: str = "web", session_id: Optional[str
             dossier=intake_data
         )
 
-        # Reset intake state
-        db.update_session(session_id, intake_state="IDLE", intake_data={})
+        # Set session state to HUMAN_SUPPORT_ACTIVE and link active_ticket_id
+        db.update_session(
+            session_id,
+            intake_state="HUMAN_SUPPORT_ACTIVE",
+            active_ticket_id=ticket["ticket_id"],
+            intake_data={}
+        )
 
         # Send official confirmation email via Resend if email is present
         email_sent = False

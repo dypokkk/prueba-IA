@@ -88,6 +88,15 @@ async def resolve_ticket_action(request: Request, ticket_id: str, notes: str = F
     if not success:
         raise HTTPException(status_code=404, detail="Ticket not found")
     
+    # Look up session_id of the ticket and reset session state in SQLite
+    for t in escalation_service.tickets:
+        if t.get("ticket_id") == ticket_id:
+            s_id = t.get("session_id")
+            if s_id:
+                from app.services.database import db
+                db.update_session(s_id, intake_state="IDLE", active_ticket_id=None)
+            break
+
     # Check if AJAX / JSON request
     accept = request.headers.get("accept", "")
     if "application/json" in accept or request.headers.get("x-requested-with") == "XMLHttpRequest":

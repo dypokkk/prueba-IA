@@ -110,9 +110,14 @@ async def agent_reply_endpoint(payload: AgentReplyRequest):
 
 @router.get("/api/chat/history/{session_id}")
 async def get_session_history_endpoint(session_id: str):
-    """Retrieves full conversation history for a given session / ticket."""
+    """Retrieves full conversation history for a given session / ticket from SQLite."""
     messages = session_service.get_history(session_id)
-    return {"session_id": session_id, "messages": messages, "count": len(messages)}
+    return {
+        "session_id": session_id,
+        "messages": messages,
+        "history": messages,
+        "count": len(messages)
+    }
 
 @router.post("/api/chat/clear")
 async def clear_session_endpoint(payload: ClearSessionRequest):
