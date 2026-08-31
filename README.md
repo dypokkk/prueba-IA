@@ -1,10 +1,12 @@
 # 🎓 Global Language Academy - Intelligent Customer Support & Academic Advising Assistant
 
-> ### 🚀 **Live Production Deployment (Railway)**
-> **Public URL:** [https://prueba-ia-production.up.railway.app/](https://prueba-ia-production.up.railway.app/)
+> ### 🚀 **Live Production Deployment & Repository**
+> - **Public Live URL:** [https://prueba-ia-production.up.railway.app/](https://prueba-ia-production.up.railway.app/)
+> - **GitHub Repository:** [https://github.com/dypokkk/prueba-IA](https://github.com/dypokkk/prueba-IA)
 > 
-> | Service / View | Production Live URL | Description |
+> | Service / View | URL | Description |
 > | :--- | :--- | :--- |
+> | 📦 **Source Code** | [https://github.com/dypokkk/prueba-IA](https://github.com/dypokkk/prueba-IA) | Official GitHub repository |
 > | 🌐 **Landing Page & Student Chat** | [https://prueba-ia-production.up.railway.app/](https://prueba-ia-production.up.railway.app/) | Main portal with interactive Glassmorphic floating modal chat |
 > | 💬 **Full-Screen Chat Interface** | [https://prueba-ia-production.up.railway.app/chat](https://prueba-ia-production.up.railway.app/chat) | Dedicated distraction-free conversational view |
 > | ⚡ **Admin Escalation Dashboard** | [https://prueba-ia-production.up.railway.app/dashboard](https://prueba-ia-production.up.railway.app/dashboard) | Real-time ticket management, 2-way WebSocket console & metrics |
@@ -15,7 +17,7 @@
 
 A production-grade, highly cost-efficient, and grounded Customer Support & Academic Advising System engineered for **Global Language Academy** (*Academia de Idiomas*).
 
-Built with **Python 3, FastAPI, Jinja2, Tailwind CSS (Glassmorphism Design System), Google Gemini 3.5 Flash Lite, SQLite Persistent Multi-Turn Session Memory, WebSockets, Resend Transactional Email API, Telegram Bot Integration, and Docker with Hot Live-Reload**.
+Built with **Python 3, FastAPI, Jinja2, Tailwind CSS (Glassmorphism Design System), Google Gemini 2.0 Flash Lite, SQLite Persistent Multi-Turn Session Memory, WebSockets, Resend Transactional Email API, Telegram Bot Integration, and Docker with Hot Live-Reload**.
 
 ---
 
@@ -165,7 +167,11 @@ prueba-IA/
 
 ## ⚙️ Quick Start Guide
 
-### 1. Prerequisites
+### 1. Clone Repository & Prerequisites
+```bash
+git clone https://github.com/dypokkk/prueba-IA.git
+cd prueba-IA
+```
 - [Docker](https://docs.docker.com/get-docker/) & [Docker Compose](https://docs.docker.com/compose/) installed.
 - Google Gemini API Key (or OpenAI API Key).
 
@@ -183,7 +189,7 @@ PORT=8000
 HOST=0.0.0.0
 AI_PROVIDER=gemini
 GEMINI_API_KEY=your_gemini_api_key_here
-GEMINI_MODEL=gemini-3.5-flash-lite
+GEMINI_MODEL=gemini-2.0-flash-lite
 TEMPERATURE=0.1
 TOP_K_CHUNKS=6
 ENABLE_DETERMINISTIC_TIER=true
