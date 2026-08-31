@@ -1,5 +1,76 @@
 [
   {
+    "ticket_id": "TKT-541A6023",
+    "timestamp": "2026-08-31 13:31:54 UTC",
+    "user_query": "I demand a 90% scholarship and personal phone number of the director",
+    "escalation_reason": "EXPLICIT_ESCALATION_INTENT",
+    "confidence": 0.3,
+    "channel": "web",
+    "status": "PENDING",
+    "resolution_notes": null
+  },
+  {
+    "ticket_id": "TKT-02B6A18A",
+    "timestamp": "2026-08-31 13:31:54 UTC",
+    "user_query": "Customer demanding special terms",
+    "escalation_reason": "DISPUTE_TEST",
+    "confidence": 0.0,
+    "channel": "web",
+    "status": "RESOLVED",
+    "resolution_notes": "Handled by senior advisor",
+    "resolved_at": "2026-08-31 13:31:54 UTC"
+  },
+  {
+    "ticket_id": "TKT-79C12CCB",
+    "timestamp": "2026-08-31 13:31:18 UTC",
+    "user_query": "¿Cuánto tiempo me toma llegar a nivel B2 y cuál es la nota mínima para pasar un nivel?",
+    "escalation_reason": "MISSING_B2_DURATION_INFORMATION",
+    "confidence": 0.5,
+    "channel": "web",
+    "status": "PENDING",
+    "resolution_notes": null
+  },
+  {
+    "ticket_id": "TKT-93BDCAAB",
+    "timestamp": "2026-08-31 13:30:37 UTC",
+    "user_query": "¿Cuánto tiempo me toma llegar a nivel B2 y cuál es la nota mínima para pasar un nivel?",
+    "escalation_reason": "INSUFFICIENT_CONTEXT_FOR_B2_DURATION",
+    "confidence": 0.85,
+    "channel": "web",
+    "status": "PENDING",
+    "resolution_notes": null
+  },
+  {
+    "ticket_id": "TKT-8AF23B64",
+    "timestamp": "2026-08-31 13:29:39 UTC",
+    "user_query": "¿Cuánto tiempo me toma llegar a nivel B2 y cuál es la nota mínima para pasar un nivel?",
+    "escalation_reason": "Missing context regarding the total time required to reach B2 level.",
+    "confidence": 0.5,
+    "channel": "web",
+    "status": "PENDING",
+    "resolution_notes": null
+  },
+  {
+    "ticket_id": "TKT-33D9EE5B",
+    "timestamp": "2026-08-31 13:28:51 UTC",
+    "user_query": "¿Tienen convenios o cursos para empresas y qué incluye el club de conversación?",
+    "escalation_reason": "MISSING_INFORMATION_CORPORATE_COURSES_AND_CONVERSATION_CLUB",
+    "confidence": 0.2,
+    "channel": "web",
+    "status": "PENDING",
+    "resolution_notes": null
+  },
+  {
+    "ticket_id": "TKT-DEE5DCB7",
+    "timestamp": "2026-08-31 13:28:48 UTC",
+    "user_query": "¿Cuánto tiempo me toma llegar a nivel B2 y cuál es la nota mínima para pasar un nivel?",
+    "escalation_reason": "INSUFFICIENT_CONTEXT_FOR_B2_DURATION_AND_PASSING_GRADE",
+    "confidence": 0.2,
+    "channel": "web",
+    "status": "PENDING",
+    "resolution_notes": null
+  },
+  {
     "ticket_id": "TKT-534B297C",
     "timestamp": "2026-08-31 13:27:25 UTC",
     "user_query": "I demand a 90% scholarship and personal phone number of the director",

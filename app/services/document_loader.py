@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import List, Dict, Any
 
 class DocumentLoader:
-    def __init__(self, data_dir: Path, chunk_size: int = 600, chunk_overlap: int = 120):
+    def __init__(self, data_dir: Path, chunk_size: int = 1500, chunk_overlap: int = 250):
         self.data_dir = data_dir
         self.chunk_size = chunk_size
         self.chunk_overlap = chunk_overlap
