@@ -20,6 +20,23 @@ SPANISH_KEYWORD_EXPANSIONS = {
     "portugues": "portuguese brasileiro",
     "español": "spanish foreigners dele siele",
     "espanol": "spanish foreigners dele siele",
+    "grupal": "group groups standard intensive cohort classroom max 8 students",
+    "grupales": "group groups standard intensive cohort classroom max 8 students",
+    "grupo": "group groups standard intensive cohort classroom max 8 students",
+    "grupos": "group groups standard intensive cohort classroom max 8 students",
+    "personalizado": "private one-on-one 1:1 individualized custom tutor VIP package",
+    "personalizados": "private one-on-one 1:1 individualized custom tutor VIP package",
+    "privado": "private one-on-one 1:1 individualized custom tutor VIP package",
+    "privados": "private one-on-one 1:1 individualized custom tutor VIP package",
+    "particular": "private one-on-one 1:1 individualized custom tutor VIP package",
+    "particulares": "private one-on-one 1:1 individualized custom tutor VIP package",
+    "intensivo": "intensive fast track monthly 4 weeks 60 hours",
+    "intensivos": "intensive fast track monthly 4 weeks 60 hours",
+    "estándar": "standard quarterly 10 weeks 60 hours",
+    "estandar": "standard quarterly 10 weeks 60 hours",
+    "niños": "kids teens young learners 12 weeks 48 hours",
+    "ninos": "kids teens young learners 12 weeks 48 hours",
+    "adolescentes": "kids teens young learners 12 weeks 48 hours",
     "precio": "price pricing tuition cost fees COP USD group standard",
     "precios": "price pricing tuition cost fees COP USD group standard",
     "cuánto": "how much price cost tuition rates",
@@ -155,7 +172,7 @@ class VectorStore:
         self.save()
         print(f"[VectorStore] Successfully indexed {len(self.chunks)} chunks to {self.vector_store_path}")
 
-    def similarity_search(self, query: str, top_k: int = 4, threshold: float = 0.0) -> Tuple[List[Dict[str, Any]], float, bool]:
+    def similarity_search(self, query: str, top_k: int = 5, threshold: float = 0.0) -> Tuple[List[Dict[str, Any]], float, bool]:
         """
         BM25 + Semantic Hybrid Ranking for high-precision knowledge chunk retrieval.
         """
@@ -194,9 +211,7 @@ class VectorStore:
                 if q in doc_tf:
                     tf = doc_tf[q]
                     df = self.doc_freqs.get(q, 1)
-                    # IDF
                     idf = math.log(1.0 + (self.total_docs - df + 0.5) / (df + 0.5))
-                    # Term saturation
                     numerator = tf * (k1 + 1.0)
                     denominator = tf + k1 * (1.0 - b + b * (doc_len / self.avgdl))
                     score += idf * (numerator / denominator)

@@ -41,7 +41,7 @@ class Settings:
         self.TELEGRAM_WEBHOOK_URL = os.getenv("TELEGRAM_WEBHOOK_URL", "").strip()
 
         self.SIMILARITY_THRESHOLD = float(os.getenv("SIMILARITY_THRESHOLD", "0.20"))
-        self.TOP_K_CHUNKS = int(os.getenv("TOP_K_CHUNKS", "3"))
+        self.TOP_K_CHUNKS = int(os.getenv("TOP_K_CHUNKS", "5"))
         self.ENABLE_DETERMINISTIC_TIER = os.getenv("ENABLE_DETERMINISTIC_TIER", "true").lower() == "true"
         self.TEMPERATURE = float(os.getenv("TEMPERATURE", "0.1"))
         self.MAX_OUTPUT_TOKENS = int(os.getenv("MAX_OUTPUT_TOKENS", "2048"))
