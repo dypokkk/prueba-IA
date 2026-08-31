@@ -33,6 +33,19 @@ def is_explicit_escalation_intent(query: str) -> bool:
 
 from app.services.database import db
 
+def _is_intake_cancellation(query: str) -> bool:
+    """Returns True if the student wants to abort the human intake flow and return to the bot."""
+    clean = query.lower().strip()
+    cancel_patterns = [
+        r"\b(cancelar|salir|volver|regresar|no\s+gracias|olvídalo|olvidalo|olvídalo|déjalo|dejalo|atrás|atras)\b",
+        r"\b(ya\s+no|mejor\s+no|no\s+quiero\s+ticket|no\s+quiero\s+asesor|no\s+importa)\b",
+        r"^(no|ok no|nvm|nevermind|nope)$",
+    ]
+    for pat in cancel_patterns:
+        if re.search(pat, clean, re.IGNORECASE):
+            return True
+    return False
+
 def process_inquiry(message: str, channel: str = "web", session_id: Optional[str] = None) -> Dict[str, Any]:
     """
     Central Multi-Turn Hybrid Pipeline:
@@ -56,6 +69,28 @@ def process_inquiry(message: str, channel: str = "web", session_id: Optional[str
     conversation_history = session_service.get_history(session_id)
 
     # ==================== INTAKE STATE MACHINE (PRE-ESCALATION QUALIFICATION) ====================
+    # Step -1: Cancellation — let the student abort the intake flow at any step
+    if intake_state in ("AWAITING_NAME", "AWAITING_CONTACT", "AWAITING_DETAILS") and _is_intake_cancellation(query):
+        db.update_session(session_id, intake_state="IDLE", intake_data={})
+        latency_ms = (time.time() - start_time) * 1000
+        answer = (
+            "¡Sin problema! He cancelado la solicitud de asesor humano. 😊\n\n"
+            "Puedo seguir ayudándote con información sobre cursos, horarios, precios o cualquier otra duda. ¿En qué te puedo orientar?"
+        )
+        session_service.add_assistant_message(session_id, answer, tier="deterministic")
+        return {
+            "answer": answer,
+            "tier": "deterministic",
+            "confidence": 1.0,
+            "sources": [],
+            "escalate_to_human": False,
+            "escalation_reason": None,
+            "ticket_id": None,
+            "cached": False,
+            "session_id": session_id,
+            "latency_ms": round(latency_ms, 2)
+        }
+
     # Step 0: Active Human Support Session -> NO AUTOMATED BOT RESPONSES
     active_ticket = db.get_active_ticket_for_session(session_id)
     if intake_state == "HUMAN_SUPPORT_ACTIVE" or (active_ticket and active_ticket.get("status") == "PENDING"):
@@ -164,18 +199,15 @@ def process_inquiry(message: str, channel: str = "web", session_id: Optional[str
             intake_data={}
         )
 
-        # Send official confirmation email via Resend if email is present
+        # Send official confirmation email via Resend using the branded template
         email_sent = False
         if user_email and "@" in user_email:
-            email_res = email_service.send_email(
+            email_res = email_service.send_ticket_confirmation(
                 to_email=user_email,
-                subject=f"Solicitud Radicada: Ticket {ticket['ticket_id']} - Global Language Academy",
-                html_body=f"""
-                <h2>¡Hola, {student_name}!</h2>
-                <p>Tu solicitud ha sido radicada oficialmente con el <strong>Ticket {ticket['ticket_id']}</strong>.</p>
-                <p><strong>Detalle de tu caso:</strong> "{query}"</p>
-                <p>Un asesor de admisiones humanas revisará tu expediente y te contactará hoy mismo.</p>
-                """
+                student_name=student_name,
+                ticket_id=ticket["ticket_id"],
+                inquiry_details=query,
+                phone=user_phone
             )
             email_sent = email_res.get("success", False)
 

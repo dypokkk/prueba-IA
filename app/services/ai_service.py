@@ -16,13 +16,14 @@ class AIService:
 
     def __init__(self):
         self.provider = settings.AI_PROVIDER
+        # Real Google AI model IDs (2025). Cascade from fastest/cheapest to most capable.
         self.gemini_models_cascade = [
-            settings.GEMINI_MODEL or "gemini-3.5-flash-lite",
-            "gemini-3.5-flash-lite",
-            "gemini-3.1-flash-lite",
-            "gemini-flash-lite-latest",
-            "gemini-3.6-flash",
-            "gemini-3.7-flash"
+            settings.GEMINI_MODEL or "gemini-2.0-flash-lite",
+            "gemini-2.0-flash-lite",
+            "gemini-2.0-flash",
+            "gemini-1.5-flash-8b",
+            "gemini-1.5-flash",
+            "gemini-1.5-pro"
         ]
 
     def generate_grounded_response(self, query: str, context_chunks: List[Dict[str, Any]], conversation_history: List[Dict[str, str]] = None) -> Tuple[Dict[str, Any], int, int, float]:

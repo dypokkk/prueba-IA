@@ -150,49 +150,47 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
         `;
 
-        if (modalMessagesContainer) {
-            modalMessagesContainer.prepend(promptDiv.cloneNode(true));
-        }
-        if (standaloneContainer) {
-            standaloneContainer.prepend(promptDiv);
+        // Insert into only ONE container to avoid duplicate IDs and event listener conflicts
+        const targetContainer = modalMessagesContainer || standaloneContainer;
+        if (targetContainer) {
+            targetContainer.prepend(promptDiv);
         }
 
-        // Attach event listeners to all instances of the buttons
-        setTimeout(() => {
-            document.querySelectorAll("#btn-do-resume").forEach(btn => {
-                btn.onclick = () => {
-                    document.querySelectorAll("#gla-resume-prompt").forEach(el => el.remove());
-                    // Render all historical messages
-                    historyData.forEach(item => {
-                        if (item.role === "user") {
-                            appendUserMessage(item.content);
-                        } else if (item.role === "assistant" || item.role === "admin") {
-                            appendBotMessage({
-                                answer: item.content,
-                                tier: item.tier || "ai_rag",
-                                sender_role: item.role,
-                                author: item.role === "admin" ? "Asesor de Admisiones Humano" : "Global Language Academy"
-                            });
-                        }
-                    });
-                    scrollToModalBottom();
-                };
-            });
+        // Attach event listeners directly (no cloneNode — avoids duplicate ID issue)
+        const resumeBtn = document.getElementById("btn-do-resume");
+        const newBtn = document.getElementById("btn-do-new");
 
-            document.querySelectorAll("#btn-do-new").forEach(btn => {
-                btn.onclick = () => {
-                    document.querySelectorAll("#gla-resume-prompt").forEach(el => el.remove());
-                    // Start new fresh session
-                    currentSessionId = "web_" + Math.random().toString(36).substring(2, 10);
-                    localStorage.setItem("gla_persistent_session_id", currentSessionId);
-                    if (socket && socket.readyState === WebSocket.OPEN) {
-                        try {
-                            socket.send(JSON.stringify({ action: "join", session_id: currentSessionId, role: "user" }));
-                        } catch (e) {}
+        if (resumeBtn) {
+            resumeBtn.onclick = () => {
+                document.getElementById("gla-resume-prompt")?.remove();
+                historyData.forEach(item => {
+                    if (item.role === "user") {
+                        appendUserMessage(item.content, item.timestamp);
+                    } else if (item.role === "assistant" || item.role === "admin") {
+                        appendBotMessage({
+                            answer: item.content,
+                            tier: item.tier || "ai_rag",
+                            sender_role: item.role,
+                            author: item.role === "admin" ? "Asesor de Admisiones Humano" : "Global Language Academy"
+                        }, item.timestamp);
                     }
-                };
-            });
-        }, 50);
+                });
+                scrollToModalBottom();
+            };
+        }
+
+        if (newBtn) {
+            newBtn.onclick = () => {
+                document.getElementById("gla-resume-prompt")?.remove();
+                currentSessionId = "web_" + Math.random().toString(36).substring(2, 10);
+                localStorage.setItem("gla_persistent_session_id", currentSessionId);
+                if (socket && socket.readyState === WebSocket.OPEN) {
+                    try {
+                        socket.send(JSON.stringify({ action: "join", session_id: currentSessionId, role: "user" }));
+                    } catch (e) {}
+                }
+            };
+        }
     }
 
     // 1. Establish WebSocket Connection
@@ -307,7 +305,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }).catch(() => {});
 
         currentSessionId = "web_" + Math.random().toString(36).substring(2, 10);
-        sessionStorage.setItem("gla_session_id", currentSessionId);
+        // Fix: use localStorage (not sessionStorage) so the new session persists across reloads
+        localStorage.setItem("gla_persistent_session_id", currentSessionId);
 
         const welcomeHtml = `
             <div class="flex items-start space-x-3 bot-message">
@@ -372,12 +371,21 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    function appendUserMessage(text) {
+    function formatTime(ts) {
+        // ts can be a unix epoch (float, from SQLite) or undefined (live message)
+        const d = ts ? new Date(ts * 1000) : new Date();
+        return d.toLocaleTimeString("es-CO", { hour: "2-digit", minute: "2-digit" });
+    }
+
+    function appendUserMessage(text, timestamp) {
         const msgDiv = document.createElement("div");
         msgDiv.className = "flex items-start justify-end space-x-2.5 user-message-wrapper";
         msgDiv.innerHTML = `
-            <div class="user-bubble text-white rounded-2xl rounded-tr-none px-4 py-2.5 max-w-[85%] text-xs sm:text-sm leading-relaxed shadow-lg">
-                ${escapeHtml(text)}
+            <div>
+                <div class="user-bubble text-white rounded-2xl rounded-tr-none px-4 py-2.5 max-w-[85%] text-xs sm:text-sm leading-relaxed shadow-lg">
+                    ${escapeHtml(text)}
+                </div>
+                <div class="text-right text-[10px] text-slate-500 mt-0.5 pr-1">${formatTime(timestamp)}</div>
             </div>
             <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center text-white flex-shrink-0 text-xs shadow border border-white/20">
                 <i class="fa-solid fa-user text-[11px]"></i>
@@ -389,7 +397,7 @@ document.addEventListener("DOMContentLoaded", () => {
         scrollToModalBottom();
     }
 
-    function appendBotMessage(data) {
+    function appendBotMessage(data, timestamp) {
         const msgDiv = document.createElement("div");
         msgDiv.className = "flex items-start space-x-3 bot-message";
 
@@ -436,6 +444,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     ${formattedAnswer}
                 </div>
                 ${ticketBadge}
+                <div class="text-[10px] text-slate-500 mt-1.5">${formatTime(timestamp)}</div>
             </div>
         `;
 

@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Optional, List, Dict, Any
 from app.config import settings
 
-DB_PATH = settings.DATA_DIR / "conversations.db"
+DB_PATH = settings.DB_PATH
 
 class DatabaseManager:
     """
@@ -110,6 +110,12 @@ class DatabaseManager:
                 }
             return self._row_to_dict(row)
 
+    # Allowlist of valid column names for update_session() to prevent SQL injection
+    _SESSION_UPDATABLE_COLUMNS = frozenset({
+        "student_name", "email", "phone", "target_language", "modality",
+        "intake_state", "active_ticket_id", "intake_data", "last_active"
+    })
+
     def update_session(self, session_id: str, **kwargs):
         self.ensure_session(session_id)
         now = time.time()
@@ -117,6 +123,8 @@ class DatabaseManager:
         values = [now]
 
         for k, v in kwargs.items():
+            if k not in self._SESSION_UPDATABLE_COLUMNS:
+                raise ValueError(f"[DatabaseManager] Disallowed column name in update_session: '{k}'")
             if k == "intake_data" and isinstance(v, dict):
                 v = json.dumps(v)
             fields.append(f"{k} = ?")

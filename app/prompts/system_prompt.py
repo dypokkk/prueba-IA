@@ -80,7 +80,7 @@ Output:
 """
 
 def format_rag_prompt(user_query: str, context_chunks: list, conversation_history: list = None) -> str:
-    """Formats the context, multi-turn history, and user query into the final prompt."""
+    """Formats the context, multi-turn history (capped at last 8 turns), and user query into the final prompt."""
     context_str = ""
     for i, chunk in enumerate(context_chunks, 1):
         context_str += f"\n--- Context Document [{i}] ({chunk.get('filename', 'doc')} | Section: {chunk.get('section', 'General')}) ---\n"
@@ -88,8 +88,10 @@ def format_rag_prompt(user_query: str, context_chunks: list, conversation_histor
 
     history_str = ""
     if conversation_history and len(conversation_history) > 0:
+        # Cap at last 16 messages (8 user+assistant turn pairs) to control token cost
+        recent_history = conversation_history[-16:]
         history_lines = []
-        for msg in conversation_history:
+        for msg in recent_history:
             role_label = "Student" if msg.get("role") == "user" else "Advisor"
             history_lines.append(f"{role_label}: {msg.get('content', '')}")
         history_str = f"\n<conversation_history>\n" + "\n".join(history_lines) + "\n</conversation_history>\n"

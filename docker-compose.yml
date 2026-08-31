@@ -17,6 +17,14 @@ services:
       - HOST=0.0.0.0
       - PYTHONUNBUFFERED=1
     volumes:
-      # Live-reload bind mounts
+      # Bind mount enables hot-reload in local development
       - .:/app
+    # Override the production CMD with --reload for local dev
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s

@@ -1,6 +1,6 @@
 import uuid
 from typing import Optional, List, Dict, Any, Set
-from fastapi import APIRouter, WebSocket, WebSocketDisconnect, HTTPException
+from fastapi import APIRouter, Request, WebSocket, WebSocketDisconnect, HTTPException
 from pydantic import BaseModel, Field
 
 from app.config import settings
@@ -70,8 +70,8 @@ class ChatResponse(BaseModel):
     latency_ms: float = 0.0
 
 @router.post("/api/chat", response_model=ChatResponse)
-async def http_chat_endpoint(payload: ChatRequest):
-    """Standard REST API endpoint for student inquiries with multi-turn session memory."""
+async def http_chat_endpoint(request: Request, payload: ChatRequest):
+    """Standard REST API endpoint for student inquiries. Rate-limited globally via app.state.limiter."""
     response = process_inquiry(
         message=payload.message,
         channel=payload.channel or "api",

@@ -15,3 +15,14 @@ env/
 .DS_Store
 .idea/
 .vscode/
+
+# SQLite database files and WAL/SHM journals (contain real user data — never commit)
+data/*.db
+data/*.db-wal
+data/*.db-shm
+
+# Auto-generated JSON backup (SQLite is source of truth)
+data/escalation_tickets.json
+
+# Packaged deliverable zip
+customer_support_rag_assistant.zip

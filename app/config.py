@@ -27,9 +27,9 @@ class Settings:
 
         self.AI_PROVIDER = os.getenv("AI_PROVIDER", "gemini")
 
-        # Google Gemini Model (Default: gemini-3.5-flash-lite for ultra-fast, low-cost RAG)
+        # Google Gemini Model (Default: gemini-2.0-flash-lite for ultra-fast, low-cost RAG)
         self.GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "").strip()
-        self.GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.5-flash-lite").strip()
+        self.GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.0-flash-lite").strip()
         self.GEMINI_EMBEDDING_MODEL = os.getenv("GEMINI_EMBEDDING_MODEL", "text-embedding-004").strip()
 
         self.OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "").strip()
@@ -54,10 +54,22 @@ class Settings:
         self.MAX_CACHE_SIZE = int(os.getenv("MAX_CACHE_SIZE", "500"))
         self.ESCALATION_WEBHOOK_URL = os.getenv("ESCALATION_WEBHOOK_URL", "")
 
+        # CORS — restrict to your production domain in production
+        _allowed = os.getenv("ALLOWED_ORIGINS", "*")
+        self.ALLOWED_ORIGINS = [o.strip() for o in _allowed.split(",") if o.strip()]
+
         self.DATA_DIR = BASE_DIR / "data"
         self.STATIC_DIR = BASE_DIR / "static"
         self.TEMPLATES_DIR = BASE_DIR / "templates"
         self.VECTOR_STORE_PATH = BASE_DIR / "data" / "vector_store.json"
         self.TICKETS_STORE_PATH = BASE_DIR / "data" / "escalation_tickets.json"
+
+        # SQLite DB path — override via DB_PATH env var to point to a Railway persistent volume
+        # e.g. DB_PATH=/data/conversations.db
+        _db_path = os.getenv("DB_PATH", "")
+        if _db_path:
+            self.DB_PATH = Path(_db_path)
+        else:
+            self.DB_PATH = self.DATA_DIR / "conversations.db"
 
 settings = Settings()

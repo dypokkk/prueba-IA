@@ -103,3 +103,33 @@ async def resolve_ticket_action(request: Request, ticket_id: str, notes: str = F
         return {"success": True, "ticket_id": ticket_id, "status": "RESOLVED"}
     
     return RedirectResponse(url="/dashboard#tickets", status_code=303)
+
+@router.post("/escalations/{ticket_id}/in-progress")
+async def mark_ticket_in_progress(request: Request, ticket_id: str, advisor: str = Form(default="Asesor")):
+    """Marks a ticket as IN_PROGRESS so other advisors know it is being attended."""
+    from app.services.database import db
+    from datetime import datetime, timezone
+
+    updated = db.resolve_ticket.__func__  # we use raw SQL for this non-standard status
+    with db._get_connection() as conn:
+        cur = conn.execute(
+            "UPDATE tickets SET status = 'IN_PROGRESS', resolution_notes = ? WHERE ticket_id = ?",
+            (f"Siendo atendido por {advisor}", ticket_id)
+        )
+        changed = cur.rowcount > 0
+
+    if not changed:
+        raise HTTPException(status_code=404, detail="Ticket not found")
+
+    # Update in-memory list
+    for t in escalation_service.tickets:
+        if t.get("ticket_id") == ticket_id:
+            t["status"] = "IN_PROGRESS"
+            t["resolution_notes"] = f"Siendo atendido por {advisor}"
+            break
+
+    accept = request.headers.get("accept", "")
+    if "application/json" in accept or request.headers.get("x-requested-with") == "XMLHttpRequest":
+        return {"success": True, "ticket_id": ticket_id, "status": "IN_PROGRESS", "advisor": advisor}
+
+    return RedirectResponse(url="/dashboard#tickets", status_code=303)
