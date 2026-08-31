@@ -1,76 +1,13 @@
 [
   {
-    "ticket_id": "TKT-321D77B8",
-    "timestamp": "2026-08-31 12:18:53 UTC",
-    "user_query": "I demand a 90% scholarship and personal phone number of the director",
-    "escalation_reason": "EXPLICIT_ESCALATION_INTENT",
-    "confidence": 0.3,
-    "channel": "web",
+    "ticket_id": "TKT-C6689D31",
+    "timestamp": "2026-08-31 12:20:15 UTC",
+    "user_query": "tienen cursos de chino?",
+    "escalation_reason": "UNSUPPORTED_LANGUAGE_REQUESTED",
+    "confidence": 0.95,
+    "channel": "websocket",
     "status": "PENDING",
     "resolution_notes": null
-  },
-  {
-    "ticket_id": "TKT-3CD0C915",
-    "timestamp": "2026-08-31 12:18:53 UTC",
-    "user_query": "Customer demanding special terms",
-    "escalation_reason": "DISPUTE_TEST",
-    "confidence": 0.0,
-    "channel": "web",
-    "status": "RESOLVED",
-    "resolution_notes": "Handled by senior advisor",
-    "resolved_at": "2026-08-31 12:18:53 UTC"
-  },
-  {
-    "ticket_id": "TKT-51A532B4",
-    "timestamp": "2026-08-31 12:16:26 UTC",
-    "user_query": "I demand a 90% discount and direct personal contact with the school president",
-    "escalation_reason": "EXPLICIT_ESCALATION_INTENT",
-    "confidence": 0.3,
-    "channel": "web",
-    "status": "PENDING",
-    "resolution_notes": null
-  },
-  {
-    "ticket_id": "TKT-D189C31E",
-    "timestamp": "2026-08-31 12:15:13 UTC",
-    "user_query": "I demand a 90% scholarship and personal phone number of the director",
-    "escalation_reason": "Special scholarship petition and request for management contact details.",
-    "confidence": 0.3,
-    "channel": "web",
-    "status": "PENDING",
-    "resolution_notes": null
-  },
-  {
-    "ticket_id": "TKT-7610711A",
-    "timestamp": "2026-08-31 12:15:07 UTC",
-    "user_query": "Customer demanding special terms",
-    "escalation_reason": "DISPUTE_TEST",
-    "confidence": 0.0,
-    "channel": "web",
-    "status": "RESOLVED",
-    "resolution_notes": "Handled by senior advisor",
-    "resolved_at": "2026-08-31 12:15:07 UTC"
-  },
-  {
-    "ticket_id": "TKT-D6355AEC",
-    "timestamp": "2026-08-31 12:14:52 UTC",
-    "user_query": "I demand a 90% scholarship and personal phone number of the director",
-    "escalation_reason": "EXPLICIT_ESCALATION_INTENT",
-    "confidence": 0.3,
-    "channel": "web",
-    "status": "PENDING",
-    "resolution_notes": null
-  },
-  {
-    "ticket_id": "TKT-010EE10B",
-    "timestamp": "2026-08-31 12:14:52 UTC",
-    "user_query": "Customer demanding special terms",
-    "escalation_reason": "DISPUTE_TEST",
-    "confidence": 0.0,
-    "channel": "web",
-    "status": "RESOLVED",
-    "resolution_notes": "Handled by senior advisor",
-    "resolved_at": "2026-08-31 12:14:52 UTC"
   },
   {
     "ticket_id": "TKT-54D86981",

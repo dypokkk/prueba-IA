@@ -234,16 +234,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function renderMarkdownSimple(text) {
         if (!text) return "";
+        try {
+            if (typeof marked !== "undefined" && typeof marked.parse === "function") {
+                return marked.parse(text, { breaks: true, gfm: true });
+            }
+        } catch (e) {
+            console.warn("Marked.js parse error:", e);
+        }
+
+        // Fallback parser
         let html = text
-            // Bold
             .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-            // Lists
+            .replace(/\*(.*?)\*/g, "<em>$1</em>")
+            .replace(/^### (.*$)/gim, "<h3>$1</h3>")
+            .replace(/^## (.*$)/gim, "<h2>$1</h2>")
+            .replace(/^# (.*$)/gim, "<h1>$1</h1>")
             .replace(/^\s*-\s+(.*)$/gim, "<li>$1</li>")
-            // Newlines
             .replace(/\n\n/g, "</p><p>")
             .replace(/\n/g, "<br/>");
 
-        // Wrap list items
         html = html.replace(/(<li>.*<\/li>)/gis, "<ul>$1</ul>");
         return `<p>${html}</p>`;
     }

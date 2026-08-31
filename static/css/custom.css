@@ -40,20 +40,80 @@
     transform: translateY(-1px);
 }
 
-/* Markdown prose rendering inside chat bubbles */
-.bot-response-content p {
-    margin-bottom: 0.5rem;
+/* Rich Markdown Rendering inside Chat Bubbles */
+.bot-response-content {
+    color: #e2e8f0;
+    font-size: 0.875rem;
+    line-height: 1.625;
 }
+
+.bot-response-content h1,
+.bot-response-content h2,
+.bot-response-content h3,
+.bot-response-content h4 {
+    color: #ffffff;
+    font-weight: 700;
+    margin-top: 0.85rem;
+    margin-bottom: 0.4rem;
+}
+
+.bot-response-content h1 { font-size: 1.15rem; }
+.bot-response-content h2 { font-size: 1.05rem; }
+.bot-response-content h3 { font-size: 0.95rem; color: #93c5fd; }
+.bot-response-content h4 { font-size: 0.90rem; color: #6ee7b7; }
+
+.bot-response-content p {
+    margin-bottom: 0.6rem;
+}
+
 .bot-response-content p:last-child {
     margin-bottom: 0;
 }
+
+.bot-response-content ul,
+.bot-response-content ol {
+    margin-top: 0.35rem;
+    margin-bottom: 0.6rem;
+    padding-left: 1.35rem;
+}
+
 .bot-response-content ul {
     list-style-type: disc;
-    margin-left: 1.25rem;
-    margin-bottom: 0.5rem;
 }
+
+.bot-response-content ol {
+    list-style-type: decimal;
+}
+
+.bot-response-content li {
+    margin-bottom: 0.35rem;
+}
+
 .bot-response-content strong {
-    color: #f8fafc;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.bot-response-content em {
+    color: #cbd5e1;
+    font-style: italic;
+}
+
+.bot-response-content code {
+    background-color: rgba(15, 23, 42, 0.7);
+    color: #93c5fd;
+    padding: 0.15rem 0.35rem;
+    border-radius: 0.25rem;
+    font-size: 0.8em;
+    font-family: monospace;
+}
+
+.bot-response-content blockquote {
+    border-left: 3px solid #3b82f6;
+    padding-left: 0.75rem;
+    margin: 0.5rem 0;
+    color: #94a3b8;
+    font-style: italic;
 }
 
 /* 3 Thinking Dots Animation */
