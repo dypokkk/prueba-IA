@@ -1,5 +1,36 @@
 [
   {
+    "ticket_id": "TKT-534B297C",
+    "timestamp": "2026-08-31 13:27:25 UTC",
+    "user_query": "I demand a 90% scholarship and personal phone number of the director",
+    "escalation_reason": "EXPLICIT_ESCALATION_INTENT",
+    "confidence": 0.3,
+    "channel": "web",
+    "status": "PENDING",
+    "resolution_notes": null
+  },
+  {
+    "ticket_id": "TKT-3E6110FF",
+    "timestamp": "2026-08-31 13:27:25 UTC",
+    "user_query": "Customer demanding special terms",
+    "escalation_reason": "DISPUTE_TEST",
+    "confidence": 0.0,
+    "channel": "web",
+    "status": "RESOLVED",
+    "resolution_notes": "Handled by senior advisor",
+    "resolved_at": "2026-08-31 13:27:25 UTC"
+  },
+  {
+    "ticket_id": "TKT-D6C3AAA1",
+    "timestamp": "2026-08-31 13:21:51 UTC",
+    "user_query": "si sé algo de inglés pero no sé en qué nivel estoy puedo hacer un examen para saber donde puedo comenzar?",
+    "escalation_reason": "MISSING_PLACEMENT_TEST_INFORMATION_IN_CONTEXT",
+    "confidence": 0.4,
+    "channel": "web",
+    "status": "PENDING",
+    "resolution_notes": null
+  },
+  {
     "ticket_id": "TKT-FE4B3302",
     "timestamp": "2026-08-31 13:20:34 UTC",
     "user_query": "I demand a 90% scholarship and personal phone number of the director",

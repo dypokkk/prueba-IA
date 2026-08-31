@@ -175,18 +175,20 @@ class DeterministicService:
                 )
             },
 
-            # 9. Free Placement Diagnostic Test
+            # 9. Free Placement Diagnostic Test & Prior Knowledge Assessment
             {
                 "category": "placement_test",
                 "patterns": [
-                    r"\b(placement test|prueba de nivelaci[oó]n|examen de nivel|diagnostic test|test de nivel gratis|how do i know my level|c[oó]mo s[eé] mi nivel|saber mi nivel)\b"
+                    r"\b(s[eé] algo|no s[eé] (en )?qu[eé] nivel|no s[eé] mi nivel|qu[eé] nivel (soy|tengo)|d[oó]nde (puedo )?(comenzar|empezar)|por d[oó]nde empezar|en qu[eé] curso empezar|examen de clasificaci[oó]n|prueba de clasificaci[oó]n|placement|nivelaci[oó]n|diagn[oó]stico|evaluar mi nivel|saber mi nivel|hacer un examen|prueba de nivel|test de nivel|evaluaci[oó]n de nivel)\b"
                 ],
-                "sources": ["03_enrollment_and_certifications.md#2-free-placement-diagnostic-test-prueba-de-nivelacion"],
+                "sources": ["03_enrollment_and_certifications.md#2-free-placement-diagnostic-test--prior-knowledge-assessment-prueba-de-nivelacion-y-clasificacion"],
                 "answer": (
-                    "**Prueba de Nivelación Diagnóstica Gratuita:**\n\n"
-                    "• **Costo**: 100% Gratuita ($0 COP), sin ningún compromiso de matrícula.\n"
-                    "• **Formato**: 45 minutos online (lectura, gramática y escucha) + una breve entrevista oral de 10 minutos con un docente evaluador.\n"
-                    "• **Resultados**: Te los entregamos en menos de 2 horas hábiles vía correo electrónico y WhatsApp, válidos por 90 días."
+                    "**¡Sí, claro que sí! Puedes presentar nuestra Prueba de Nivelación Gratuita.**\n\n"
+                    "Si ya tienes conocimientos previos de inglés pero no sabes tu nivel exacto, **no necesitas empezar desde cero** ni repetir temas que ya dominas:\n\n"
+                    "1. **Prueba 100% Gratuita**: Es completamente libre de costo ($0 COP / $0 USD) y sin ningún compromiso de matrícula.\n"
+                    "2. **Formato y Duración**: Se realiza 100% online y consta de una sección adaptativa escrita (35 min) y una breve entrevista oral de 10 minutos con un docente evaluador.\n"
+                    "3. **Resultados en 2 Horas**: Recibes tu informe con tu nivel exacto según el Marco Común Europeo (A1 a C2) y la recomendación del módulo puntual donde debes comenzar (ej. A2.2, B1.1 o B2.1).\n"
+                    "4. **¿Y si eres principiante absoluto?**: Quienes no tienen conocimientos previos ingresan directamente al nivel **A1.1 (Principiante)** sin necesidad de presentar examen."
                 )
             },
 

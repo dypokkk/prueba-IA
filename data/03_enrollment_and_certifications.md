@@ -1,4 +1,4 @@
-# Global Language Academy - Enrollment, Levels, and Official Certifications
+# Global Language Academy - Enrollment, Levels, Placement Diagnostic, and Official Certifications
 
 ## 1. CEFR Level Framework and Progression
 
@@ -15,13 +15,24 @@ Our curriculum adheres strictly to the Common European Framework of Reference fo
 
 ---
 
-## 2. Free Placement Diagnostic Test (Prueba de Nivelación)
+## 2. Free Placement Diagnostic Test & Prior Knowledge Assessment (Prueba de Nivelación y Clasificación)
 
-Every prospective student is entitled to our **100% Free Online Diagnostic Placement Test**:
-- **Format**: 45-minute adaptive test measuring Reading, Grammar, Listening, and a 10-minute online speaking interview with an academic assessor.
-- **Results**: Delivered within 2 business hours via email and WhatsApp.
-- **Validity**: Diagnostic recommendations remain valid for 90 days.
-- **Cost**: Completely free ($0 COP) with zero obligation to enroll.
+### A. What to do if you already know some English or have prior experience?
+- **Do NOT start from scratch if you have prior knowledge!** 
+- If you know some English, learned at school/university, lived abroad, or took courses in the past but don't know your current proficiency, you can take our **100% Free Online Diagnostic Placement Test** (*Prueba de Nivelación o Clasificación*).
+- This test accurately assesses your current skill level so you are placed directly in the correct module (e.g. A2.2, B1.1, B2.1) without wasting time or money repeating content you already master.
+
+### B. Placement Test Specifications:
+- **Cost**: Completely Free ($0 COP / $0 USD), with zero obligation to enroll.
+- **Format**: 100% online, accessible 24/7 from your computer or smartphone.
+- **Structure**:
+  1. **Written Adaptive Section (35 minutes)**: Evaluates grammar, vocabulary, reading comprehension, and listening.
+  2. **Oral Interview (10 minutes)**: Brief friendly conversation with an academic assessor via Zoom or WhatsApp video call.
+- **Results Delivery**: Delivered within **2 business hours** via email and WhatsApp, including your detailed CEFR score report and the recommended module starting point.
+- **Validity**: Diagnostic recommendations remain active and valid for 90 calendar days.
+
+### C. What if you are an absolute beginner?
+- If you have zero prior knowledge of the language, you do **not** need to take the placement test. You can directly register for **Level A1.1 (Beginner Breakthrough)**.
 
 ---
 
@@ -48,8 +59,8 @@ Global Language Academy is an authorized preparatory center for world-renowned i
 
 ## 4. Enrollment Procedure (Step-by-Step)
 
-1. **Step 1 - Diagnostic**: Complete the free online placement test or select Beginner A1.1.
-2. **Step 2 - Academic Advising**: Review suggested schedule and modality with your assigned advisor.
+1. **Step 1 - Diagnostic**: Complete the free online placement test (if you have prior knowledge) or select Beginner A1.1.
+2. **Step 2 - Academic Advising**: Review suggested schedule and modality with your assigned advisor based on your diagnostic results.
 3. **Step 3 - Tuition Payment**: Settle payment securely online via PSE, Credit Card, or Bank Transfer.
 4. **Step 4 - Onboarding**: Receive portal login credentials, join the course WhatsApp group, and access textbook downloads.
 
