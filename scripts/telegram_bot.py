@@ -53,16 +53,12 @@ def delete_webhook():
 
 def format_telegram_reply(res: dict) -> str:
     answer = res.get("answer", "")
-    sources = res.get("sources", [])
     is_escalated = res.get("escalate_to_human", False)
     ticket_id = res.get("ticket_id")
 
     reply = answer
     if is_escalated and ticket_id:
-        reply += f"\n\n🎫 *Ticket de Soporte*: `{ticket_id}`\n_Un asesor de admisiones se comunicará contigo._"
-    elif sources and len(sources) > 0:
-        source_clean = ", ".join([s.split('#')[0] for s in sources[:2]])
-        reply += f"\n\n📚 _Fuente verificada: {source_clean}_"
+        reply += f"\n\n🎫 **Ticket de Soporte**: `{ticket_id}`\n*Un asesor de admisiones se comunicará contigo pronto.*"
 
     return reply
 
@@ -121,7 +117,7 @@ def main():
                     "- 📍 **Sedes** en Bogotá (Chapinero) y Medellín (El Poblado)\n"
                     "- 🎯 **Prueba de Nivelación Gratuita** online\n"
                     "- 📜 **Certificaciones** (IELTS, TOEFL, Cambridge, DELF, DELE)\n\n"
-                    "Escribe cualquier pregunta y con gusto te respondo."
+                    "¿En qué idioma o programa estás interesado hoy?"
                 )
                 telegram_service.send_message(chat_id, welcome)
                 continue
@@ -141,7 +137,7 @@ def main():
 
             if user_text.lower() == "/clear":
                 cache_service.clear()
-                telegram_service.send_message(chat_id, "🧹 Caché de respuestas reiniciada correctamente.")
+                telegram_service.send_message(chat_id, "🧹 Caché de respuestas reiniciada.")
                 continue
 
             # Process through hybrid router

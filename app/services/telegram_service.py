@@ -9,23 +9,22 @@ from app.config import settings
 
 def markdown_to_telegram_html(text: str) -> str:
     """
-    Converts standard markdown into valid Telegram HTML format.
+    Converts standard markdown into clean, beautiful Telegram HTML format.
     Telegram HTML supports: <b>, <i>, <u>, <s>, <code>, <pre>, <a>.
     """
     if not text:
         return ""
 
+    # Remove any internal citations or file references
+    s = re.sub(r'\[\s*\d+[a-zA-Z0-9_\-\.]*\.md\s*\](?:\([^)]*\))?', '', text)
+    s = re.sub(r'Fuente verificada:.*$', '', s, flags=re.MULTILINE | re.IGNORECASE)
+    s = re.sub(r'Verified Sources?:.*$', '', s, flags=re.MULTILINE | re.IGNORECASE)
+
     # Escape HTML special chars first
-    s = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    s = s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
-    # Code blocks: ```code``` -> <pre>code</pre>
-    s = re.sub(r'```(?:[a-zA-Z0-9]+)?\n?(.*?)```', r'<pre>\1</pre>', s, flags=re.DOTALL)
-
-    # Inline code: `code` -> <code>code</code>
-    s = re.sub(r'`([^`]+)`', r'<code>\1</code>', s)
-
-    # Headers: ### Header -> <b>Header</b>
-    s = re.sub(r'^(?:#{1,6})\s*(.*)$', r'<b>\1</b>', s, flags=re.MULTILINE)
+    # Headers: ### Header -> \n<b>Header</b>\n
+    s = re.sub(r'^\s*#{1,6}\s*(.*)$', r'\n<b>\1</b>\n', s, flags=re.MULTILINE)
 
     # Bold: **text** or __text__ -> <b>text</b>
     s = re.sub(r'\*\*(.+?)\*\*', r'<b>\1</b>', s)
@@ -35,10 +34,19 @@ def markdown_to_telegram_html(text: str) -> str:
     s = re.sub(r'(?<!\w)\*([^\*\n]+)\*(?!\w)', r'<i>\1</i>', s)
     s = re.sub(r'(?<!\w)_([^_\n]+)_(?!\w)', r'<i>\1</i>', s)
 
+    # Code blocks: ```code``` -> <pre>code</pre>
+    s = re.sub(r'```(?:[a-zA-Z0-9]+)?\n?(.*?)```', r'<pre>\1</pre>', s, flags=re.DOTALL)
+
+    # Inline code: `code` -> <code>code</code>
+    s = re.sub(r'`([^`]+)`', r'<code>\1</code>', s)
+
     # Bullet lists: - item or * item -> • item
     s = re.sub(r'^\s*[-*]\s+', '• ', s, flags=re.MULTILINE)
 
-    return s
+    # Collapse excessive newlines
+    s = re.sub(r'\n{3,}', '\n\n', s)
+
+    return s.strip()
 
 class TelegramService:
     """
@@ -215,7 +223,7 @@ class TelegramService:
                             "- 📍 **Sedes** en Bogotá (Chapinero) y Medellín (El Poblado)\n"
                             "- 🎯 **Prueba de Nivelación Gratuita** online\n"
                             "- 📜 **Certificaciones** (IELTS, TOEFL, Cambridge, DELF, DELE)\n\n"
-                            "Escribe cualquier pregunta y con gusto te respondo."
+                            "¿En qué idioma o programa estás interesado hoy?"
                         )
                         await asyncio.to_thread(self.send_message, chat_id, welcome)
                         continue
@@ -242,16 +250,12 @@ class TelegramService:
                     print(f"[TelegramBot] 🧠 Processing query for {chat_id} via Hybrid Router...", flush=True)
                     res = await asyncio.to_thread(process_inquiry, user_text, "telegram")
                     answer = res.get("answer", "")
-                    sources = res.get("sources", [])
                     is_escalated = res.get("escalate_to_human", False)
                     ticket_id = res.get("ticket_id")
 
                     reply = answer
                     if is_escalated and ticket_id:
                         reply += f"\n\n🎫 **Ticket de Soporte**: `{ticket_id}`\n*Un asesor humano se comunicará contigo pronto.*"
-                    elif sources and len(sources) > 0:
-                        source_clean = ", ".join([s.split('#')[0] for s in sources[:2]])
-                        reply += f"\n\n📚 *Fuente verificada: {source_clean}*"
 
                     print(f"[TelegramBot] 📤 Dispatching response to chat_id={chat_id} (Tier: {res.get('tier')})...", flush=True)
                     sent = await asyncio.to_thread(self.send_message, chat_id, reply)

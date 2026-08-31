@@ -146,39 +146,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const msgDiv = document.createElement("div");
         msgDiv.className = "flex items-start space-x-3 bot-message";
 
-        // Badges setup
-        let tierBadge = "";
-        if (data.cached) {
-            tierBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30"><i class="fa-solid fa-bolt mr-1"></i>Cached Hit (${data.latency_ms || '<5'}ms)</span>`;
-        } else if (data.tier === "deterministic") {
-            tierBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-500/20 text-blue-300 border border-blue-500/30"><i class="fa-solid fa-bolt mr-1"></i>Tier 1: Deterministic (${data.latency_ms}ms)</span>`;
-        } else if (data.escalate_to_human) {
-            tierBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30"><i class="fa-solid fa-headset mr-1"></i>Escalated (${data.ticket_id || 'TKT-QUEUED'})</span>`;
-        } else {
-            tierBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"><i class="fa-solid fa-brain mr-1"></i>Tier 2: Gemini RAG (${data.latency_ms}ms)</span>`;
-        }
-
-        // Citations / Sources Accordion
-        let sourcesHtml = "";
-        if (data.sources && data.sources.length > 0) {
-            const sourceList = data.sources.map(s => `<li class="text-slate-400 font-mono text-[11px]"><i class="fa-regular fa-file-lines mr-1 text-brand-400"></i>${escapeHtml(s)}</li>`).join("");
-            sourcesHtml = `
-                <div class="mt-3 pt-2.5 border-t border-slate-600/50">
-                    <details class="cursor-pointer group">
-                        <summary class="text-[11px] font-semibold text-slate-400 group-hover:text-brand-300 flex items-center justify-between transition-colors">
-                            <span><i class="fa-solid fa-magnifying-glass mr-1"></i> Verified Knowledge Citations (${data.sources.length})</span>
-                            <i class="fa-solid fa-chevron-down text-[10px] transform group-open:rotate-180 transition-transform"></i>
-                        </summary>
-                        <ul class="mt-2 space-y-1 pl-1">
-                            ${sourceList}
-                        </ul>
-                    </details>
-                </div>
-            `;
-        }
-
         // Render formatted response
         const formattedAnswer = renderMarkdownSimple(data.answer);
+
+        let statusIndicator = "";
+        if (data.escalate_to_human && data.ticket_id) {
+            statusIndicator = `<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30"><i class="fa-solid fa-ticket mr-1"></i>Ticket: ${data.ticket_id}</span>`;
+        }
 
         msgDiv.innerHTML = `
             <div class="w-8 h-8 rounded-full ${data.escalate_to_human ? 'bg-amber-600' : 'bg-brand-600'} flex items-center justify-center text-white flex-shrink-0 text-xs shadow">
@@ -186,16 +160,15 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
             <div class="flex-1 bg-slate-700/60 border border-slate-600/60 rounded-2xl rounded-tl-none p-4 shadow-sm max-w-2xl">
                 <div class="flex items-center justify-between gap-2 mb-2">
-                    <div class="flex items-center gap-2 flex-wrap">
+                    <div class="flex items-center gap-2">
                         <span class="text-xs font-semibold text-brand-300">Global Language Academy</span>
-                        ${tierBadge}
+                        ${statusIndicator}
                     </div>
                     <span class="text-[10px] text-slate-400">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                 </div>
                 <div class="text-sm text-slate-200 leading-relaxed bot-response-content">
                     ${formattedAnswer}
                 </div>
-                ${sourcesHtml}
             </div>
         `;
 

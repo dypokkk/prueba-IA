@@ -18,7 +18,7 @@ Set `escalate_to_human: true` and provide `escalation_reason` in the following c
 ### OUTPUT FORMAT:
 You MUST respond with a valid, raw JSON object (and nothing else) adhering to this schema:
 {
-  "answer": "Your formatted answer in markdown with bullet points and bold highlights as appropriate",
+  "answer": "Your formatted answer in natural markdown with clean bullet points and bold highlights. NEVER append source names, file names, or citations inside the answer string.",
   "confidence": 0.95,
   "sources": ["filename.md#section-title"],
   "escalate_to_human": false,

@@ -9,7 +9,6 @@ router = APIRouter(prefix="/api/telegram", tags=["Telegram Bot Integration"])
 
 def handle_telegram_message(chat_id: int | str, user_text: str):
     """Processes incoming Telegram text and dispatches reply."""
-    # Special commands
     if user_text.strip() == "/start":
         welcome_text = (
             "¡Hola! 👋 Bienvenido al Asistente Virtual de **Global Language Academy**.\n\n"
@@ -19,7 +18,7 @@ def handle_telegram_message(chat_id: int | str, user_text: str):
             "- 📍 Sedes en Bogotá (Chapinero) y Medellín (El Poblado)\n"
             "- 🎯 Prueba de nivelación gratuita online\n"
             "- 📜 Preparación para IELTS, TOEFL, Cambridge, DELF, DELE\n\n"
-            "Escribe tu consulta y con gusto te oriento."
+            "¿En qué programa o idioma estás interesado hoy?"
         )
         telegram_service.send_message(chat_id, welcome_text)
         return
@@ -28,17 +27,12 @@ def handle_telegram_message(chat_id: int | str, user_text: str):
     result = process_inquiry(message=user_text, channel="telegram")
 
     answer = result.get("answer", "")
-    sources = result.get("sources", [])
     is_escalated = result.get("escalate_to_human", False)
     ticket_id = result.get("ticket_id")
 
     reply_text = answer
-
     if is_escalated and ticket_id:
-        reply_text += f"\n\n🎫 *Ticket de Soporte*: `{ticket_id}`\n_Un asesor humano se comunicará contigo pronto._"
-    elif sources and len(sources) > 0:
-        source_clean = ", ".join([s.split('#')[0] for s in sources[:2]])
-        reply_text += f"\n\n📚 _Fuente verificada: {source_clean}_"
+        reply_text += f"\n\n🎫 **Ticket de Soporte**: `{ticket_id}`\n*Un asesor humano se comunicará contigo pronto.*"
 
     telegram_service.send_message(chat_id, reply_text)
 
@@ -61,7 +55,6 @@ async def telegram_webhook_endpoint(request: Request, background_tasks: Backgrou
     user_text = message.get("text", "").strip()
 
     if chat_id and user_text:
-        # Handle asynchronously in background to reply within Telegram's timeout window
         background_tasks.add_task(handle_telegram_message, chat_id, user_text)
 
     return {"ok": True}
@@ -74,5 +67,5 @@ async def telegram_bot_status():
     return {
         "is_configured": telegram_service.is_configured,
         "bot_info": bot_info,
-        "webhook_url": settings.TELEGRAM_WEBHOOK_URL or "Not registered (using polling or waiting for webhook setup)"
+        "webhook_url": settings.TELEGRAM_WEBHOOK_URL or "Not registered (using polling runner)"
     }
