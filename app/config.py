@@ -44,7 +44,7 @@ class Settings:
         self.TOP_K_CHUNKS = int(os.getenv("TOP_K_CHUNKS", "6"))
         self.ENABLE_DETERMINISTIC_TIER = os.getenv("ENABLE_DETERMINISTIC_TIER", "true").lower() == "true"
         self.TEMPERATURE = float(os.getenv("TEMPERATURE", "0.1"))
-        self.MAX_OUTPUT_TOKENS = int(os.getenv("MAX_OUTPUT_TOKENS", "2048"))
+        self.MAX_OUTPUT_TOKENS = int(os.getenv("MAX_OUTPUT_TOKENS", "450"))
 
         self.CACHE_TTL_SECONDS = int(os.getenv("CACHE_TTL_SECONDS", "3600"))
         self.MAX_CACHE_SIZE = int(os.getenv("MAX_CACHE_SIZE", "500"))

@@ -4,7 +4,7 @@ from typing import Optional, Dict, Any, List
 class DeterministicService:
     """
     Tier 1 Deterministic Engine:
-    Instantly matches canonical customer questions with rich, comprehensive, verified factual answers.
+    Instantly matches canonical customer questions with concise, bite-sized, verified factual answers.
     Zero latency (<2ms), zero AI token cost, and 100% grounded accuracy.
     """
 
@@ -25,40 +25,27 @@ class DeterministicService:
                 "patterns": [
                     r"^(\s*(hola|buenos d[ií]as|buenas tardes|buenas noches|hello|hi|hey|saludos|qu[eé] tal)\s*)+[\.!\?]?$"
                 ],
-                "sources": ["01_courses_and_pricing.md#1-course-offerings-overview"],
+                "sources": ["01_courses_and_pricing.md#1-institutional-overview-and-cefr-alignment"],
                 "answer": (
                     "¡Hola! 👋 Bienvenido a **Global Language Academy**.\n\n"
-                    "Soy tu asesor académico virtual. Con mucho gusto te puedo ayudar con información sobre:\n"
-                    "- 👥 **Cursos Grupales y Personalizados** (Dinámica de grupos de máx. 8 alumnos, tarifas individuales y particulares).\n"
-                    "- 💰 **Precios y Financiación** (PSE, tarjetas de crédito a 3 cuotas con 0% de interés).\n"
-                    "- ⏰ **Horarios y Modalidades** (Mañanas, noches, sábados intensivos, virtual o presencial en Bogotá y Medellín).\n"
-                    "- 🎯 **Prueba de Nivelación Gratuita** (Online, diagnóstica MCER A1-C2).\n"
-                    "- 📜 **Certificaciones Internacionales** (IELTS, TOEFL, Cambridge, DELF, DELE).\n\n"
-                    "¿En qué programa o idioma estás interesado hoy?"
+                    "Puedo orientarte con **precios**, **horarios**, **sedes** en Bogotá y Medellín o nuestra **prueba diagnóstica gratuita**.\n\n"
+                    "¿En qué idioma estás interesado hoy?"
                 )
             },
 
-            # 1. Group Courses Dynamics & Detailed Operation (Addresses user's specific scenario)
+            # 1. Group Courses Dynamics
             {
                 "category": "group_courses_details",
                 "patterns": [
                     r"\b(cursos? grupales?|qu[eé] son los cursos grupales|c[oó]mo funcionan los cursos grupales|armar (el|un) grupo|debo llevar|por persona|individual|cu[aá]ntos alumnos por grupo)\b"
                 ],
-                "sources": ["01_courses_and_pricing.md#2-group-courses-vs-private-1-on-1-mentorship-how-it-works"],
+                "sources": ["01_courses_and_pricing.md#3-group-courses-vs-private-1-on-1-mentorship-operating-dynamics"],
                 "answer": (
-                    "**¿Cómo funcionan los Cursos Grupales en Global Language Academy?**\n\n"
-                    "1. **Tú NO necesitas armar el grupo**: Te inscribes de forma individual y la academia te asigna a un grupo con estudiantes que tienen exactamente tu mismo nivel (determinado por la prueba de nivelación gratuita).\n"
-                    "2. **Tarifas Individuales por Persona**: Todos los valores publicados son **por persona / por módulo completo de 60 horas**.\n"
-                    "3. **Límite Estricto de Máximo 8 Estudiantes**: Los grupos tienen un mínimo de 4 y un máximo de 8 alumnos para asegurar que tengas constante práctica de conversación y retroalimentación personalizada.\n"
-                    "4. **¿Qué incluye tu matrícula individual?**\n"
-                    "   - 60 horas académicas de clase guiadas por profesores certificados.\n"
-                    "   - Acceso 24/7 a nuestro Campus Virtual y libros digitales oficiales (Cambridge/Oxford).\n"
-                    "   - Clubes de conversación semanales sin costo adicional.\n"
-                    "   - Hasta 2 tutorías individuales de recuperación gratuitas si llegas a faltar a alguna sesión.\n\n"
-                    "**Opciones de Cursos Grupales:**\n"
-                    "• **Standard Group (Trimestral)**: 10 semanas (60 hrs) - **$1,250,000 COP** (~$320 USD).\n"
-                    "• **Intensive Group (Mensual)**: 4 semanas (60 hrs) - **$1,450,000 COP** (~$370 USD).\n"
-                    "• **Sábados Intensivo**: 12 sábados (60 hrs, 8am a 1pm) - **$1,350,000 COP** (~$345 USD)."
+                    "**Cursos Grupales en Global Language Academy:**\n\n"
+                    "• **Inscripción individual**: No necesitas armar grupo; la academia conforma las cohortes por nivel (máx. 8 alumnos por aula).\n"
+                    "• **Tarifas**: **$1,250,000 COP** (Trimestral 10 sem) o **$1,450,000 COP** (Intensivo mensual 4 sem).\n"
+                    "• **Incluye**: 60h de clase, libros digitales Cambridge/Oxford y clubes de conversación.\n\n"
+                    "¿Prefieres estudiar entre semana o los sábados?"
                 )
             },
 
@@ -68,16 +55,14 @@ class DeterministicService:
                 "patterns": [
                     r"\b(clases particulares|cursos? personalizados?|clases privadas|clases uno a uno|tutor[ií]as? privadas?|one-on-one|private)\b"
                 ],
-                "sources": ["01_courses_and_pricing.md#3-1-on-1-private-tutoring-customized-individual-mentorship"],
+                "sources": ["01_courses_and_pricing.md#4-1-on-1-private-tutoring-packages-custom-individual-mentorship"],
                 "answer": (
-                    "**Clases Personalizadas 1-on-1 (Tutorías Privadas):**\n\n"
-                    "Ideales si buscas flexibilidad horaria total, avanzar a tu propio ritmo o preparar una entrevista u objetivo puntual.\n\n"
-                    "• **Starter Pack (10 Horas)**: $850,000 COP ($85,000/hora) | Validez: 60 días.\n"
-                    "• **Fluency Booster (25 Horas)**: $1,950,000 COP ($78,000/hora) | Validez: 120 días.\n"
-                    "• **Mastery Package (50 Horas)**: $3,600,000 COP ($72,000/hora) | Validez: 180 días.\n\n"
-                    "**Beneficios**:\n"
-                    "- Horarios 100% a tu elección (Lunes a Sábado de 6:00 AM a 9:00 PM).\n"
-                    "- Puedes reprogramar clases con 12 horas de anticipación sin perder la sesión."
+                    "**Clases Particulares 1 a 1:**\n\n"
+                    "• **Starter Pack (10h)**: $850,000 COP ($85,000/h).\n"
+                    "• **Fluency Booster (25h)**: $1,950,000 COP ($78,000/h).\n"
+                    "• **Mastery Pack (50h)**: $3,600,000 COP ($72,000/h).\n"
+                    "• Horarios 100% flexibles con reprogramación con 12h de aviso previo.\n\n"
+                    "¿Para qué idioma buscas clases particulares?"
                 )
             },
 
@@ -87,12 +72,13 @@ class DeterministicService:
                 "patterns": [
                     r"\b(falto|falta|faltar|inasistencia|asistencia|recuperar clase|recuperaci[oó]n|reponer|graban|grabaciones?)\b"
                 ],
-                "sources": ["02_schedules_and_modalities.md#4-attendance-and-makeup-class-policies"],
+                "sources": ["02_schedules_and_modalities.md#4-attendance-missed-classes-and-makeup-policies"],
                 "answer": (
-                    "**Política de Asistencia y Recuperación de Clases:**\n\n"
-                    "1. **Grabaciones en HD**: Si estás en modalidad online, todas las sesiones se suben al portal en menos de 2 horas para que las repases cuando quieras.\n"
-                    "2. **Tutorías de Recuperación Gratuitas**: Tienes derecho a **hasta 2 sesiones individuales de 45 minutos** con un tutor académico por módulo para ponerte al día con los temas vistos si faltas por motivos laborales o de fuerza mayor.\n"
-                    "3. **Asistencia Mínima**: Se requiere un 80% de asistencia para presentar el examen final de nivel."
+                    "**Asistencia y Reposición de Clases:**\n\n"
+                    "• **Grabaciones en HD**: Disponibles en el portal virtual en menos de 2 horas.\n"
+                    "• **Tutorías gratuitas**: Tienes hasta **2 sesiones 1 a 1 de reposición** por módulo con un docente tutor.\n"
+                    "• Se requiere un 80% de asistencia para certificar nivel.\n\n"
+                    "¿Tienes alguna duda sobre los horarios de las clases?"
                 )
             },
 
@@ -102,12 +88,12 @@ class DeterministicService:
                 "patterns": [
                     r"\b(profesores? nativos?|metodolog[ií]a|m[eé]todo|c[oó]mo ense[ñn]an|docentes? certificados?|profesores? certificados?)\b"
                 ],
-                "sources": ["02_schedules_and_modalities.md#2-learning-modalities"],
+                "sources": ["04_student_faq_and_academic_policies.md#1-academic-methodology-and-teaching-philosophy"],
                 "answer": (
-                    "**Metodología y Cuerpo Docente:**\n\n"
-                    "• **Enfoque Comunicativo Directo**: El 80% del tiempo de clase se dedica a producción oral activa, debates y resolución de situaciones de la vida real (no a memorización pasiva de reglas).\n"
-                    "• **Profesores Certificados**: Todos nuestros docentes cuentan con certificación internacional (CELTA, DELTA, TESOL, DAEFLE o equivalentes) y combinamos docentes nativos y bilingües de alto nivel C2.\n"
-                    "• **Acompañamiento Continuo**: Grupos reducidos (máx. 8 alumnos) para corregir pronunciación y fluidez en tiempo real."
+                    "**Metodología y Docentes:**\n\n"
+                    "• **80% Producción Oral**: Enfoque comunicativo directo, debates y casos reales en grupos de máx. 8 estudiantes.\n"
+                    "• **Docentes Certificados**: Profesores nativos y bilingües C2 con credenciales Cambridge CELTA/DELTA.\n\n"
+                    "¿Te gustaría conocer las opciones de horarios disponibles?"
                 )
             },
 
@@ -117,13 +103,13 @@ class DeterministicService:
                 "patterns": [
                     r"\b(payment methods?|m[eé]todos? de pago|formas? de pago|how (can|do) i pay|c[oó]mo puedo pagar|pago con pse|pagar con tarjeta|cuotas sin inter[eé]s|financiaci[oó]n|pse|bancolombia|tarjeta de cr[eé]dito)\b"
                 ],
-                "sources": ["01_courses_and_pricing.md#5-payment-methods-and-financing-options"],
+                "sources": ["01_courses_and_pricing.md#6-payment-methods-and-financing-options"],
                 "answer": (
-                    "**Formas de Pago y Financiación en Global Language Academy:**\n\n"
-                    "• **PSE (Pagos Seguros en Línea)**: Débito bancario desde cualquier banco en Colombia (Bancolombia, Davivienda, Nequi, Daviplata, etc.).\n"
-                    "• **Tarjetas de Crédito y Débito**: Visa, MasterCard, American Express y Diners Club.\n"
-                    "• **Transferencia Bancaria**: Cuenta de Ahorros Bancolombia # 104-589231-88 (NIT 901.458.712-3).\n"
-                    "• **Financiación Sin Intereses (0% Interés)**: Hasta 3 cuotas mensuales sin interés con tarjeta de crédito o mediante crédito directo con la academia (50% al matricularte, 25% en semana 4, 25% en semana 8)."
+                    "**Medios de Pago y Financiación:**\n\n"
+                    "• **PSE y Tarjetas**: Visa, MasterCard, Amex y transferencias Bancolombia.\n"
+                    "• **0% Interés**: Difiere en hasta **3 cuotas mensuales sin interés** con tarjeta o crédito directo.\n"
+                    "• **Pronto Pago**: 15% de descuento cancelando 10 días antes del inicio.\n\n"
+                    "¿Deseas que te ayudemos a gestionar tu inscripción?"
                 )
             },
 
@@ -135,10 +121,11 @@ class DeterministicService:
                 ],
                 "sources": ["02_schedules_and_modalities.md#3-physical-campus-locations-and-facilities"],
                 "answer": (
-                    "**Nuestras Sedes Principales en Colombia:**\n\n"
-                    "• **Sede Bogotá**: Calle 63 # 9-45, Chapinero Central (a 2 cuadras de la estación TransMilenio Calle 63). Horario: Lun–Vie 6:00 AM–9:00 PM, Sáb 7:30 AM–2:30 PM.\n"
-                    "• **Sede Medellín**: Carrera 43A # 7-50, El Poblado (cerca al Parque del Poblado). Horario: Lun–Vie 6:30 AM–8:30 PM, Sáb 8:00 AM–2:00 PM.\n"
-                    "• **100% Live Online**: Clases interactivas en vivo vía Zoom Education desde cualquier lugar del mundo."
+                    "**Nuestras Sedes Principales:**\n\n"
+                    "• **Bogotá**: Calle 63 # 9-45, Chapinero Central (Lun–Vie 6am–9pm | Sáb 7:30am–2:30pm).\n"
+                    "• **Medellín**: Carrera 43A # 7-50, El Poblado (Lun–Vie 6:30am–8:30pm | Sáb 8am–2pm).\n"
+                    "• **100% Live Online**: Clases en vivo vía Zoom Education.\n\n"
+                    "¿En cuál sede o modalidad te gustaría estudiar?"
                 )
             },
 
@@ -148,13 +135,13 @@ class DeterministicService:
                 "patterns": [
                     r"\b(saturday intensives?|s[aá]bados? intensivos?|horarios? de los s[aá]bados?|saturday schedule|fin de semana intensivo|s[aá]bados?)\b"
                 ],
-                "sources": ["02_schedules_and_modalities.md#1-class-schedules-and-timetables"],
+                "sources": ["02_schedules_and_modalities.md#1-comprehensive-class-schedules-and-timetables"],
                 "answer": (
-                    "**Programa Intensivo de Sábados:**\n\n"
-                    "• **Horario**: 8:00 AM a 1:00 PM (5 horas continuas con receso de café de 20 minutos).\n"
-                    "• **Estructura**: 60 horas académicas distribuidas en 12 sábados consecutivos.\n"
-                    "• **Tarifa Individual**: $1,350,000 COP (~$345 USD) por módulo de 12 semanas.\n"
-                    "• Disponible en modalidad presencial (Bogotá y Medellín) y 100% Virtual en vivo."
+                    "**Curso Intensivo de Sábados:**\n\n"
+                    "• **Horario**: 8:00 AM a 1:00 PM (5 horas continuas con receso).\n"
+                    "• **Duración**: 12 sábados (60 horas académicas por nivel).\n"
+                    "• **Inversión**: **$1,350,000 COP** (~$345 USD) con libros digitales incluidos.\n\n"
+                    "¿Prefieres modalidad presencial en sede o virtual en vivo?"
                 )
             },
 
@@ -164,14 +151,14 @@ class DeterministicService:
                 "patterns": [
                     r"\b(evening track|nocturno|horario de noche|madrugadores?|morning schedule|qu[eé] horarios tienen|what are the class schedules|horarios?)\b"
                 ],
-                "sources": ["02_schedules_and_modalities.md#1-class-schedules-and-timetables"],
+                "sources": ["02_schedules_and_modalities.md#1-comprehensive-class-schedules-and-timetables"],
                 "answer": (
-                    "**Horarios de Clases Entre Semana (Lunes a Jueves):**\n\n"
-                    "• **Madrugadores**: 6:30 AM – 8:30 AM (8 hrs/semana).\n"
-                    "• **Mañana Estándar**: 9:00 AM – 11:00 AM.\n"
-                    "• **Tarde**: 4:00 PM – 6:00 PM.\n"
-                    "• **Nocturno Ejecutivo**: 6:30 PM – 8:30 PM (ideal para quienes trabajan).\n"
-                    "• **Sábados Intensivos**: 8:00 AM – 1:00 PM."
+                    "**Horarios Entre Semana (Lunes a Jueves):**\n\n"
+                    "• **Madrugadores**: 6:30 AM – 8:30 AM.\n"
+                    "• **Mañana / Tarde**: 9:00 AM – 11:00 AM y 4:00 PM – 6:00 PM.\n"
+                    "• **Nocturno Ejecutivo**: 6:30 PM – 8:30 PM.\n"
+                    "• **Sábados**: 8:00 AM – 1:00 PM.\n\n"
+                    "¿Qué horario se acomoda mejor a tu rutina?"
                 )
             },
 
@@ -183,12 +170,11 @@ class DeterministicService:
                 ],
                 "sources": ["03_enrollment_and_certifications.md#2-free-placement-diagnostic-test--prior-knowledge-assessment-prueba-de-nivelacion-y-clasificacion"],
                 "answer": (
-                    "**¡Sí, claro que sí! Puedes presentar nuestra Prueba de Nivelación Gratuita.**\n\n"
-                    "Si ya tienes conocimientos previos de inglés pero no sabes tu nivel exacto, **no necesitas empezar desde cero** ni repetir temas que ya dominas:\n\n"
-                    "1. **Prueba 100% Gratuita**: Es completamente libre de costo ($0 COP / $0 USD) y sin ningún compromiso de matrícula.\n"
-                    "2. **Formato y Duración**: Se realiza 100% online y consta de una sección adaptativa escrita (35 min) y una breve entrevista oral de 10 minutos con un docente evaluador.\n"
-                    "3. **Resultados en 2 Horas**: Recibes tu informe con tu nivel exacto según el Marco Común Europeo (A1 a C2) y la recomendación del módulo puntual donde debes comenzar (ej. A2.2, B1.1 o B2.1).\n"
-                    "4. **¿Y si eres principiante absoluto?**: Quienes no tienen conocimientos previos ingresan directamente al nivel **A1.1 (Principiante)** sin necesidad de presentar examen."
+                    "**Prueba de Nivelación Gratuita ($0 COP):**\n\n"
+                    "Si ya tienes conocimientos previos, **no necesitas empezar desde cero**:\n\n"
+                    "• **Formato**: 35 min online adaptativo + 10 min entrevista oral con un docente.\n"
+                    "• **Resultados en 2 horas**: Informe oficial MCER (A1 a C2) con tu módulo exacto de inicio.\n\n"
+                    "¿Te gustaría solicitar el enlace para presentar tu prueba hoy?"
                 )
             },
 
@@ -198,16 +184,13 @@ class DeterministicService:
                 "patterns": [
                     r"\b(languages? offered|qu[eé] idiomas ofrecen|what languages do you teach|qu[eé] cursos tienen|programas de idiomas|idiomas)\b"
                 ],
-                "sources": ["01_courses_and_pricing.md#1-course-offerings-overview"],
+                "sources": ["01_courses_and_pricing.md#2-detailed-language-programs-and-specializations"],
                 "answer": (
                     "**Idiomas Disponibles en Global Language Academy:**\n\n"
-                    "• **Inglés General** (Niveles A1 a C1)\n"
-                    "• **Inglés de Negocios y Profesional** (Niveles B1 a C2)\n"
-                    "• **Francés (Français)** (Niveles A1 a C1 - Marco CIEP)\n"
-                    "• **Alemán (Deutsch)** (Niveles A1 a B2 - Marco Goethe-Institut)\n"
-                    "• **Italiano (Italiano)** (Niveles A1 a B2)\n"
-                    "• **Portugués (Português)** (Niveles A1 a B2)\n"
-                    "• **Español para Extranjeros** (Niveles A1 a C2)"
+                    "• **Inglés** (General, Negocios y Certificaciones IELTS/TOEFL).\n"
+                    "• **Francés (DELF) & Alemán (Goethe)**.\n"
+                    "• **Italiano, Portugués & Español para Extranjeros**.\n\n"
+                    "¿Cuál de estos idiomas deseas aprender?"
                 )
             },
 
@@ -217,14 +200,13 @@ class DeterministicService:
                 "patterns": [
                     r"\b(ielts|toefl|cambridge|fce|cae|delf|dalf|dele|siele|certificaciones?)\b"
                 ],
-                "sources": ["03_enrollment_and_certifications.md#3-official-exam-preparation-and-international-certifications"],
+                "sources": ["03_enrollment_and_certifications.md#3-official-international-certification-preparation-programs"],
                 "answer": (
-                    "**Cursos de Preparación para Exámenes Oficiales:**\n\n"
-                    "• **IELTS Academic & General**: 40 horas de estrategia + 4 simulacros completos por computador con diagnóstico de banda.\n"
-                    "• **TOEFL iBT**: 40 horas enfocadas en redacción académica y expresión oral integrada.\n"
+                    "**Preparación de Certificaciones Oficiales:**\n\n"
+                    "• **IELTS & TOEFL iBT**: 40 horas de estrategia + 4 simulacros completos.\n"
                     "• **Cambridge**: B2 First (FCE) y C1 Advanced (CAE).\n"
-                    "• **DELF / DALF** (Francés) y **DELE / SIELE** (Español).\n\n"
-                    "Al finalizar cualquier nivel regular con 80/100 o más, recibes tu diploma digital oficial con código QR y certificación en blockchain."
+                    "• **DELF/DALF** (Francés) y **DELE** (Español).\n\n"
+                    "¿Qué examen internacional te interesa certificar?"
                 )
             },
 
@@ -234,14 +216,14 @@ class DeterministicService:
                 "patterns": [
                     r"\b(early bird discount|family discount|descuento por pronto pago|descuento de hermanos|convenios corporativos|tienen descuentos|hay promociones|descuentos?|promociones?)\b"
                 ],
-                "sources": ["01_courses_and_pricing.md#4-discounts-promotions-and-special-offers"],
+                "sources": ["01_courses_and_pricing.md#5-discounts-promotions-and-special-academic-bundles"],
                 "answer": (
                     "**Descuentos y Beneficios Especiales:**\n\n"
-                    "• **Pronto Pago / Early Bird (15% OFF)**: Al matricularte al menos 10 días calendario antes de iniciar el curso.\n"
-                    "• **Familiar y Hermanos (10% OFF)**: Cuando se matriculan 2 o más familiares juntos.\n"
-                    "• **Paquete Anual (25% OFF)**: Al pagar 4 niveles por adelantado + kit diagnóstico Cambridge/IELTS sin costo.\n"
-                    "• **Convenios Corporativos (12% OFF)**: Para colaboradores de empresas aliadas.\n"
-                    "*(El descuento máximo acumulable es del 30%)*"
+                    "• **15% OFF**: Por Pronto Pago (10 días antes del inicio).\n"
+                    "• **10% OFF**: Descuento familiar (2 o más matriculados).\n"
+                    "• **25% OFF**: Paquete anual de 4 niveles consecutivos.\n"
+                    "• Hasta **3 cuotas 0% interés** con tarjeta de crédito.\n\n"
+                    "¿Deseas calcular tu tarifa final con descuento?"
                 )
             }
         ]
