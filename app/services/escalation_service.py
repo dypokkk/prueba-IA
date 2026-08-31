@@ -62,10 +62,10 @@ class EscalationService:
         return ticket
 
     def get_tickets(self, status: Optional[str] = None) -> List[Dict[str, Any]]:
-        """Returns tickets optionally filtered by status."""
+        """Returns tickets prioritizing PENDING tickets at the top, followed by RESOLVED history at the bottom."""
         if status:
             return [t for t in self.tickets if t.get("status") == status]
-        return self.tickets
+        return sorted(self.tickets, key=lambda t: (0 if t.get("status") == "PENDING" else 1))
 
     def resolve_ticket(self, ticket_id: str, notes: str = "") -> bool:
         """Marks a ticket as RESOLVED."""

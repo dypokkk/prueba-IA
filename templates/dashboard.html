@@ -146,14 +146,16 @@
         </div>
 
         <!-- 1. TAB CONTENT: TICKETS DE SOPORTE HUMANO -->
-        <div id="admin-panel-tickets" class="admin-main-panel p-6 space-y-4">
-            <div class="flex items-center justify-between">
+        <div id="admin-panel-tickets" class="admin-main-panel p-6 space-y-8">
+            
+            <!-- Top Section Header -->
+            <div class="flex items-center justify-between border-b border-white/10 pb-4">
                 <div>
                     <h2 class="text-lg font-bold text-white flex items-center gap-2">
                         <i class="fa-solid fa-inbox text-amber-400"></i> Cola de Escalamientos a Asesores Humanos
                     </h2>
                     <p class="text-xs text-slate-400 mt-0.5">
-                        Haz clic en <strong>Abrir WebSocket</strong> para conectarte en vivo con el contexto del estudiante.
+                        Los tickets pendientes tienen prioridad y se muestran primero. Al marcarlos como atendidos pasan al historial inferior.
                     </p>
                 </div>
                 <span id="header-pending-count" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-400/30">
@@ -161,101 +163,182 @@
                 </span>
             </div>
 
-            {% if tickets and tickets|length > 0 %}
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                {% for ticket in tickets %}
-                <div id="ticket-card-{{ ticket.ticket_id }}" class="glass-card rounded-3xl p-5 sm:p-6 space-y-4 flex flex-col justify-between border {% if ticket.status == 'PENDING' %}border-amber-500/30 bg-amber-950/10 hover:border-amber-400/50{% else %}border-white/10 opacity-80 hover:opacity-100{% endif %} transition-all shadow-xl hover:scale-[1.01]">
-                    
-                    <!-- Card Header -->
-                    <div class="space-y-2">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2">
-                                <span class="p-1.5 rounded-xl bg-brand-500/20 text-brand-300 border border-brand-400/30">
-                                    <i class="fa-solid fa-ticket text-xs"></i>
+            <!-- 1.1 PRIORITY PENDING TICKETS SECTION (TOP) -->
+            <div id="pending-tickets-section" class="space-y-4">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xs font-bold text-amber-300 uppercase tracking-wider flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                        Tickets Pendientes de Atención (Prioridad Alta)
+                    </h3>
+                </div>
+
+                <div id="pending-tickets-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    {% for ticket in pending_tickets %}
+                    <div id="ticket-card-{{ ticket.ticket_id }}" class="glass-card rounded-3xl p-5 sm:p-6 space-y-4 flex flex-col justify-between border border-amber-500/30 bg-amber-950/10 hover:border-amber-400/50 transition-all shadow-xl hover:scale-[1.01]">
+                        
+                        <!-- Card Header -->
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <span class="p-1.5 rounded-xl bg-brand-500/20 text-brand-300 border border-brand-400/30">
+                                        <i class="fa-solid fa-ticket text-xs"></i>
+                                    </span>
+                                    <span class="font-mono font-bold text-sm text-white">{{ ticket.ticket_id }}</span>
+                                </div>
+                                
+                                <span id="ticket-status-{{ ticket.ticket_id }}" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-400/30">
+                                    <i class="fa-solid fa-clock mr-1 text-[8px]"></i> Pendiente
                                 </span>
-                                <span class="font-mono font-bold text-sm text-white">{{ ticket.ticket_id }}</span>
                             </div>
-                            
-                            <span id="ticket-status-{{ ticket.ticket_id }}" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold {% if ticket.status == 'PENDING' %}bg-amber-500/20 text-amber-300 border border-amber-400/30{% else %}bg-emerald-500/20 text-emerald-300 border border-emerald-400/30{% endif %}">
-                                {% if ticket.status == 'PENDING' %}
-                                <i class="fa-solid fa-clock mr-1 text-[8px]"></i> Pendiente
-                                {% else %}
-                                <i class="fa-solid fa-check mr-1 text-[8px]"></i> Resuelto
-                                {% endif %}
-                            </span>
-                        </div>
 
-                        <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1">
-                            <span class="flex items-center gap-1.5">
-                                <i class="fa-solid {% if ticket.channel == 'telegram' %}fa-paper-plane text-sky-400{% else %}fa-globe text-brand-400{% endif %}"></i>
-                                Canal: <strong class="text-slate-300">{{ ticket.channel }}</strong>
-                            </span>
-                            <span class="font-mono text-[10px] text-slate-400">{{ ticket.timestamp }}</span>
-                        </div>
-                    </div>
-
-                    <!-- Card Body -->
-                    <div class="space-y-2.5 flex-1">
-                        <div>
-                            <span class="text-[10px] uppercase font-bold tracking-wider text-slate-400">Motivo:</span>
-                            <div class="mt-0.5 inline-block">
-                                <span class="px-2 py-0.5 rounded-md text-[10px] font-medium bg-rose-500/20 text-rose-300 border border-rose-400/30">
-                                    {{ ticket.escalation_reason }}
+                            <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1">
+                                <span class="flex items-center gap-1.5">
+                                    <i class="fa-solid {% if ticket.channel == 'telegram' %}fa-paper-plane text-sky-400{% else %}fa-globe text-brand-400{% endif %}"></i>
+                                    Canal: <strong class="text-slate-300">{{ ticket.channel }}</strong>
                                 </span>
+                                <span class="font-mono text-[10px] text-slate-400">{{ ticket.timestamp }}</span>
                             </div>
                         </div>
 
-                        <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10 text-xs text-slate-200">
-                            <span class="text-[10px] text-slate-400 block font-semibold mb-1">Consulta del Estudiante:</span>
-                            <p class="italic leading-relaxed">"{{ ticket.user_query }}"</p>
+                        <!-- Card Body -->
+                        <div class="space-y-2.5 flex-1">
+                            <div>
+                                <span class="text-[10px] uppercase font-bold tracking-wider text-slate-400">Motivo:</span>
+                                <div class="mt-0.5 inline-block">
+                                    <span class="px-2 py-0.5 rounded-md text-[10px] font-medium bg-rose-500/20 text-rose-300 border border-rose-400/30">
+                                        {{ ticket.escalation_reason }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10 text-xs text-slate-200">
+                                <span class="text-[10px] text-slate-400 block font-semibold mb-1">Consulta del Estudiante:</span>
+                                <p class="italic leading-relaxed">"{{ ticket.user_query }}"</p>
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- Card Footer Actions -->
-                    <div class="pt-3 border-t border-white/10 flex items-center justify-between gap-2">
-                        <!-- Open WebSocket Action -->
-                        <button 
-                            type="button"
-                            onclick="openTicketInWebSocket('{{ ticket.ticket_id }}', '{{ ticket.user_query | replace("'", "\\'") }}', '{{ ticket.channel }}')"
-                            class="flex-1 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white text-xs font-bold py-2 rounded-xl transition-all shadow border border-white/20 flex items-center justify-center gap-1.5"
-                            title="Abrir sesión en vivo por WebSocket para este ticket"
-                        >
-                            <i class="fa-solid fa-bolt text-amber-300 text-[10px]"></i>
-                            <span>Abrir WebSocket</span>
-                        </button>
-
-                        <div id="ticket-action-resolve-{{ ticket.ticket_id }}" class="flex items-center">
-                            {% if ticket.status == 'PENDING' %}
+                        <!-- Card Footer Actions -->
+                        <div class="pt-3 border-t border-white/10 flex items-center justify-between gap-2">
+                            <!-- Open WebSocket Action -->
                             <button 
-                                type="button" 
-                                onclick="resolveTicketAsync('{{ ticket.ticket_id }}', this)"
-                                class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold px-3 py-2 rounded-xl transition-all shadow border border-white/20 flex items-center gap-1" 
-                                title="Marcar como atendido y resuelto sin recargar la página"
+                                type="button"
+                                onclick="openTicketInWebSocket('{{ ticket.ticket_id }}', '{{ ticket.user_query | replace("'", "\\'") }}', '{{ ticket.channel }}')"
+                                class="flex-1 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white text-xs font-bold py-2 rounded-xl transition-all shadow border border-white/20 flex items-center justify-center gap-1.5"
+                                title="Abrir sesión en vivo por WebSocket para este ticket"
                             >
-                                <i class="fa-solid fa-check"></i>
+                                <i class="fa-solid fa-bolt text-amber-300 text-[10px]"></i>
+                                <span>Abrir WebSocket</span>
                             </button>
-                            {% else %}
-                            <span class="text-emerald-400 text-xs italic font-medium flex items-center gap-1">
-                                <i class="fa-solid fa-check text-[10px]"></i> Atendido
-                            </span>
-                            {% endif %}
-                        </div>
-                    </div>
 
+                            <div id="ticket-action-resolve-{{ ticket.ticket_id }}" class="flex items-center">
+                                <button 
+                                    type="button" 
+                                    onclick="resolveTicketAsync('{{ ticket.ticket_id }}', this)"
+                                    class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold px-3 py-2 rounded-xl transition-all shadow border border-white/20 flex items-center gap-1" 
+                                    title="Marcar como atendido y mover al historial inferior"
+                                >
+                                    <i class="fa-solid fa-check"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
-            </div>
-            {% else %}
-            <div class="glass-card rounded-2xl p-10 text-center text-slate-400 space-y-2">
-                <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mx-auto text-emerald-400 text-xl shadow">
-                    <i class="fa-solid fa-circle-check"></i>
+
+                <!-- Empty State for Pending Tickets -->
+                <div id="pending-empty-state" class="glass-card rounded-2xl p-8 text-center text-slate-400 space-y-2 {% if pending_count > 0 %}hidden{% endif %}">
+                    <div class="w-10 h-10 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mx-auto text-emerald-400 text-base shadow">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <h3 class="text-xs font-bold text-slate-200">No hay tickets pendientes por atender</h3>
+                    <p class="text-[11px] text-slate-400 max-w-sm mx-auto">
+                        Todas las solicitudes de soporte han sido resueltas o atendidas por el equipo humano.
+                    </p>
                 </div>
-                <h3 class="text-sm font-semibold text-slate-200">No hay tickets de soporte pendientes</h3>
-                <p class="text-xs text-slate-400 max-w-sm mx-auto">
-                    Todas las consultas están siendo resueltas por el motor de IA y las reglas deterministas.
-                </p>
             </div>
-            {% endif %}
+
+            <!-- 1.2 RESOLVED TICKETS HISTORY SECTION (BOTTOM) -->
+            <div id="resolved-tickets-section" class="space-y-4 pt-4 border-t border-white/10 {% if resolved_count == 0 %}hidden{% endif %}">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-clock-rotate-left text-emerald-400"></i>
+                        Historial de Tickets Resueltos / Atendidos
+                    </h3>
+                    <span id="resolved-count-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-white/5 text-slate-300 border border-white/10">
+                        {{ resolved_count }} Atendidos
+                    </span>
+                </div>
+
+                <div id="resolved-tickets-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    {% for ticket in resolved_tickets %}
+                    <div id="ticket-card-{{ ticket.ticket_id }}" class="glass-card rounded-3xl p-5 sm:p-6 space-y-4 flex flex-col justify-between border border-white/10 opacity-75 hover:opacity-100 transition-all shadow-xl hover:scale-[1.01]">
+                        
+                        <!-- Card Header -->
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <span class="p-1.5 rounded-xl bg-white/5 text-slate-400 border border-white/10">
+                                        <i class="fa-solid fa-ticket text-xs"></i>
+                                    </span>
+                                    <span class="font-mono font-bold text-sm text-slate-300">{{ ticket.ticket_id }}</span>
+                                </div>
+                                
+                                <span id="ticket-status-{{ ticket.ticket_id }}" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">
+                                    <i class="fa-solid fa-check mr-1 text-[8px]"></i> Resuelto
+                                </span>
+                            </div>
+
+                            <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1">
+                                <span class="flex items-center gap-1.5">
+                                    <i class="fa-solid {% if ticket.channel == 'telegram' %}fa-paper-plane text-sky-400{% else %}fa-globe text-brand-400{% endif %}"></i>
+                                    Canal: <strong class="text-slate-300">{{ ticket.channel }}</strong>
+                                </span>
+                                <span class="font-mono text-[10px] text-slate-400">{{ ticket.timestamp }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Card Body -->
+                        <div class="space-y-2.5 flex-1">
+                            <div>
+                                <span class="text-[10px] uppercase font-bold tracking-wider text-slate-400">Motivo:</span>
+                                <div class="mt-0.5 inline-block">
+                                    <span class="px-2 py-0.5 rounded-md text-[10px] font-medium bg-white/5 text-slate-400 border border-white/10">
+                                        {{ ticket.escalation_reason }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10 text-xs text-slate-300">
+                                <span class="text-[10px] text-slate-400 block font-semibold mb-1">Consulta del Estudiante:</span>
+                                <p class="italic leading-relaxed">"{{ ticket.user_query }}"</p>
+                            </div>
+                        </div>
+
+                        <!-- Card Footer Actions -->
+                        <div class="pt-3 border-t border-white/10 flex items-center justify-between gap-2">
+                            <!-- Open WebSocket Action -->
+                            <button 
+                                type="button"
+                                onclick="openTicketInWebSocket('{{ ticket.ticket_id }}', '{{ ticket.user_query | replace("'", "\\'") }}', '{{ ticket.channel }}')"
+                                class="flex-1 bg-white/10 hover:bg-white/20 text-slate-200 text-xs font-semibold py-2 rounded-xl transition-all border border-white/10 flex items-center justify-center gap-1.5"
+                                title="Abrir sesión en vivo por WebSocket para este ticket"
+                            >
+                                <i class="fa-solid fa-bolt text-amber-300 text-[10px]"></i>
+                                <span>Abrir WebSocket</span>
+                            </button>
+
+                            <div id="ticket-action-resolve-{{ ticket.ticket_id }}" class="flex items-center">
+                                <span class="text-emerald-400 text-xs italic font-medium flex items-center gap-1">
+                                    <i class="fa-solid fa-check text-[10px]"></i> Atendido
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
 
         <!-- 2. TAB CONTENT: CONSOLA WEBSOCKET EN VIVO -->
@@ -684,6 +767,38 @@ window.resolveTicketAsync = function(ticketId, btn) {
                 }
             }
         });
+
+        // 6. Move card smoothly from pending grid to resolved grid at the bottom
+        const pendingGrid = document.getElementById("pending-tickets-grid");
+        const resolvedGrid = document.getElementById("resolved-tickets-grid");
+        const resolvedSection = document.getElementById("resolved-tickets-section");
+        const emptyState = document.getElementById("pending-empty-state");
+        const resolvedBadge = document.getElementById("resolved-count-badge");
+
+        if (card && resolvedGrid) {
+            card.style.transition = "all 0.3s ease";
+            card.style.opacity = "0";
+            card.style.transform = "scale(0.95)";
+            
+            setTimeout(() => {
+                resolvedGrid.insertBefore(card, resolvedGrid.firstChild);
+                card.style.opacity = "0.75";
+                card.style.transform = "scale(1)";
+
+                if (resolvedSection) resolvedSection.classList.remove("hidden");
+
+                // Update resolved counter
+                if (resolvedBadge) {
+                    const resolvedTotal = resolvedGrid.children.length;
+                    resolvedBadge.textContent = `${resolvedTotal} Atendidos`;
+                }
+
+                // If no pending cards left, show empty state
+                if (pendingGrid && pendingGrid.querySelectorAll('[id^="ticket-card-"]').length === 0) {
+                    if (emptyState) emptyState.classList.remove("hidden");
+                }
+            }, 300);
+        }
     })
     .catch(err => {
         console.error("Error resolving ticket:", err);

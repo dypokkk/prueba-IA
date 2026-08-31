@@ -56,6 +56,9 @@ async def dashboard_view(request: Request):
             "html_content": html_content
         })
 
+    pending_tickets = [t for t in tickets if t.get("status") == "PENDING"]
+    resolved_tickets = [t for t in tickets if t.get("status") != "PENDING"]
+
     return templates.TemplateResponse(
         request=request,
         name="dashboard.html",
@@ -64,7 +67,10 @@ async def dashboard_view(request: Request):
             "metrics": metrics,
             "documents": documents,
             "tickets": tickets,
-            "pending_count": len([t for t in tickets if t.get("status") == "PENDING"]),
+            "pending_tickets": pending_tickets,
+            "resolved_tickets": resolved_tickets,
+            "pending_count": len(pending_tickets),
+            "resolved_count": len(resolved_tickets),
             "total_chunks": len(vector_store.chunks),
             "active_tab": "dashboard"
         }
