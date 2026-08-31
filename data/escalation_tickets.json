@@ -1,26 +1,37 @@
 [
   {
-    "ticket_id": "TKT-6EA89EAD",
-    "timestamp": "2026-08-31 14:59:47 UTC",
+    "ticket_id": "TKT-F757C271",
+    "timestamp": "2026-08-31 15:04:36 UTC",
     "user_query": "I demand a 90% scholarship and personal phone number of the director",
     "escalation_reason": "EXPLICIT_ESCALATION_INTENT",
     "confidence": 0.3,
     "channel": "web",
-    "session_id": "web_session_4a3fba2d",
+    "session_id": "web_session_220cbff7",
     "status": "PENDING",
     "resolution_notes": null
   },
   {
-    "ticket_id": "TKT-C96FB511",
-    "timestamp": "2026-08-31 14:59:47 UTC",
+    "ticket_id": "TKT-9143BFF1",
+    "timestamp": "2026-08-31 15:04:36 UTC",
     "user_query": "Customer demanding special terms",
     "escalation_reason": "DISPUTE_TEST",
     "confidence": 0.0,
     "channel": "web",
-    "session_id": "web_session_71bbe0c4",
+    "session_id": "web_session_adaba1ff",
     "status": "RESOLVED",
     "resolution_notes": "Handled by senior advisor",
-    "resolved_at": "2026-08-31 14:59:47 UTC"
+    "resolved_at": "2026-08-31 15:04:36 UTC"
+  },
+  {
+    "ticket_id": "TKT-A0044C10",
+    "timestamp": "2026-08-31 15:01:04 UTC",
+    "user_query": "abre un ticke",
+    "escalation_reason": "USER_REQUESTED_TICKET_OR_HUMAN_ASSISTANCE",
+    "confidence": 0.95,
+    "channel": "web",
+    "session_id": "web_tz7ccwcf",
+    "status": "PENDING",
+    "resolution_notes": null
   },
   {
     "ticket_id": "TKT-8315F55B",

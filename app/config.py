@@ -40,6 +40,10 @@ class Settings:
         self.TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
         self.TELEGRAM_WEBHOOK_URL = os.getenv("TELEGRAM_WEBHOOK_URL", "").strip()
 
+        # Resend Email API Settings
+        self.RESEND_API_KEY = os.getenv("RESEND_API_KEY", "").strip()
+        self.RESEND_FROM_EMAIL = os.getenv("RESEND_FROM_EMAIL", "Global Language Academy <onboarding@resend.dev>").strip()
+
         self.SIMILARITY_THRESHOLD = float(os.getenv("SIMILARITY_THRESHOLD", "0.20"))
         self.TOP_K_CHUNKS = int(os.getenv("TOP_K_CHUNKS", "6"))
         self.ENABLE_DETERMINISTIC_TIER = os.getenv("ENABLE_DETERMINISTIC_TIER", "true").lower() == "true"

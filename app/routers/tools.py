@@ -3,6 +3,7 @@ from pydantic import BaseModel, Field
 from typing import Optional, Dict, Any
 
 from app.tools.custom_tools import calculate_course_quote, check_level_placement
+from app.services.email_service import email_service
 
 router = APIRouter(prefix="/api/tools", tags=["Custom Tools & Skills"])
 
@@ -14,6 +15,12 @@ class QuoteRequest(BaseModel):
 
 class PlacementRequest(BaseModel):
     score_percentage: float = Field(..., ge=0.0, le=100.0, description="Score percentage (0.0 - 100.0)")
+
+class SendEmailPayload(BaseModel):
+    to_email: str = Field(..., description="Recipient email address (e.g. dypok24@gmail.com)")
+    subject: str = Field(default="Notificación - Global Language Academy", description="Subject line")
+    body: str = Field(..., description="Email body content in text or HTML")
+    schedule_name: Optional[str] = Field(default="9:00 AM – 11:00 AM (Lunes a Jueves)", description="Schedule requested")
 
 @router.post("/quote", response_model=Dict[str, Any])
 async def compute_quote_tool(payload: QuoteRequest):
@@ -29,3 +36,12 @@ async def compute_quote_tool(payload: QuoteRequest):
 async def compute_placement_tool(payload: PlacementRequest):
     """Custom Tool / Skill: Evaluates diagnostic score and returns CEFR Level and recommended module."""
     return check_level_placement(score_percentage=payload.score_percentage)
+
+@router.post("/send-email", response_model=Dict[str, Any])
+async def send_resend_email_tool(payload: SendEmailPayload):
+    """Custom Tool / Skill: Dispatches transactional confirmation email via Resend API."""
+    return email_service.send_schedule_change_confirmation(
+        to_email=payload.to_email,
+        new_schedule=payload.schedule_name or "9:00 AM – 11:00 AM (Lunes a Jueves)",
+        effective_mode="Inmediato"
+    )

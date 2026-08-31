@@ -225,6 +225,50 @@ class DeterministicService:
                     "• Hasta **3 cuotas 0% interés** con tarjeta de crédito.\n\n"
                     "¿Deseas calcular tu tarifa final con descuento?"
                 )
+            },
+
+            # 13. Immediate Schedule Change Follow-up
+            {
+                "category": "schedule_immediate_change",
+                "patterns": [
+                    r"^(\s*(de inmediato|inmediato|ya|lo antes posible|desde ya|inmediatamente)\s*)+[\.!\?]?$"
+                ],
+                "sources": ["02_schedules_and_modalities.md#4-schedule-changes-and-transfers"],
+                "answer": (
+                    "¡Entendido! Para realizar tu cambio de horario de inmediato, debemos verificar la disponibilidad de cupos en el grupo.\n\n"
+                    "• **Disponibilidad**: Sujeto a espacios libres en el grupo actual.\n"
+                    "• **Asesoría**: Un asesor confirmará tu traspaso hoy mismo.\n\n"
+                    "¿Prefieres que te contactemos por llamada telefónica o por correo electrónico?"
+                )
+            },
+
+            # 14. Email Contact Preference
+            {
+                "category": "email_contact_preference",
+                "patterns": [
+                    r"^(\s*(correo|por correo|email|por email|correo electr[oó]nico|por correo electr[oó]nico)\s*)+[\.!\?]?$"
+                ],
+                "sources": ["02_schedules_and_modalities.md#4-schedule-changes-and-transfers"],
+                "answer": (
+                    "¡Perfecto! Hemos registrado tu preferencia de contacto por correo electrónico.\n\n"
+                    "• **Confirmación**: Un asesor revisará el cupo disponible y te escribirá hoy mismo.\n"
+                    "• **Proceso**: Te enviaremos los detalles de tu nuevo horario.\n\n"
+                    "Por favor compárteme tu correo electrónico actual para enviarte la confirmación:"
+                )
+            },
+
+            # 15. Missing Email Alert & Clarification
+            {
+                "category": "missing_email_clarification",
+                "patterns": [
+                    r"\b(no te he dado mi correo|no te di mi correo|no te he pasado mi correo|no tienes mi correo|cu[aá]l correo si no te lo he dado|no tengo correo)\b"
+                ],
+                "sources": ["02_schedules_and_modalities.md#4-schedule-changes-and-transfers"],
+                "answer": (
+                    "¡Tienes toda la razón, disculpa el olvido! Por favor, compárteme tu correo electrónico actual para asociarlo a tu solicitud de cambio de horario.\n\n"
+                    "• **Gestión**: Así el asesor podrá escribirte directamente y confirmar tu cupo a través de Resend.\n\n"
+                    "¿Cuál es tu dirección de correo electrónico?"
+                )
             }
         ]
 

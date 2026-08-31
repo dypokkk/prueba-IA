@@ -11,6 +11,7 @@ from app.services.ai_service import ai_service
 from app.services.metrics_service import metrics_service
 from app.services.escalation_service import escalation_service
 from app.services.session_service import session_service
+from app.services.email_service import email_service
 
 def is_explicit_escalation_intent(query: str) -> bool:
     """Checks if the user's message is an explicit request for human support, tickets, or formal complaints."""
@@ -33,7 +34,7 @@ def is_explicit_escalation_intent(query: str) -> bool:
 def process_inquiry(message: str, channel: str = "web", session_id: Optional[str] = None) -> Dict[str, Any]:
     """
     Central Multi-Turn Hybrid Pipeline:
-    Explicit Escalation Check -> Session Context -> Cache Check -> Tier 1 Deterministic -> Tier 2 Multi-Turn Vector RAG (Gemini) -> Tier 3 Escalation
+    Email Capture (Resend) -> Explicit Escalation Check -> Session Context -> Cache Check -> Tier 1 Deterministic -> Tier 2 Multi-Turn Vector RAG (Gemini) -> Tier 3 Escalation
     """
     start_time = time.time()
     query = message.strip()
@@ -44,6 +45,50 @@ def process_inquiry(message: str, channel: str = "web", session_id: Optional[str
     # Add user message to multi-turn conversation memory
     session_service.add_user_message(session_id, query)
     conversation_history = session_service.get_history(session_id)
+
+    # 0. Step 0: Check if student provided an email address (e.g. dypok24@gmail.com) to trigger Resend confirmation
+    email_matches = re.findall(r'[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+', query)
+    if email_matches:
+        user_email = email_matches[0]
+        history_text = " ".join([m.get("content", "") for m in conversation_history]).lower()
+        
+        schedule_name = "9:00 AM – 11:00 AM (Lunes a Jueves)" if ("9" in history_text or "9:00" in history_text or "9am" in history_text) else "Horario Solicitado"
+        mode = "De inmediato" if "inmediato" in history_text else "Próximo módulo"
+
+        # Dispatch confirmation email via Resend
+        email_res = email_service.send_schedule_change_confirmation(
+            to_email=user_email,
+            new_schedule=schedule_name,
+            effective_mode=mode
+        )
+        latency_ms = (time.time() - start_time) * 1000
+        metrics_service.record_query(
+            tier="deterministic",
+            is_cache_hit=False,
+            is_escalated=False,
+            latency_ms=latency_ms
+        )
+
+        answer = (
+            f"¡Muchas gracias! Ya he registrado tu correo electrónico (**{user_email}**) en nuestra plataforma.\n\n"
+            f"• **Actualización**: Tu solicitud de cambio al horario de las **{schedule_name}** ({mode}) ha sido enviada al equipo de admisiones vía Resend.\n"
+            f"• **Respuesta**: Te contactaremos a este correo muy pronto con la confirmación final de cupo.\n\n"
+            f"¿Te puedo ayudar con alguna otra duda sobre tus clases?"
+        )
+        session_service.add_assistant_message(session_id, answer)
+        return {
+            "answer": answer,
+            "tier": "deterministic",
+            "confidence": 1.0,
+            "sources": ["02_schedules_and_modalities.md#4-schedule-changes-and-transfers"],
+            "escalate_to_human": False,
+            "escalation_reason": None,
+            "ticket_id": None,
+            "email_sent": email_res.get("success", False),
+            "cached": False,
+            "session_id": session_id,
+            "latency_ms": round(latency_ms, 2)
+        }
 
     # 1. Step 1: Explicit Human Support & Ticket Request Check (Immediate Tier 3 Escalation)
     if is_explicit_escalation_intent(query):
