@@ -10,17 +10,18 @@
         <div>
             <div class="flex items-center gap-2 mb-1">
                 <span class="px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 text-[11px] font-bold border border-indigo-400/30">
-                    Panel Administrativo
+                    Panel Administrativo & Soporte
                 </span>
-                <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[11px] font-bold border border-emerald-400/30">
-                    Gemini 3.5 Flash Lite
+                <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[11px] font-bold border border-emerald-400/30 flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    WebSocket /ws/chat
                 </span>
             </div>
             <h1 class="text-2xl font-bold text-white tracking-tight flex items-center gap-2.5">
                 <i class="fa-solid fa-gauge-high text-brand-400"></i> Observabilidad, Base de Datos & Soporte Humano
             </h1>
             <p class="text-sm text-slate-300 mt-1">
-                Seguimiento de consumo de tokens, gestión de tickets escalados a humanos y consulta de la base de conocimiento indexada.
+                Seguimiento de consumo de tokens, atención en vivo por WebSocket a tickets escalados y consulta de la base de conocimiento.
             </p>
         </div>
         <div class="flex items-center space-x-3">
@@ -109,7 +110,7 @@
     <!-- MAIN ADMIN TABS NAVIGATION -->
     <div class="glass-panel rounded-3xl overflow-hidden shadow-2xl">
         <div class="p-6 border-b border-white/10 bg-slate-900/50 backdrop-blur-md flex flex-wrap items-center justify-between gap-4">
-            <div class="flex items-center space-x-2 bg-slate-900/60 p-1.5 rounded-2xl border border-white/10 backdrop-blur-md">
+            <div class="flex flex-wrap items-center gap-2 bg-slate-900/60 p-1.5 rounded-2xl border border-white/10 backdrop-blur-md">
                 <button 
                     onclick="switchAdminTab('tickets')" 
                     id="admin-tab-btn-tickets" 
@@ -120,6 +121,14 @@
                     {% if pending_count > 0 %}
                     <span class="px-2 py-0.2 bg-white text-rose-900 text-[10px] font-black rounded-full shadow-sm">{{ pending_count }}</span>
                     {% endif %}
+                </button>
+                <button 
+                    onclick="switchAdminTab('livechat')" 
+                    id="admin-tab-btn-livechat" 
+                    class="admin-main-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-2 text-slate-400 hover:text-slate-200 hover:bg-white/5 border border-transparent"
+                >
+                    <i class="fa-solid fa-bolt text-emerald-400"></i>
+                    <span>Consola WebSocket en Vivo</span>
                 </button>
                 <button 
                     onclick="switchAdminTab('docs')" 
@@ -144,7 +153,7 @@
                         <i class="fa-solid fa-inbox text-amber-400"></i> Cola de Escalamientos a Asesores Humanos
                     </h2>
                     <p class="text-xs text-slate-400 mt-0.5">
-                        Consultas fuera de alcance, solicitudes de becas especiales, reembolsos o atención personalizada.
+                        Haz clic en <strong>Abrir WebSocket</strong> para conectarte en vivo con el contexto del estudiante.
                     </p>
                 </div>
                 <span class="px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-400/30">
@@ -162,9 +171,9 @@
                                 <th class="px-5 py-3.5">Fecha</th>
                                 <th class="px-5 py-3.5">Canal</th>
                                 <th class="px-5 py-3.5">Consulta del Estudiante</th>
-                                <th class="px-5 py-3.5">Motivo de Escalamiento</th>
+                                <th class="px-5 py-3.5">Motivo</th>
                                 <th class="px-5 py-3.5">Estado</th>
-                                <th class="px-5 py-3.5 text-right">Acción</th>
+                                <th class="px-5 py-3.5 text-right">Acciones</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-white/5 text-slate-200">
@@ -201,15 +210,24 @@
                                     </span>
                                     {% endif %}
                                 </td>
-                                <td class="px-5 py-3.5 text-right">
+                                <td class="px-5 py-3.5 text-right space-x-1.5 whitespace-nowrap">
+                                    <!-- Open WebSocket Button -->
+                                    <button 
+                                        type="button"
+                                        onclick="openTicketInWebSocket('{{ ticket.ticket_id }}', '{{ ticket.user_query | replace("'", "\\'") }}', '{{ ticket.channel }}')"
+                                        class="bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white text-[11px] font-bold px-3 py-1.5 rounded-xl transition-all shadow border border-white/20 inline-flex items-center gap-1.5"
+                                        title="Abrir conexión WebSocket para este ticket"
+                                    >
+                                        <i class="fa-solid fa-bolt text-amber-300 text-[10px]"></i>
+                                        <span>Abrir WebSocket</span>
+                                    </button>
+
                                     {% if ticket.status == 'PENDING' %}
                                     <form action="/escalations/{{ ticket.ticket_id }}/resolve" method="POST" class="inline">
                                         <button type="submit" class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-[11px] font-bold px-3 py-1.5 rounded-xl transition-all shadow border border-white/20">
-                                            <i class="fa-solid fa-check mr-1"></i> Marcar Resuelto
+                                            <i class="fa-solid fa-check mr-1"></i> Resuelto
                                         </button>
                                     </form>
-                                    {% else %}
-                                    <span class="text-slate-500 italic text-[11px]">Atendido</span>
                                     {% endif %}
                                 </td>
                             </tr>
@@ -231,7 +249,95 @@
             {% endif %}
         </div>
 
-        <!-- 2. TAB CONTENT: BASE DE CONOCIMIENTO (DOCUMENTOS MARKDOWN) -->
+        <!-- 2. TAB CONTENT: CONSOLA WEBSOCKET EN VIVO -->
+        <div id="admin-panel-livechat" class="admin-main-panel p-6 space-y-5 hidden">
+            <!-- WebSocket Session Info Bar -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-slate-900/80 border border-white/10">
+                <div class="flex items-center space-x-3">
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-600 to-emerald-500 flex items-center justify-center text-white text-sm shadow">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold text-white">Consola WebSocket Bidireccional</span>
+                            <span id="dash-ws-badge" class="px-2 py-0.2 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-bold border border-emerald-400/30 flex items-center gap-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                                Conectado (/ws/chat)
+                            </span>
+                        </div>
+                        <div class="text-[11px] text-slate-400 flex items-center gap-2 mt-0.5">
+                            <span>ID de Sesión: <code id="dash-ws-session-id" class="text-brand-300 font-mono">admin_ws_live</code></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-2">
+                    <button onclick="resetDashWsChat()" class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 text-xs font-medium border border-white/10 transition-all flex items-center gap-1.5">
+                        <i class="fa-solid fa-rotate-right"></i> Reiniciar Conversación
+                    </button>
+                </div>
+            </div>
+
+            <!-- Active Ticket Context Card (Hidden by default, shown when ticket selected) -->
+            <div id="dash-active-ticket-banner" class="hidden p-4 rounded-2xl bg-gradient-to-r from-rose-950/40 via-amber-950/30 to-slate-900/60 border border-rose-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-rose-300 uppercase tracking-wider text-[10px]">Atendiendo Ticket:</span>
+                        <strong id="dash-banner-ticket-id" class="font-mono text-white bg-rose-500/20 px-2 py-0.5 rounded border border-rose-400/30">TKT-XXXXXX</strong>
+                        <span id="dash-banner-channel" class="text-slate-400 text-[11px]">Canal: web</span>
+                    </div>
+                    <p id="dash-banner-query" class="text-slate-200 mt-1 font-medium italic">"Consulta del estudiante..."</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="sendCannedResponse('¡Hola! Soy un asesor humano de admisiones de Global Language Academy. Con gusto te ayudo a resolver tu consulta.')" class="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200 text-[11px] transition-all">
+                        💬 Saludo de Asesor
+                    </button>
+                </div>
+            </div>
+
+            <!-- Live Chat Messages Stream Box -->
+            <div id="dash-ws-messages-container" class="glass-card rounded-2xl p-5 min-h-[380px] max-h-[480px] overflow-y-auto space-y-4 custom-scrollbar text-xs">
+                <!-- Initial Welcome -->
+                <div class="flex items-start space-x-3 bot-message">
+                    <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-500 flex items-center justify-center text-white flex-shrink-0 text-xs shadow border border-white/20">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <div class="glass-bubble rounded-2xl rounded-tl-none p-4 text-slate-100 max-w-[85%] text-xs leading-relaxed">
+                        <div class="flex items-center justify-between gap-1.5 mb-1">
+                            <span class="text-[11px] font-bold text-brand-300 tracking-wide uppercase">Consola de Soporte WebSocket</span>
+                            <span class="text-[10px] text-slate-400 font-mono">En vivo</span>
+                        </div>
+                        <p>Canal WebSocket listo. Puedes enviar mensajes como asesor o responder las consultas del estudiante con contexto activo.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Typing indicator -->
+            <div id="dash-ws-typing-indicator" class="hidden flex items-center space-x-2 pl-4 text-xs text-slate-400">
+                <span class="w-2 h-2 rounded-full bg-brand-400 animate-ping"></span>
+                <span>Procesando respuesta en tiempo real...</span>
+            </div>
+
+            <!-- Input Form for WebSocket Chat -->
+            <form id="dash-ws-chat-form" class="flex items-center gap-2 p-2 rounded-2xl glass-panel border border-white/20">
+                <input 
+                    type="text" 
+                    id="dash-ws-user-input" 
+                    placeholder="Escribe un mensaje para enviar por WebSocket..." 
+                    class="flex-1 bg-transparent px-4 py-2.5 text-xs text-white placeholder-slate-400 focus:outline-none"
+                    autocomplete="off"
+                />
+                <button 
+                    type="submit" 
+                    class="bg-gradient-to-r from-brand-600 to-emerald-500 hover:from-brand-500 hover:to-emerald-400 text-white font-bold px-5 py-2.5 rounded-xl text-xs transition-all shadow flex items-center gap-2 flex-shrink-0"
+                >
+                    <span>Enviar</span>
+                    <i class="fa-solid fa-paper-plane text-[10px]"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- 3. TAB CONTENT: BASE DE CONOCIMIENTO (DOCUMENTOS MARKDOWN) -->
         <div id="admin-panel-docs" class="admin-main-panel p-6 space-y-6 hidden">
             <!-- Document Tabs -->
             <div class="flex space-x-2 border-b border-white/10 pb-4 overflow-x-auto no-scrollbar">
@@ -266,14 +372,14 @@
 
 {% block scripts %}
 <script>
-// Admin Main Tab Switcher (Tickets vs Docs)
+// Admin Main Tab Switcher (Tickets vs LiveChat vs Docs)
 window.switchAdminTab = function(tabName) {
     const panels = document.querySelectorAll(".admin-main-panel");
     const btns = document.querySelectorAll(".admin-main-tab-btn");
 
     panels.forEach(p => p.classList.add("hidden"));
     btns.forEach(b => {
-        b.classList.remove("bg-gradient-to-r", "from-rose-600", "to-amber-600", "from-brand-600", "to-indigo-600", "text-white", "shadow-md", "border-white/20");
+        b.classList.remove("bg-gradient-to-r", "from-rose-600", "to-amber-600", "from-brand-600", "to-indigo-600", "from-emerald-600", "to-teal-600", "text-white", "shadow-md", "border-white/20");
         b.classList.add("text-slate-400", "hover:text-slate-200", "hover:bg-white/5", "border-transparent");
     });
 
@@ -285,20 +391,242 @@ window.switchAdminTab = function(tabName) {
         activeBtn.classList.remove("text-slate-400", "hover:text-slate-200", "hover:bg-white/5", "border-transparent");
         if (tabName === 'tickets') {
             activeBtn.classList.add("bg-gradient-to-r", "from-rose-600", "to-amber-600", "text-white", "shadow-md", "border-white/20");
+        } else if (tabName === 'livechat') {
+            activeBtn.classList.add("bg-gradient-to-r", "from-emerald-600", "to-teal-600", "text-white", "shadow-md", "border-white/20");
+            initDashWebSocket();
         } else {
             activeBtn.classList.add("bg-gradient-to-r", "from-brand-600", "to-indigo-600", "text-white", "shadow-md", "border-white/20");
         }
     }
 };
 
-// Check for hash on load (e.g. /dashboard#tickets or /dashboard#docs)
+// WebSocket Management for Dashboard Live Chat Console
+let dashSocket = null;
+let dashSessionId = "admin_ws_" + Math.random().toString(36).substring(2, 8);
+
+function initDashWebSocket() {
+    if (dashSocket && dashSocket.readyState === WebSocket.OPEN) return;
+
+    const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+    const wsUrl = `${protocol}//${window.location.host}/ws/chat`;
+
+    const badge = document.getElementById("dash-ws-badge");
+    const sessionLabel = document.getElementById("dash-ws-session-id");
+    if (sessionLabel) sessionLabel.textContent = dashSessionId;
+
+    try {
+        dashSocket = new WebSocket(wsUrl);
+
+        dashSocket.onopen = () => {
+            if (badge) {
+                badge.className = "px-2 py-0.2 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-bold border border-emerald-400/30 flex items-center gap-1";
+                badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> WebSocket Conectado';
+            }
+        };
+
+        dashSocket.onmessage = (event) => {
+            hideDashTyping();
+            try {
+                const data = JSON.parse(event.data);
+                if (data.tier !== "system") {
+                    appendDashBotMessage(data);
+                }
+            } catch (e) {
+                console.error("Error parsing dash WS message:", e);
+            }
+        };
+
+        dashSocket.onclose = () => {
+            if (badge) {
+                badge.className = "px-2 py-0.2 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-bold border border-amber-400/30 flex items-center gap-1";
+                badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> WebSocket Desconectado (Reintentando...)';
+            }
+        };
+    } catch (err) {
+        console.warn("Error connecting dash websocket:", err);
+    }
+}
+
+window.openTicketInWebSocket = function(ticketId, userQuery, channel) {
+    switchAdminTab('livechat');
+    dashSessionId = `ticket_session_${ticketId}`;
+    const sessionLabel = document.getElementById("dash-ws-session-id");
+    if (sessionLabel) sessionLabel.textContent = dashSessionId;
+
+    const banner = document.getElementById("dash-active-ticket-banner");
+    const bannerTicketId = document.getElementById("dash-banner-ticket-id");
+    const bannerChannel = document.getElementById("dash-banner-channel");
+    const bannerQuery = document.getElementById("dash-banner-query");
+
+    if (banner) banner.classList.remove("hidden");
+    if (bannerTicketId) bannerTicketId.textContent = ticketId;
+    if (bannerChannel) bannerChannel.textContent = `Canal: ${channel}`;
+    if (bannerQuery) bannerQuery.textContent = `"${userQuery}"`;
+
+    // Append context message in container
+    const container = document.getElementById("dash-ws-messages-container");
+    if (container) {
+        const ticketContextDiv = document.createElement("div");
+        ticketContextDiv.className = "p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs";
+        ticketContextDiv.innerHTML = `
+            <strong>Sesión vinculada al Ticket ${ticketId}:</strong><br>
+            Consulta inicial: <em>"${userQuery}"</em>
+        `;
+        container.appendChild(ticketContextDiv);
+        container.scrollTop = container.scrollHeight;
+    }
+
+    const input = document.getElementById("dash-ws-user-input");
+    if (input) {
+        input.focus();
+    }
+};
+
+window.sendCannedResponse = function(text) {
+    const input = document.getElementById("dash-ws-user-input");
+    if (input) {
+        input.value = text;
+        const form = document.getElementById("dash-ws-chat-form");
+        if (form) form.dispatchEvent(new Event("submit"));
+    }
+};
+
+window.resetDashWsChat = function() {
+    if (dashSocket && dashSocket.readyState === WebSocket.OPEN) {
+        dashSocket.send(JSON.stringify({ action: "clear", session_id: dashSessionId }));
+    }
+    dashSessionId = "admin_ws_" + Math.random().toString(36).substring(2, 8);
+    const sessionLabel = document.getElementById("dash-ws-session-id");
+    if (sessionLabel) sessionLabel.textContent = dashSessionId;
+
+    const banner = document.getElementById("dash-active-ticket-banner");
+    if (banner) banner.classList.add("hidden");
+
+    const container = document.getElementById("dash-ws-messages-container");
+    if (container) {
+        container.innerHTML = `
+            <div class="flex items-start space-x-3 bot-message">
+                <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-500 flex items-center justify-center text-white flex-shrink-0 text-xs shadow border border-white/20">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div class="glass-bubble rounded-2xl rounded-tl-none p-4 text-slate-100 max-w-[85%] text-xs leading-relaxed">
+                    <div class="flex items-center justify-between gap-1.5 mb-1">
+                        <span class="text-[11px] font-bold text-brand-300 tracking-wide uppercase">Consola de Soporte WebSocket</span>
+                        <span class="text-[10px] text-slate-400 font-mono">En vivo</span>
+                    </div>
+                    <p>Conversación reiniciada. Puedes enviar mensajes o atender nuevos tickets vía WebSocket.</p>
+                </div>
+            </div>
+        `;
+    }
+};
+
 document.addEventListener("DOMContentLoaded", () => {
+    // Check for hash on load
     if (window.location.hash === '#docs') {
         switchAdminTab('docs');
+    } else if (window.location.hash === '#livechat') {
+        switchAdminTab('livechat');
     } else {
         switchAdminTab('tickets');
     }
+
+    const form = document.getElementById("dash-ws-chat-form");
+    const input = document.getElementById("dash-ws-user-input");
+
+    if (form) {
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const text = input ? input.value.trim() : "";
+            if (!text) return;
+
+            appendDashUserMessage(text);
+            showDashTyping();
+
+            if (dashSocket && dashSocket.readyState === WebSocket.OPEN) {
+                dashSocket.send(JSON.stringify({ message: text, session_id: dashSessionId }));
+            } else {
+                fetch("/api/chat", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message: text, channel: "dashboard_ws", session_id: dashSessionId })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    hideDashTyping();
+                    appendDashBotMessage(data);
+                })
+                .catch(err => {
+                    hideDashTyping();
+                    console.error("Dashboard chat error:", err);
+                });
+            }
+
+            if (input) input.value = "";
+        });
+    }
 });
+
+function appendDashUserMessage(text) {
+    const container = document.getElementById("dash-ws-messages-container");
+    if (!container) return;
+
+    const div = document.createElement("div");
+    div.className = "flex items-start justify-end space-x-2.5";
+    div.innerHTML = `
+        <div class="user-bubble text-white rounded-2xl rounded-tr-none px-4 py-2 max-w-[85%] text-xs leading-relaxed shadow">
+            ${escapeHtml(text)}
+        </div>
+        <div class="w-7 h-7 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center text-white flex-shrink-0 text-xs shadow border border-white/20">
+            <i class="fa-solid fa-headset text-[10px]"></i>
+        </div>
+    `;
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+}
+
+function appendDashBotMessage(data) {
+    const container = document.getElementById("dash-ws-messages-container");
+    if (!container) return;
+
+    const div = document.createElement("div");
+    div.className = "flex items-start space-x-3";
+    div.innerHTML = `
+        <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-500 flex items-center justify-center text-white flex-shrink-0 text-xs shadow border border-white/20">
+            <i class="fa-solid fa-graduation-cap text-xs"></i>
+        </div>
+        <div class="glass-bubble rounded-2xl rounded-tl-none p-4 text-slate-100 max-w-[85%] text-xs leading-relaxed">
+            <div class="flex items-center justify-between gap-1.5 mb-1">
+                <span class="text-[11px] font-bold text-brand-300 uppercase tracking-wide">Global Language Academy</span>
+                <span class="text-[10px] text-slate-400 font-mono">En vivo</span>
+            </div>
+            <div class="prose prose-invert prose-xs text-slate-200 leading-relaxed">
+                ${data.answer.replace(/\n/g, '<br>')}
+            </div>
+        </div>
+    `;
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+}
+
+function showDashTyping() {
+    const typing = document.getElementById("dash-ws-typing-indicator");
+    if (typing) typing.classList.remove("hidden");
+    const container = document.getElementById("dash-ws-messages-container");
+    if (container) container.scrollTop = container.scrollHeight;
+}
+
+function hideDashTyping() {
+    const typing = document.getElementById("dash-ws-typing-indicator");
+    if (typing) typing.classList.add("hidden");
+}
+
+function escapeHtml(text) {
+    if (!text) return "";
+    const div = document.createElement("div");
+    div.textContent = text;
+    return div.innerHTML;
+}
 </script>
 <script src="/static/js/dashboard.js"></script>
 {% endblock %}
