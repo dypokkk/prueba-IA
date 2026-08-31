@@ -1,50 +1,201 @@
-/* Custom styling and scrollbar customizations */
+/* ==========================================================
+   GLASSMORPHISM DESIGN SYSTEM - GLOBAL LANGUAGE ACADEMY
+   ========================================================== */
+
+/* Custom Smooth Glass Scrollbar */
 ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-    background: rgba(15, 23, 42, 0.6);
+    background: rgba(15, 23, 42, 0.3);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgba(51, 65, 85, 0.8);
-    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 9999px;
+    backdrop-filter: blur(8px);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(71, 85, 105, 1);
+    background: rgba(255, 255, 255, 0.3);
 }
 
-/* Quick Inquiry Chip Button */
+/* Ambient Floating Glow Mesh (Background Orbs) */
+.ambient-mesh {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.glow-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.5;
+    animation: float-glow 20s infinite ease-in-out alternate;
+}
+
+.glow-orb-1 {
+    top: -10%;
+    left: 10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.45) 0%, rgba(99, 102, 241, 0) 70%);
+}
+
+.glow-orb-2 {
+    top: 20%;
+    right: -10%;
+    width: 550px;
+    height: 550px;
+    background: radial-gradient(circle, rgba(6, 182, 212, 0.35) 0%, rgba(6, 182, 212, 0) 70%);
+    animation-delay: -5s;
+}
+
+.glow-orb-3 {
+    bottom: -10%;
+    left: 30%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.35) 0%, rgba(37, 99, 235, 0) 70%);
+    animation-delay: -10s;
+}
+
+.glow-orb-4 {
+    bottom: 20%;
+    left: -5%;
+    width: 450px;
+    height: 450px;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.25) 0%, rgba(16, 185, 129, 0) 70%);
+    animation-delay: -15s;
+}
+
+@keyframes float-glow {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+    50% {
+        transform: translate(40px, -30px) scale(1.1);
+    }
+    100% {
+        transform: translate(-30px, 30px) scale(0.95);
+    }
+}
+
+/* Glassmorphism Structural Classes */
+.glass-panel {
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(20px) saturate(190%);
+    -webkit-backdrop-filter: blur(20px) saturate(190%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.glass-card {
+    background: rgba(30, 41, 59, 0.45);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+    background: rgba(30, 41, 59, 0.6);
+    border-color: rgba(255, 255, 255, 0.18);
+    transform: translateY(-2px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45);
+}
+
+.glass-header {
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Glass Interactive Quick Chips */
 .chip-btn {
     display: inline-flex;
     align-items: center;
-    padding: 0.35rem 0.75rem;
+    padding: 0.4rem 0.85rem;
     font-size: 0.75rem;
     font-weight: 500;
-    color: #94a3b8;
-    background-color: rgba(30, 41, 59, 0.8);
-    border: 1px solid rgba(51, 65, 85, 0.8);
+    color: #cbd5e1;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 9999px;
     white-space: nowrap;
     transition: all 0.2s ease-in-out;
     cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .chip-btn:hover {
     color: #ffffff;
-    background-color: rgba(37, 99, 235, 0.2);
-    border-color: rgba(59, 130, 246, 0.5);
+    background: rgba(59, 130, 246, 0.2);
+    border-color: rgba(96, 165, 250, 0.5);
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.35);
     transform: translateY(-1px);
 }
 
-/* Rich Markdown Rendering inside Chat Bubbles */
+/* Glass Message Bubbles */
+.bot-bubble {
+    background: rgba(30, 41, 59, 0.5);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+}
+
+.user-bubble {
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.8), rgba(79, 70, 229, 0.8));
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.35);
+}
+
+.glass-input {
+    background: rgba(10, 15, 29, 0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.glass-input:focus {
+    border-color: rgba(96, 165, 250, 0.6);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.glass-btn-primary {
+    background: linear-gradient(135deg, #2563eb, #4f46e5);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+    transition: all 0.2s ease-in-out;
+}
+
+.glass-btn-primary:hover {
+    background: linear-gradient(135deg, #3b82f6, #6366f1);
+    box-shadow: 0 0 25px rgba(59, 130, 246, 0.6);
+    transform: translateY(-1px);
+}
+
+/* Rich Markdown Typography inside Glass Bubbles */
 .bot-response-content {
     color: #e2e8f0;
     font-size: 0.875rem;
-    line-height: 1.625;
+    line-height: 1.65;
 }
 
 .bot-response-content h1,
@@ -100,10 +251,11 @@
 }
 
 .bot-response-content code {
-    background-color: rgba(15, 23, 42, 0.7);
+    background: rgba(15, 23, 42, 0.7);
     color: #93c5fd;
     padding: 0.15rem 0.35rem;
-    border-radius: 0.25rem;
+    border-radius: 0.35rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
     font-size: 0.8em;
     font-family: monospace;
 }
@@ -114,6 +266,8 @@
     margin: 0.5rem 0;
     color: #94a3b8;
     font-style: italic;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 0 0.375rem 0.375rem 0;
 }
 
 /* 3 Thinking Dots Animation */
@@ -124,6 +278,7 @@
     border-radius: 50%;
     display: inline-block;
     animation: thinking-bounce 1.4s infinite ease-in-out both;
+    box-shadow: 0 0 8px rgba(96, 165, 250, 0.6);
 }
 
 .thinking-dot:nth-child(1) {
@@ -137,7 +292,7 @@
 @keyframes thinking-bounce {
     0%, 80%, 100% {
         transform: scale(0);
-        opacity: 0.4;
+        opacity: 0.3;
     }
     40% {
         transform: scale(1.0);

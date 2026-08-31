@@ -5,50 +5,51 @@
 {% block content %}
 <div class="space-y-6 max-w-7xl w-full mx-auto">
 
-    <!-- Desk Header -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-800/60 border border-slate-700/80 rounded-2xl p-6 backdrop-blur">
+    <!-- Desk Header in Glass Panel -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 glass-panel rounded-3xl p-6 sm:p-7 shadow-xl">
         <div>
-            <h1 class="text-2xl font-bold text-white tracking-tight flex items-center gap-2">
+            <h1 class="text-2xl font-bold text-white tracking-tight flex items-center gap-2.5">
                 <i class="fa-solid fa-headset text-amber-400"></i> Human Escalation Support Desk
             </h1>
-            <p class="text-sm text-slate-400 mt-1">
-                Manage inquiries that require manual intervention, customized quotes, special discounts, or management review.
+            <p class="text-sm text-slate-300 mt-1">
+                Gestión de consultas complejas, solicitudes de becas especiales, reembolsos o atención personalizada directa.
             </p>
         </div>
         <div class="flex items-center space-x-2">
-            <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                <i class="fa-solid fa-bell mr-1"></i> {{ pending_count }} Pending Tickets
+            <span class="px-4 py-2 rounded-2xl text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-400/30 backdrop-blur-md shadow-sm">
+                <i class="fa-solid fa-bell mr-1.5 animate-pulse text-amber-400"></i> {{ pending_count }} Tickets Pendientes
             </span>
         </div>
     </div>
 
-    <!-- Tickets Table -->
-    <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl shadow-xl overflow-hidden">
+    <!-- Tickets Table in Glass Panel -->
+    <div class="glass-panel rounded-3xl shadow-2xl overflow-hidden">
         {% if tickets and tickets|length > 0 %}
         <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-slate-700 text-left text-sm">
-                <thead class="bg-slate-900/80 text-xs font-semibold uppercase text-slate-400">
+            <table class="min-w-full divide-y divide-white/10 text-left text-sm">
+                <thead class="bg-slate-900/60 text-xs font-semibold uppercase text-slate-400 backdrop-blur-md">
                     <tr>
                         <th class="px-6 py-4">Ticket ID</th>
-                        <th class="px-6 py-4">Timestamp</th>
-                        <th class="px-6 py-4">Channel</th>
-                        <th class="px-6 py-4">Student Inquiry</th>
-                        <th class="px-6 py-4">Escalation Reason</th>
-                        <th class="px-6 py-4">Status</th>
-                        <th class="px-6 py-4 text-right">Actions</th>
+                        <th class="px-6 py-4">Fecha / Hora</th>
+                        <th class="px-6 py-4">Canal</th>
+                        <th class="px-6 py-4">Consulta del Estudiante</th>
+                        <th class="px-6 py-4">Motivo de Escalamiento</th>
+                        <th class="px-6 py-4">Estado</th>
+                        <th class="px-6 py-4 text-right">Acción</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-700/60 text-slate-200">
+                <tbody class="divide-y divide-white/5 text-slate-200">
                     {% for ticket in tickets %}
-                    <tr class="hover:bg-slate-700/30 transition-colors">
-                        <td class="px-6 py-4 font-mono font-semibold text-brand-300">
+                    <tr class="hover:bg-white/5 transition-colors">
+                        <td class="px-6 py-4 font-mono font-semibold text-brand-300 text-xs">
                             {{ ticket.ticket_id }}
                         </td>
                         <td class="px-6 py-4 text-xs text-slate-400 whitespace-nowrap">
                             {{ ticket.timestamp }}
                         </td>
                         <td class="px-6 py-4">
-                            <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-slate-700 text-slate-300">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-xl text-[11px] font-medium bg-white/5 border border-white/10 text-slate-300 backdrop-blur-md">
+                                <i class="fa-solid {% if ticket.channel == 'telegram' %}fa-paper-plane text-sky-400{% else %}fa-globe text-brand-400{% endif %} mr-1.5 text-[10px]"></i>
                                 {{ ticket.channel }}
                             </span>
                         </td>
@@ -56,30 +57,30 @@
                             "{{ ticket.user_query }}"
                         </td>
                         <td class="px-6 py-4">
-                            <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-rose-500/10 text-rose-300 border border-rose-500/20">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-xl text-[11px] font-medium bg-rose-500/20 text-rose-300 border border-rose-400/30 backdrop-blur-md">
                                 {{ ticket.escalation_reason }}
                             </span>
                         </td>
                         <td class="px-6 py-4">
                             {% if ticket.status == 'PENDING' %}
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                                <i class="fa-solid fa-clock mr-1 text-[10px]"></i> Pending
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-400/30 backdrop-blur-md shadow-sm">
+                                <i class="fa-solid fa-clock mr-1.5 text-[10px]"></i> Pendiente
                             </span>
                             {% else %}
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                                <i class="fa-solid fa-check mr-1 text-[10px]"></i> Resolved
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 backdrop-blur-md shadow-sm">
+                                <i class="fa-solid fa-check mr-1.5 text-[10px]"></i> Resuelto
                             </span>
                             {% endif %}
                         </td>
                         <td class="px-6 py-4 text-right">
                             {% if ticket.status == 'PENDING' %}
                             <form action="/escalations/{{ ticket.ticket_id }}/resolve" method="POST" class="inline">
-                                <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium px-3 py-1.5 rounded-lg transition-colors shadow">
-                                    <i class="fa-solid fa-check mr-1"></i> Resolve
+                                <button type="submit" class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-medium px-3.5 py-2 rounded-xl transition-all shadow-md shadow-emerald-600/30 border border-white/20">
+                                    <i class="fa-solid fa-check mr-1"></i> Resolver
                                 </button>
                             </form>
                             {% else %}
-                            <span class="text-xs text-slate-400 italic">Handled</span>
+                            <span class="text-xs text-slate-400 italic">Atendido</span>
                             {% endif %}
                         </td>
                     </tr>
@@ -88,14 +89,14 @@
             </table>
         </div>
         {% else %}
-        <!-- Empty State -->
+        <!-- Empty State in Glassmorphism -->
         <div class="p-12 text-center text-slate-400 space-y-3">
-            <div class="w-14 h-14 rounded-full bg-slate-700/50 flex items-center justify-center mx-auto text-emerald-400 text-2xl">
+            <div class="w-16 h-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mx-auto text-emerald-400 text-2xl shadow-lg shadow-emerald-500/10 backdrop-blur-md">
                 <i class="fa-solid fa-circle-check"></i>
             </div>
-            <h3 class="text-base font-semibold text-slate-200">No Pending Escalations</h3>
+            <h3 class="text-base font-semibold text-slate-200">No hay escalamientos pendientes</h3>
             <p class="text-xs text-slate-400 max-w-sm mx-auto">
-                All customer inquiries are currently being resolved automatically by the Hybrid Deterministic & Gemini RAG engine.
+                Todas las consultas están siendo resueltas automáticamente por el motor híbrido de alta precisión.
             </p>
         </div>
         {% endif %}

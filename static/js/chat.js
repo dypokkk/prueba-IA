@@ -129,12 +129,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function appendUserMessage(text) {
         const msgDiv = document.createElement("div");
-        msgDiv.className = "flex items-start justify-end space-x-3";
+        msgDiv.className = "flex items-start justify-end space-x-3.5";
         msgDiv.innerHTML = `
-            <div class="bg-brand-600 text-white rounded-2xl rounded-tr-none px-4 py-3 shadow-md max-w-xl text-sm leading-relaxed">
+            <div class="user-bubble text-white rounded-3xl rounded-tr-none px-5 py-3.5 max-w-xl text-sm leading-relaxed shadow-lg">
                 ${escapeHtml(text)}
             </div>
-            <div class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-slate-300 flex-shrink-0 text-xs shadow">
+            <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center text-white flex-shrink-0 text-xs shadow-md border border-white/20">
                 <i class="fa-solid fa-user"></i>
             </div>
         `;
@@ -144,24 +144,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function appendBotMessage(data) {
         const msgDiv = document.createElement("div");
-        msgDiv.className = "flex items-start space-x-3 bot-message";
+        msgDiv.className = "flex items-start space-x-3.5 bot-message";
 
         // Render formatted response
         const formattedAnswer = renderMarkdownSimple(data.answer);
 
         let statusIndicator = "";
         if (data.escalate_to_human && data.ticket_id) {
-            statusIndicator = `<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30"><i class="fa-solid fa-ticket mr-1"></i>Ticket: ${data.ticket_id}</span>`;
+            statusIndicator = `<span class="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-rose-500/20 text-rose-300 border border-rose-400/30 backdrop-blur-md"><i class="fa-solid fa-ticket mr-1"></i>Ticket: ${data.ticket_id}</span>`;
         }
 
         msgDiv.innerHTML = `
-            <div class="w-8 h-8 rounded-full ${data.escalate_to_human ? 'bg-amber-600' : 'bg-brand-600'} flex items-center justify-center text-white flex-shrink-0 text-xs shadow">
+            <div class="w-9 h-9 rounded-2xl ${data.escalate_to_human ? 'bg-gradient-to-tr from-amber-600 to-orange-500' : 'bg-gradient-to-tr from-brand-600 to-indigo-600'} flex items-center justify-center text-white flex-shrink-0 text-xs shadow-md border border-white/20">
                 <i class="fa-solid ${data.escalate_to_human ? 'fa-headset' : 'fa-graduation-cap'}"></i>
             </div>
-            <div class="flex-1 bg-slate-700/60 border border-slate-600/60 rounded-2xl rounded-tl-none p-4 shadow-sm max-w-2xl">
+            <div class="flex-1 bot-bubble rounded-3xl rounded-tl-none p-4 sm:p-5 max-w-2xl shadow-xl">
                 <div class="flex items-center justify-between gap-2 mb-2">
                     <div class="flex items-center gap-2">
-                        <span class="text-xs font-semibold text-brand-300">Global Language Academy</span>
+                        <span class="text-xs font-semibold text-brand-300 tracking-wide">Global Language Academy</span>
                         ${statusIndicator}
                     </div>
                     <span class="text-[10px] text-slate-400">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>

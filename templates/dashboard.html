@@ -5,129 +5,141 @@
 {% block content %}
 <div class="space-y-8 max-w-7xl w-full mx-auto">
 
-    <!-- Header & Quick Actions -->
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-800/60 border border-slate-700/80 rounded-2xl p-6 backdrop-blur">
+    <!-- Header & Quick Actions in Frosted Glass Panel -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 glass-panel rounded-3xl p-6 sm:p-7 shadow-xl">
         <div>
-            <h1 class="text-2xl font-bold text-white tracking-tight flex items-center gap-2">
-                <i class="fa-solid fa-chart-pie text-brand-400"></i> Operational Analytics & RAG Observability
+            <h1 class="text-2xl font-bold text-white tracking-tight flex items-center gap-2.5">
+                <i class="fa-solid fa-chart-pie text-brand-400"></i> Analytics & RAG Observability
             </h1>
-            <p class="text-sm text-slate-400 mt-1">
-                Real-time tracking of AI token consumption, deterministic routing efficiency, and human escalations.
+            <p class="text-sm text-slate-300 mt-1">
+                Seguimiento en tiempo real de consumo de tokens Gemini, eficiencia de enrutamiento determinista y escalamiento a soporte humano.
             </p>
         </div>
         <div class="flex items-center space-x-3">
-            <button id="refresh-metrics-btn" class="bg-slate-700 hover:bg-slate-600 text-slate-200 px-4 py-2 rounded-xl text-xs font-medium transition-colors flex items-center gap-1.5">
-                <i class="fa-solid fa-arrows-rotate"></i> Refresh Data
+            <button id="refresh-metrics-btn" class="glass-card hover:bg-white/10 text-slate-200 px-4 py-2.5 rounded-2xl text-xs font-medium transition-all flex items-center gap-1.5 shadow-sm">
+                <i class="fa-solid fa-arrows-rotate text-brand-400"></i> Actualizar Métricas
             </button>
-            <button id="clear-cache-btn" class="bg-amber-600/80 hover:bg-amber-600 text-white px-4 py-2 rounded-xl text-xs font-medium transition-colors flex items-center gap-1.5">
-                <i class="fa-solid fa-broom"></i> Flush Cache
+            <button id="clear-cache-btn" class="bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 px-4 py-2.5 rounded-2xl text-xs font-medium transition-all flex items-center gap-1.5 backdrop-blur-md shadow-sm">
+                <i class="fa-solid fa-broom"></i> Limpiar Caché
             </button>
         </div>
     </div>
 
-    <!-- KPI Metric Cards Grid -->
+    <!-- KPI Metric Cards Grid in Glassmorphism Cards -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         
         <!-- Total Queries -->
-        <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-5 shadow-lg relative overflow-hidden">
+        <div class="glass-card rounded-3xl p-6 shadow-xl relative overflow-hidden">
             <div class="flex items-center justify-between">
-                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Inquiries</span>
-                <span class="p-2.5 rounded-xl bg-brand-500/10 text-brand-400 border border-brand-500/20">
+                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Consultas</span>
+                <span class="p-3 rounded-2xl bg-brand-500/20 text-brand-300 border border-brand-400/30 backdrop-blur-md">
                     <i class="fa-solid fa-comments text-base"></i>
                 </span>
             </div>
             <div class="mt-4">
-                <span id="metric-total-queries" class="text-3xl font-extrabold text-white">{{ metrics.total_queries }}</span>
-                <span class="text-xs text-slate-400 ml-1">queries</span>
+                <span id="metric-total-queries" class="text-3xl font-extrabold text-white tracking-tight">{{ metrics.total_queries }}</span>
+                <span class="text-xs text-slate-400 ml-1">consultas</span>
             </div>
             <div class="mt-2 text-xs text-slate-400 flex items-center gap-2">
-                <span class="text-brand-400 font-medium">{{ metrics.deterministic_matches }} Deterministic</span> &bull;
+                <span class="text-brand-400 font-medium">{{ metrics.deterministic_matches }} Deterministas</span> &bull;
                 <span class="text-emerald-400 font-medium">{{ metrics.ai_completions }} AI RAG</span>
             </div>
         </div>
 
         <!-- Cache Hit Rate & Savings -->
-        <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-5 shadow-lg relative overflow-hidden">
+        <div class="glass-card rounded-3xl p-6 shadow-xl relative overflow-hidden">
             <div class="flex items-center justify-between">
-                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Cache Hit Rate</span>
-                <span class="p-2.5 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Tasa de Acierto Caché</span>
+                <span class="p-3 rounded-2xl bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 backdrop-blur-md">
                     <i class="fa-solid fa-bolt text-base"></i>
                 </span>
             </div>
             <div class="mt-4">
-                <span id="metric-cache-rate" class="text-3xl font-extrabold text-cyan-400">{{ metrics.cache_hit_rate_pct }}%</span>
+                <span id="metric-cache-rate" class="text-3xl font-extrabold text-cyan-400 tracking-tight">{{ metrics.cache_hit_rate_pct }}%</span>
             </div>
             <div class="mt-2 text-xs text-slate-400">
-                <span class="text-cyan-300 font-medium">{{ metrics.cache_hits }} hits</span> &bull;
-                <span class="text-emerald-400 font-medium">~${{ metrics.estimated_savings_usd }} saved</span>
+                <span class="text-cyan-300 font-medium">{{ metrics.cache_hits }} aciertos</span> &bull;
+                <span class="text-emerald-400 font-medium">~${{ metrics.estimated_savings_usd }} USD ahorrados</span>
             </div>
         </div>
 
         <!-- Total AI Token Cost -->
-        <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-5 shadow-lg relative overflow-hidden">
+        <div class="glass-card rounded-3xl p-6 shadow-xl relative overflow-hidden">
             <div class="flex items-center justify-between">
-                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Estimated AI Cost</span>
-                <span class="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Costo Estimado AI</span>
+                <span class="p-3 rounded-2xl bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 backdrop-blur-md">
                     <i class="fa-solid fa-dollar-sign text-base"></i>
                 </span>
             </div>
             <div class="mt-4">
-                <span id="metric-total-cost" class="text-3xl font-extrabold text-emerald-400">${{ metrics.total_cost_usd }}</span>
+                <span id="metric-total-cost" class="text-3xl font-extrabold text-emerald-400 tracking-tight">${{ metrics.total_cost_usd }}</span>
                 <span class="text-xs text-slate-400 ml-1">USD</span>
             </div>
             <div class="mt-2 text-xs text-slate-400">
-                <span id="metric-total-tokens" class="text-slate-300 font-medium">{{ metrics.total_tokens }}</span> total tokens processed
+                <span id="metric-total-tokens" class="text-slate-200 font-medium">{{ metrics.total_tokens }}</span> tokens procesados
             </div>
         </div>
 
-        <!-- Escalation Rate -->
-        <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-5 shadow-lg relative overflow-hidden">
+        <!-- Human Escalation Rate -->
+        <div class="glass-card rounded-3xl p-6 shadow-xl relative overflow-hidden">
             <div class="flex items-center justify-between">
-                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Escalation Rate</span>
-                <span class="p-2.5 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Tasa de Escalamiento</span>
+                <span class="p-3 rounded-2xl bg-rose-500/20 text-rose-300 border border-rose-400/30 backdrop-blur-md">
                     <i class="fa-solid fa-headset text-base"></i>
                 </span>
             </div>
             <div class="mt-4">
-                <span id="metric-escalation-rate" class="text-3xl font-extrabold text-amber-400">{{ metrics.escalation_rate_pct }}%</span>
+                <span id="metric-escalation-rate" class="text-3xl font-extrabold text-rose-400 tracking-tight">{{ metrics.escalation_rate_pct }}%</span>
             </div>
             <div class="mt-2 text-xs text-slate-400">
-                <span class="text-amber-300 font-medium">{{ metrics.escalated_queries }} escalated</span> to human support
+                <span class="text-rose-300 font-medium">{{ metrics.escalations }} tickets generados</span>
             </div>
         </div>
 
     </div>
 
-    <!-- Knowledge Base Document Inspector Section -->
-    <div id="documents" class="bg-slate-800/70 border border-slate-700/80 rounded-2xl p-6 shadow-xl space-y-6">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-700/80 pb-4">
+    <!-- Knowledge Base Documents Inspector in Glass Panel -->
+    <div class="glass-panel rounded-3xl overflow-hidden shadow-2xl">
+        <div class="p-6 border-b border-white/10 bg-slate-900/40 backdrop-blur-md flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
                 <h2 class="text-lg font-bold text-white flex items-center gap-2">
-                    <i class="fa-solid fa-book-bookmark text-brand-400"></i> Grounded Business Knowledge Documents
+                    <i class="fa-solid fa-book-bookmark text-brand-400"></i> Documentos Indexados de la Base de Conocimiento
                 </h2>
                 <p class="text-xs text-slate-400 mt-0.5">
-                    Official markdown repository (Total indexed chunks: <strong class="text-brand-300">{{ total_chunks }}</strong>)
+                    3 documentos oficiales en Markdown con segmentación por fragmentos (chunks) y ranking BM25 multilingüe.
                 </p>
             </div>
-            <!-- Document Switcher Tabs -->
-            <div class="flex flex-wrap gap-2">
-                {% for doc in documents %}
-                <button 
-                    class="doc-tab-btn px-3 py-1.5 rounded-xl text-xs font-medium transition-all {% if loop.first %}bg-brand-600 text-white shadow{% else %}bg-slate-700/70 text-slate-300 hover:bg-slate-700{% endif %}"
-                    data-target="doc-{{ loop.index }}"
-                >
-                    <i class="fa-regular fa-file-lines mr-1"></i> {{ doc.filename }}
-                </button>
-                {% endfor %}
+            <div class="text-xs font-mono bg-white/5 border border-white/10 px-3.5 py-1.5 rounded-2xl text-slate-300 backdrop-blur-md">
+                39 Chunks en <code class="text-brand-300 font-bold">vector_store.json</code>
             </div>
         </div>
 
-        <!-- Rendered Document Containers -->
-        {% for doc in documents %}
-        <div id="doc-{{ loop.index }}" class="doc-content-panel {% if not loop.first %}hidden{% endif %} bg-slate-900/70 border border-slate-800 rounded-xl p-6 max-h-[500px] overflow-y-auto prose prose-invert prose-brand max-w-none text-sm text-slate-300">
-            {{ doc.html_content | safe }}
+        <!-- Document Tabs -->
+        <div class="p-6">
+            <div class="flex space-x-2 border-b border-white/10 pb-4 overflow-x-auto no-scrollbar">
+                {% for doc in documents %}
+                <button 
+                    onclick="switchDocTab('{{ doc.name }}')" 
+                    id="tab-btn-{{ doc.name }}" 
+                    class="doc-tab-btn px-4 py-2 rounded-2xl text-xs font-medium transition-all duration-200 flex items-center gap-2 {% if loop.first %}bg-gradient-to-r from-brand-600 to-indigo-600 text-white shadow-md shadow-brand-600/30 border border-white/20{% else %}text-slate-400 hover:text-slate-200 hover:bg-white/5 border border-transparent{% endif %}"
+                >
+                    <i class="fa-regular fa-file-lines"></i>
+                    <span>{{ doc.title }}</span>
+                </button>
+                {% endfor %}
+            </div>
+
+            <!-- Tab Content Viewer -->
+            <div class="mt-6">
+                {% for doc in documents %}
+                <div id="doc-content-{{ doc.name }}" class="doc-content-pane {% if not loop.first %}hidden{% endif %}">
+                    <div class="glass-card rounded-2xl p-6 prose prose-invert max-w-none text-sm leading-relaxed text-slate-200 overflow-x-auto max-h-[500px] overflow-y-auto">
+                        {{ doc.html_content | safe }}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
-        {% endfor %}
     </div>
 
 </div>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-slate-900">
+<html lang="en" class="h-full bg-[#090d16]">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,6 +14,7 @@
                         brand: {
                             50: '#eff6ff',
                             100: '#dbeafe',
+                            400: '#60a5fa',
                             500: '#3b82f6',
                             600: '#2563eb',
                             700: '#1d4ed8',
@@ -21,6 +22,7 @@
                             900: '#1e3a8a',
                         },
                         emerald: {
+                            400: '#34d399',
                             500: '#10b981',
                             600: '#059669',
                         }
@@ -33,63 +35,72 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Marked.js Markdown Parser -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <!-- Custom CSS -->
+    <!-- Custom Glassmorphism CSS -->
     <link rel="stylesheet" href="/static/css/custom.css">
 </head>
-<body class="h-full flex flex-col text-slate-100 antialiased selection:bg-brand-500 selection:text-white">
+<body class="h-full flex flex-col text-slate-100 antialiased selection:bg-brand-500 selection:text-white relative bg-[#090d16] overflow-x-hidden">
 
-    <!-- Top Navigation Bar -->
-    <header class="bg-slate-800/90 backdrop-blur border-b border-slate-700/80 sticky top-0 z-50">
+    <!-- Ambient Glowing Light Orbs Mesh (Glassmorphism Backdrop) -->
+    <div class="ambient-mesh">
+        <div class="glow-orb glow-orb-1"></div>
+        <div class="glow-orb glow-orb-2"></div>
+        <div class="glow-orb glow-orb-3"></div>
+        <div class="glow-orb glow-orb-4"></div>
+    </div>
+
+    <!-- Frosted Glass Navigation Bar -->
+    <header class="glass-header sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <!-- Logo & Brand -->
                 <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-emerald-500 flex items-center justify-center shadow-lg shadow-brand-500/20">
-                        <i class="fa-solid fa-graduation-cap text-white text-lg"></i>
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-500 via-indigo-500 to-emerald-400 flex items-center justify-center shadow-lg shadow-brand-500/30 border border-white/20">
+                        <i class="fa-solid fa-graduation-cap text-white text-lg drop-shadow"></i>
                     </div>
                     <div>
-                        <span class="font-bold text-lg text-white tracking-tight">Global Language Academy</span>
-                        <span class="hidden sm:inline-block ml-2 px-2 py-0.5 text-xs font-semibold bg-brand-900/60 text-brand-300 rounded-full border border-brand-700/50">AI Support</span>
+                        <span class="font-bold text-lg text-white tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-slate-300">Global Language Academy</span>
+                        <span class="hidden sm:inline-block ml-2 px-2.5 py-0.5 text-[11px] font-semibold bg-brand-500/20 text-brand-300 rounded-full border border-brand-400/30 backdrop-blur-md">AI Assistant</span>
                     </div>
                 </div>
 
-                <!-- Navigation Links -->
-                <nav class="flex items-center space-x-1 sm:space-x-2">
-                    <a href="/chat" class="px-3 py-2 rounded-lg text-sm font-medium transition-all {% if active_tab == 'chat' %}bg-brand-600 text-white shadow-md shadow-brand-600/30{% else %}text-slate-300 hover:text-white hover:bg-slate-700/60{% endif %}">
+                <!-- Navigation Links with Frosted Pills -->
+                <nav class="flex items-center space-x-1 sm:space-x-2 bg-slate-900/40 p-1 rounded-xl border border-white/10 backdrop-blur-md">
+                    <a href="/chat" class="px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 {% if active_tab == 'chat' %}bg-gradient-to-r from-brand-600 to-indigo-600 text-white shadow-md shadow-brand-600/40 border border-white/20{% else %}text-slate-300 hover:text-white hover:bg-white/5{% endif %}">
                         <i class="fa-regular fa-comments mr-1.5"></i> Chat
                     </a>
-                    <a href="/dashboard" class="px-3 py-2 rounded-lg text-sm font-medium transition-all {% if active_tab == 'dashboard' %}bg-brand-600 text-white shadow-md shadow-brand-600/30{% else %}text-slate-300 hover:text-white hover:bg-slate-700/60{% endif %}">
+                    <a href="/dashboard" class="px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 {% if active_tab == 'dashboard' %}bg-gradient-to-r from-brand-600 to-indigo-600 text-white shadow-md shadow-brand-600/40 border border-white/20{% else %}text-slate-300 hover:text-white hover:bg-white/5{% endif %}">
                         <i class="fa-solid fa-chart-line mr-1.5"></i> Metrics & Docs
                     </a>
-                    <a href="/escalations" class="px-3 py-2 rounded-lg text-sm font-medium transition-all {% if active_tab == 'escalations' %}bg-brand-600 text-white shadow-md shadow-brand-600/30{% else %}text-slate-300 hover:text-white hover:bg-slate-700/60{% endif %}">
+                    <a href="/escalations" class="px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 {% if active_tab == 'escalations' %}bg-gradient-to-r from-brand-600 to-indigo-600 text-white shadow-md shadow-brand-600/40 border border-white/20{% else %}text-slate-300 hover:text-white hover:bg-white/5{% endif %}">
                         <i class="fa-solid fa-headset mr-1.5"></i> Support Desk
                     </a>
                 </nav>
 
-                <!-- Live Status Badge -->
-                <div class="hidden md:flex items-center space-x-2 bg-slate-900/80 px-3 py-1.5 rounded-full border border-slate-700/60">
-                    <span class="relative flex h-2.5 w-2.5">
+                <!-- Live Glowing Status Badge -->
+                <div class="hidden md:flex items-center space-x-2 bg-emerald-950/40 px-3 py-1.5 rounded-full border border-emerald-500/30 backdrop-blur-md shadow-sm">
+                    <span class="relative flex h-2 w-2">
                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
                     </span>
-                    <span class="text-xs text-slate-300 font-medium">System Online</span>
+                    <span class="text-xs text-emerald-300 font-medium">Live Online</span>
                 </div>
             </div>
         </div>
     </header>
 
     <!-- Main Content Area -->
-    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 flex flex-col">
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 flex flex-col relative z-10">
         {% block content %}{% endblock %}
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-slate-950 border-t border-slate-800/80 py-4 text-center text-xs text-slate-400">
+    <!-- Frosted Glass Footer -->
+    <footer class="bg-slate-950/60 border-t border-white/10 py-4 text-center text-xs text-slate-400 backdrop-blur-md relative z-10">
         <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-            <div>&copy; 2026 Global Language Academy SAS &bull; Intelligent Customer Support Engine</div>
-            <div class="flex items-center space-x-4">
-                <span><i class="fa-solid fa-bolt text-amber-400 mr-1"></i> Deterministic + Gemini RAG</span>
-                <span><i class="fa-solid fa-network-wired text-brand-400 mr-1"></i> WebSockets Enabled</span>
+            <div>&copy; 2026 Global Language Academy SAS &bull; Intelligent Multi-Tier Customer Assistant</div>
+            <div class="flex items-center space-x-4 text-slate-300">
+                <span class="flex items-center gap-1.5"><i class="fa-solid fa-bolt text-amber-400"></i> Deterministic Engine</span>
+                <span class="flex items-center gap-1.5"><i class="fa-solid fa-brain text-brand-400"></i> Gemini 3.5 Flash Lite</span>
+                <span class="flex items-center gap-1.5"><i class="fa-brands fa-telegram text-sky-400"></i> Telegram Bot</span>
             </div>
         </div>
     </footer>
