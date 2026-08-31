@@ -1,70 +1,37 @@
-# Global Language Academy - Academic Policies, Methodology, and Student FAQ
+# Global Language Academy - Comprehensive Student FAQ and Academic Policies
 
-## 1. Academic Methodology and Teaching Philosophy
+## 1. Academic Methodology and 80% Oral Immersion
 
-### A. The Direct Communicative Immersion Approach
-- **80% Active Speaking Time**: Our classroom methodology prioritizes oral communication, spontaneous dialogue, real-life problem solving, and contextual fluency rather than passive grammar memorization.
-- **Task-Based Learning (TBL)**: Students engage in practical projects such as delivering executive business presentations, conducting simulated job interviews, debating current international events, and negotiating contracts.
-- **Error Correction Dynamics**: Instructors provide real-time positive phonetic feedback, constructive pronunciation clinics, and personalized correction logs inside the student portal.
-
-### B. Faculty Credentials and Native Instructors
-- All Global Language Academy professors hold internationally recognized pedagogical credentials (such as Cambridge CELTA, DELTA, Trinity CertTESOL, DAEFLE for French, or Goethe-Institut DaF for German).
-- We maintain a balanced blend of native speakers (from the US, UK, Canada, France, Germany, and Australia) and bilingual C2 certified educators with native-level fluency and extensive pedagogy expertise.
+- **Conversational Immersion**: 80% of classroom time is dedicated to student speech, debates, roleplaying, and collaborative problem-solving. Grammatical concepts are taught inductively through practical communication rather than passive rote memorization.
+- **Master Instructors**: All teachers are certified native or C2-level bilingual educators with recognized international credentials (Cambridge CELTA, DELTA, or MA in Applied Linguistics).
+- **Classroom Cohort Limits**: Strict cap of maximum 8 students per classroom (minimum 4) to ensure individualized feedback and speaking turns.
 
 ---
 
-## 2. Academic Evaluation, Passing Criteria, and Certification
+## 2. Digital Platforms and Educational Ecosystem
 
-### A. Grading System and Evaluation Components
-To ensure rigorous CEFR progression, student performance is assessed continuously throughout each 60-hour module:
-1. **Active Class Participation & Speaking Tasks (30%)**: Oral engagement, debate contribution, and pronunciation evolution.
-2. **Virtual Campus Tasks & Quizzes (30%)**: Weekly asynchronous grammar drills, listening comprehension labs, and vocabulary exercises.
-3. **Mid-term Progress Review (10%)**: Formative feedback session at Week 5.
-4. **Final Oral Assessment & Capstone Project (30%)**: 15-minute one-on-one speaking evaluation with an independent academic examiner.
-
-### B. Passing Grade
-- The minimum passing grade to advance to the next sub-level is **80 out of 100 points (80%)**.
-- Students achieving 80% or higher receive the official Level Completion Certificate.
-- Students scoring between 70% and 79% receive a complimentary remedial coaching session before taking a retake exam at zero extra cost.
+- **Virtual Campus (Canvas LMS + Zoom Pro)**: 24/7 student access to course syllabus, homework assignments, teacher feedback, and interactive quizzes.
+- **Included Digital Textbooks**: Full digital access to official Cambridge University Press and Oxford University Press interactive e-books and audio labs (no hidden book purchases required).
+- **Weekly Conversation Clubs (Clubes de Conversación)**: Unlimited, free weekly sessions organized by topic (Business, Cinema, Tech, Debates, Travel) across all active languages.
 
 ---
 
-## 3. Extracurricular Learning Inclusions (No Extra Cost)
+## 3. Payment Troubleshooting and Financial FAQ
 
-All registered students enjoy unlimited complimentary access to the following academic booster programs:
-
-### A. Weekly Conversation Clubs (Clubes de Conversación)
-- Held multiple times per week in both on-campus lounges and Zoom breakout rooms.
-- Grouped by proficiency tiers: Beginner (A1-A2), Intermediate (B1-B2), and Advanced (C1-C2).
-- Topics include pop culture, business trends, international travel, cinema debates, and speed-friending sessions.
-
-### B. Pronunciation & Accent Reduction Labs
-- Bi-weekly specialized workshops led by native instructors focusing on difficult vowel sounds, connected speech, linking, intonation, and stress patterns.
-
-### C. Digital Academic Library & Virtual Campus
-- 24/7 unlimited access to Oxford University Press, Cambridge English, and Didier digital platforms.
-- Interactive audio exercises, video series, and downloadable grammar toolkits.
-- **Zero Hidden Costs**: All official digital books and interactive licenses are 100% included in the standard tuition fee.
+- **PSE & Bank Debit Inquiries**:
+  - If money is debited from the bank account but the platform shows "Pending", bank clearing networks (ACH / Redeban) typically take **15 to 30 minutes** to return the official CUS confirmation code.
+  - If after 45 minutes the status is unchanged, the student should provide their **Full Name, Email, and CUS Transaction Number** to admissions for immediate manual activation.
+- **Credit Card Denials**:
+  - Often caused by bank security filters for online purchases or exceeding daily transaction limits. Students can retry via PSE or request a direct Bancolombia / Nequi payment link.
+- **Financing with Addi / Sistecredito**:
+  - Available for students without credit cards. Requires only Colombian Cedula and active WhatsApp number. Approvals in under 3 minutes with 0% interest on select terms.
 
 ---
 
-## 4. Corporate Training and Custom Business Cohorts
+## 4. Exact Physical Campus Locations
 
-For multinational corporations, startups, and public sector organizations, Global Language Academy provides tailored enterprise language solutions:
-- **Custom Industry Syllabi**: Legal English, Medical French, Financial German, Tech/Software Engineering English, Oil & Gas terminology.
-- **Flexible Location**: Delivered on-site at client headquarters, 100% live online, or at our flagship Bogotá and Medellín campuses.
-- **HR Dashboard & Observability**: Real-time attendance reports, monthly progress tracking, and quarterly ROI evaluations for HR and Talent Development managers.
-- **Corporate Discounts**: Up to 15% discount for groups of 10 or more employees.
-
----
-
-## 5. Frequently Asked Questions (Quick Reference FAQ)
-
-1. **How long does it take to become fluent?**
-   - From complete beginner (A1.1) to solid conversational fluency (B2.2), an average student requires approximately 480 academic hours (about 12 to 14 months in an intensive track, or 20 to 24 months in a standard track).
-2. **Can I switch my schedule if my work shift changes?**
-   - Yes. Schedule transfers between morning, evening, and Saturday tracks can be requested between modules or with 5 business days notice during an active module, subject to classroom capacity.
-3. **What is the age requirement for adult courses?**
-   - Adult group courses accept students aged 16 and older. Younger students (ages 8 to 15) are enrolled in our specialized Kids & Teens Saturday program.
-4. **Is there an enrollment fee (matrícula) separate from tuition?**
-   - No! Registration is 100% free. The published tuition fee ($1,250,000 COP, etc.) covers tuition, digital textbooks, virtual campus license, and conversation clubs.
+- **Bogotá Chapinero Campus**: Calle 63 # 11-45 (Edificio Global, 3rd Floor). Phone: +57 (601) 745-8800.
+- **Bogotá Chicó Campus**: Carrera 11 # 93a-30 (Piso 2, Parque 93). Phone: +57 (601) 745-8810.
+- **Medellín El Poblado Campus**: Carrera 43A # 5A-113 (Near Oviedo Mall). Phone: +57 (604) 604-5500.
+- **Medellín Laureles Campus**: Circular 4 # 73-22 (Near UPB). Phone: +57 (604) 604-5510.
+- **Admissions Working Hours**: Monday to Friday 7:00 AM – 8:00 PM; Saturdays 8:00 AM – 2:00 PM.

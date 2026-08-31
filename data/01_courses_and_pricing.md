@@ -1,7 +1,7 @@
 # Global Language Academy - Comprehensive Courses, Syllabi, Pricing, and Discount Catalog
 
 ## 1. Institutional Overview and CEFR Alignment
-Global Language Academy is an accredited international language institute providing high-impact language training fully aligned with the Common European Framework of Reference for Languages (CEFR). Our academic mission combines interactive communicative immersion, native/bilingual master educators, and state-of-the-art digital tools to achieve rapid, measurable fluency for individual students, executives, young learners, and corporate teams.
+Global Language Academy is an accredited international language institute providing high-impact language training fully aligned with the Common European Framework of Reference for Languages (CEFR). Our academic mission combines interactive communicative immersion (80% oral speech focus), native and C2 certified master educators (Cambridge CELTA/DELTA credentials), and modern digital tools to achieve rapid, measurable fluency for individual students, executives, young learners, and corporate teams.
 
 ---
 
@@ -10,33 +10,37 @@ Global Language Academy is an accredited international language institute provid
 ### A. General English Program (Levels A1 to C1)
 - **Target Audience**: Beginners to advanced learners seeking everyday fluency, travel confidence, professional communication, and academic reading/writing.
 - **Competency Progression**:
-  - **A1 (Beginner Breakthrough - A1.1 & A1.2)**: 120 total hours. Basic social interactions, introductions, ordering food, asking directions, essential present and past tense structures.
+  - **A1 (Beginner Breakthrough - A1.1 & A1.2)**: 120 total hours. Basic social interactions, personal introductions, ordering food, asking directions, present simple and basic past tense.
   - **A2 (Elementary Waystage - A2.1 & A2.2)**: 120 total hours. Daily routines, shopping, travel logistics, personal experiences, future plans, basic conversational spontaneity.
   - **B1 (Intermediate Threshold - B1.1 & B1.2)**: 120 total hours. Expressing opinions, professional emails, narrating past events, hypothetical discussions, travel problem solving.
   - **B2 (Upper-Intermediate Vantage - B2.1 & B2.2)**: 120 total hours. Complex professional arguments, abstract discussions, technical discussions, fluent spontaneous conversation without strain.
   - **C1 (Advanced Operational Proficiency - C1.1 & C1.2)**: 120 total hours. Academic debate, executive pitch presentations, negotiation nuance, idiomatic mastery, stylistic flexibility.
-  - **Total Duration to Reach Level B2**: From complete beginner (A1.1) to full B2.2 upper-intermediate conversational fluency takes **480 academic hours (8 sub-modules of 60 hours each)**, taking approximately **12 to 14 months in the Intensive track (15h/week)** or **20 to 24 months in the Standard track (6h/week)**.
-
+- **Total Duration to Reach Level B2**: From complete beginner (A1.1) to full B2.2 upper-intermediate conversational fluency takes **480 academic hours (8 sub-modules of 60 hours each)**, taking approximately **12 to 14 months in the Intensive track (15h/week)** or **20 to 24 months in the Standard track (6h/week)**.
 
 ### B. Business and Executive English (Levels B1 to C2)
 - **Target Audience**: Managers, developers, corporate leaders, and remote professionals working with international clients in the US, UK, and Europe.
 - **Focus Areas**: Cross-border contract negotiations, executive presentations, corporate finance terminology, sprint/agile meetings, technical documentation, professional diplomacy, and crisis communication.
 
-### C. French (Français - Levels A1 to C1)
+### C. International Exam Preparation Tracks (IELTS, TOEFL, Cambridge)
+- **IELTS Academic & General Training Prep**: 40-hour targeted workshop. Focus on Band 7.0+ strategies, Essay Task 1 & 2 rubric mastery, rapid reading scanning, and speaking interview simulation.
+- **TOEFL iBT Prep**: 40-hour targeted workshop. Focus on 100+ composite score strategies, integrated speaking/writing tasks, and computerized audio lab training.
+- **Cambridge FCE / CAE Prep**: 60-hour intensive preparation for official lifetime Cambridge certification.
+
+### D. French (Français - Levels A1 to C1)
 - **Framework**: Official syllabus aligned with the CIEP and France Éducation International (DELF/DALF).
 - **Core Modules**: Conversational phonetics, everyday life in Francophone countries, academic writing for French university admissions (Campus France), and professional communication in Canadian/European French.
 
-### D. German (Deutsch - Levels A1 to B2)
+### E. German (Deutsch - Levels A1 to B2)
 - **Framework**: Aligned with the Goethe-Institut and TestDaF standards.
 - **Core Modules**: German for academic migration, Studienkolleg preparation, job seeker visas, nurse/engineer professional homologation, and technical German.
 
-### E. Italian (Italiano - Levels A1 to B2)
+### F. Italian (Italiano - Levels A1 to B2)
 - **Framework**: Italian cultural immersion, conversational fluency, and preparation for citizenship or academic requirements (CILS/CELI standards).
 
-### F. Portuguese (Português Brasileiro - Levels A1 to B2)
+### G. Portuguese (Português Brasileiro - Levels A1 to B2)
 - **Framework**: Brazilian Portuguese for business opportunities in Mercosur and Latin America, tourism, and Celpe-Bras exam orientation.
 
-### G. Spanish for Foreigners (Español para Extranjeros - Levels A1 to C2)
+### H. Spanish for Foreigners (Español para Extranjeros - Levels A1 to C2)
 - **Target Audience**: Expatriates, remote workers, digital nomads, and university exchange students living in or relocating to Colombia.
 - **Curriculum**: Latin American cultural immersion, practical daily life, Colombian idioms, business etiquette, and DELE/SIELE exam alignment.
 
@@ -48,7 +52,6 @@ Global Language Academy is an accredited international language institute provid
 - **Do individual students need to form or bring their own group?**
   - **ABSOLUTELY NOT.** Individual students enroll individually. Global Language Academy organizes and manages the cohorts based on each student's exact CEFR level (determined by the free online placement test).
   - Cohorts maintain a strict cap of **maximum 8 students per classroom** (minimum 4) to ensure constant speaking time, personalized teacher feedback, and active peer collaboration.
-  - For private companies or groups of friends wanting an exclusive closed group, custom corporate groups can be arranged upon request.
 - **Are tuition fees per person or per group?**
   - **All published tuition fees are INDIVIDUAL PER PERSON per module/level.**
   - Every individual enrollment includes official digital textbooks, unlimited 24/7 Virtual Campus access, weekly conversation clubs, and up to 2 free 1-on-1 makeup tutoring sessions.
@@ -98,7 +101,5 @@ Global Language Academy offers clear, cumulative discount policies:
 We offer secure, versatile payment channels:
 - **PSE (Pagos Seguros en Línea)**: Direct bank debit from any Colombian financial institution (Bancolombia, Davivienda, BBVA, Banco de Bogotá, Nequi, Daviplata, Scotiabank Colpatria).
 - **Credit and Debit Cards**: Visa, MasterCard, American Express, Diners Club (accepted online and at campus front desks).
-- **Direct Bank Transfer**: Bancolombia Savings Account # 104-589231-88, Global Language Academy SAS, NIT 901.458.712-3.
-- **Interest-Free Installment Plans**:
-  - Up to 3 monthly installments at **0% interest** via participating credit cards.
-  - Direct academy installment plan: 50% upon registration, 25% at Week 4, 25% at Week 8.
+- **0% Interest Financing**: Up to 3 monthly installments at 0% interest using any supported credit card or approved partner financing (Addi / Sistecredito).
+- **Cash & Datafono at Campuses**: Accepted at front desk admissions offices in Bogotá (Chapinero and Chicó) and Medellín (El Poblado and Laureles).

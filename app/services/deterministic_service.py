@@ -269,6 +269,22 @@ class DeterministicService:
                     "• **Gestión**: Así el asesor podrá escribirte directamente y confirmar tu cupo a través de Resend.\n\n"
                     "¿Cuál es tu dirección de correo electrónico?"
                 )
+            },
+
+            # 16. Payment Troubleshooting
+            {
+                "category": "payment_troubleshooting",
+                "patterns": [
+                    r"\b(problemas? con el pago|fall[oó] el pago|no me deja pagar|error en el pago|pago pendiente|no pasa la tarjeta|rechaz[oó] el pago)\b"
+                ],
+                "sources": ["04_student_faq_and_academic_policies.md#3-payment-troubleshooting-and-financial-faq"],
+                "answer": (
+                    "¡Hola! Lamento el inconveniente con tu pago. Revisemos las causas más frecuentes:\n\n"
+                    "• **PSE / Bancos**: Si el dinero fue debitado, la confirmación bancaria (CUS) suele tardar entre **15 y 30 minutos**.\n"
+                    "• **Tarjetas de Crédito**: Revisa si tu banco requiere autorización de compras digitales o superaste el cupo diario.\n"
+                    "• **Alternativas**: Puedes pagar vía transferencia directa Bancolombia, Addi (sin tarjeta) o en sedes Bogotá/Medellín.\n\n"
+                    "¿Qué método utilizaste (PSE o Tarjeta) o qué mensaje de error te apareció?"
+                )
             }
         ]
 

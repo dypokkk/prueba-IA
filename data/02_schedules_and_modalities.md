@@ -1,83 +1,55 @@
-# Global Language Academy - Schedules, Modalities, Campuses, and Attendance Policies
+# Global Language Academy - Comprehensive Schedules, Modalities, and Attendance Policies
 
-## 1. Comprehensive Class Schedules and Timetables
+## 1. Class Schedules and Timetables
 
-To accommodate university students, busy corporate professionals, and international learners across different time zones, Global Language Academy operates 6 days a week with flexible morning, afternoon, evening, and weekend time blocks.
+Global Language Academy offers versatile schedule options designed for busy professionals, university students, and young learners:
 
-### A. Weekday Regular Tracks (Monday through Thursday)
-- **Early Morning Track (Madrugadores)**:
-  - **Hours**: 6:30 AM to 8:30 AM (Colombia Time, UTC-5).
-  - **Frequency**: Monday to Thursday (8 academic hours per week).
-  - **Ideal for**: Working professionals who want to complete classes before the workday begins.
-- **Morning Standard Track**:
-  - **Hours**: 9:00 AM to 11:00 AM (Monday to Thursday).
-  - **Ideal for**: University students with afternoon classes and freelance professionals.
-- **Afternoon Track**:
-  - **Hours**: 4:00 PM to 6:00 PM (Monday to Thursday).
-- **Evening Executive Track (Nocturno)**:
-  - **Hours**: 6:30 PM to 8:30 PM (Monday to Thursday).
-  - **Ideal for**: Full-time employees and university students.
+### A. Weekday Shifts (Monday to Thursday)
+- **Early Bird Track (Madrugadores)**: 6:30 AM – 8:30 AM (8h/week). Ideal for corporate professionals before business hours.
+- **Morning Standard Track**: 9:00 AM – 11:00 AM (8h/week).
+- **Afternoon Track**: 4:00 PM – 6:00 PM (8h/week).
+- **Executive Night Track (Nocturno Ejecutivo)**: 6:30 PM – 8:30 PM (8h/week). Most popular shift among working adults.
 
-### B. Weekend Intensive Track (Saturday Immersion)
-- **Saturday Intensive Schedule**:
-  - **Hours**: 8:00 AM to 1:00 PM (5 continuous hours with a 20-minute coffee & conversation networking break).
-  - **Duration**: Complete a full 60-hour level in 12 consecutive Saturdays.
-  - **Availability**: On-campus (Bogotá Chapinero & Medellín El Poblado) and 100% Live Online via Zoom Education.
+### B. Weekend Track (Saturdays Only)
+- **Saturday Intensive Track**: 8:00 AM – 1:00 PM (5 continuous academic hours). Complete 60 class hours in 12 consecutive Saturdays.
+- **Kids & Teens Track**: 8:30 AM – 12:30 PM (4 hours). Interactive gamified immersion for ages 8 to 15.
 
-### C. Kids & Teens Saturday Track (Ages 8 to 15)
-- **Hours**: 8:30 AM to 12:30 PM (4 hours per Saturday, 12 weeks, 48 total hours).
-- **Structure**: Gamified learning, interactive storytelling, theater labs, and Cambridge Young Learners (YLE) orientation.
-
-### D. Private 1-on-1 Sessions Scheduling
-- **Availability**: Monday to Saturday between 6:00 AM and 9:00 PM.
-- **Flexibility**: Sessions can be scheduled in 1-hour, 1.5-hour, or 2-hour blocks with customizable frequency.
+### C. Intensive Monthly Immersion (Monday to Friday)
+- **Morning Intensive**: 7:00 AM – 10:00 AM (15h/week, 4-week module completion).
+- **Evening Intensive**: 6:00 PM – 9:00 PM (15h/week, 4-week module completion).
 
 ---
 
-## 2. Learning Modalities and Technical Ecosystem
+## 2. Learning Modalities: In-Person vs. 100% Live Online
 
-Students can select among three modern delivery formats:
+Students can select between two premier learning formats:
 
-### 1. In-Person On-Campus (Presencial)
-- Classes take place in modern acoustic-treated classrooms equipped with interactive smart displays, ergonomic seating, and high-speed Wi-Fi 6.
-- Class size: Capped at maximum 8 students.
-- Complimentary premium coffee, herbal tea, quiet study rooms, and rooftop terrace access.
+### A. On-Campus Immersive Experience
+- High-tech acoustic classrooms with smartboards, ergonomic seating, and maximum 8 students per group.
+- On-campus language café, high-speed Wi-Fi, and library lounges.
+- **Campus Locations**:
+  - **Bogotá Chapinero**: Calle 63 # 11-45 (Near TransMilenio Calle 63).
+  - **Bogotá Chicó / Parque 93**: Carrera 11 # 93a-30 (Executive business hub).
+  - **Medellín El Poblado**: Carrera 43A # 5A-113 (Near Parque El Poblado & Oviedo).
+  - **Medellín Laureles**: Circular 4 # 73-22 (Near UPB & Primer Parque de Laureles).
 
-### 2. 100% Live Online (Virtual en Vivo)
-- Real-time interactive classes hosted on Zoom Education with digital whiteboards, breakout rooms for pair work, and live document collaboration.
-- **Live Human Interaction**: Classes are led live by certified professors (not pre-recorded video lectures).
-- **Class Recordings**: Every session is recorded in HD and uploaded to the student portal within 2 hours of class completion for asynchronous review.
-- **AI Pronunciation Lab**: 24/7 unlimited access to our AI speech analysis and grammar training platform.
-
-### 3. Hybrid Blended (Híbrido)
-- 50% on-campus interactive workshops (debates, speaking clinics, networking) + 50% live virtual classes.
-- Ideal for remote and hybrid workers commuting across Bogotá or Medellín.
-
----
-
-## 3. Physical Campus Locations and Facilities
-
-Global Language Academy operates two modern flagship physical learning centers in Colombia:
-
-### Bogotá Flagship Campus:
-- **Address**: Calle 63 # 9-45, Chapinero Central, Bogotá, Colombia.
-- **Transit Access**: 2 blocks from the Calle 63 TransMilenio Station on Avenida Caracas.
-- **Facilities**: 14 smart classrooms, multi-language library, rooftop conversation café, quiet coworking lounges, and certified IELTS/TOEFL testing lab.
-- **Operating Hours**: Monday to Friday 6:00 AM - 9:00 PM | Saturdays 7:30 AM - 2:30 PM.
-
-### Medellín Flagship Campus:
-- **Address**: Carrera 43A # 7-50, El Poblado (near Parque del Poblado and Golden Mile), Medellín, Colombia.
-- **Transit Access**: 10-minute walk from Poblado Metro Station.
-- **Facilities**: 10 interactive classrooms, outdoor garden terrace for conversation clubs, study booths, and international testing center.
-- **Operating Hours**: Monday to Friday 6:30 AM - 8:30 PM | Saturdays 8:00 AM - 2:00 PM.
+### B. 100% Live Online Platform (Virtual Immersion)
+- Real-time live classes with certified native and bilingual teachers via enterprise Zoom & Canvas LMS.
+- Interactive digital breakout rooms, live whiteboard collaboration, and recorded audio repositories.
+- Same curriculum, speaking requirements, and certificates as in-person cohorts.
 
 ---
 
-## 4. Attendance, Missed Classes, and Makeup Policies
+## 3. Attendance, Missed Classes, and Makeup Policies
 
-- **Minimum Attendance Requirement**: Students must maintain at least **80% attendance** across the module to qualify for the end-of-level certification evaluation.
-- **Justified Absences**: Up to 3 justified absences per module (for certified medical excuses or mandatory work duties).
-- **Free 1-on-1 Makeup Tutoring Sessions**: 
-  - Every enrolled group student who misses a class is entitled to **up to 2 complimentary 45-minute 1-on-1 tutoring sessions** per module with an academic mentor to catch up on key concepts.
-  - Live Online students can also watch the full HD class recordings uploaded to the student portal within 2 hours.
-- **Campus Transfer Policy**: Students can request a temporary or permanent branch transfer between Bogotá, Medellín, and Live Online with 5 days advance notice at zero administrative fee.
+- **Minimum Attendance Requirement**: To pass a module and receive an official CEFR certificate, students must attend at least **80% of scheduled class hours** (minimum 48 of 60 hours).
+- **Automated Class Recordings**: Every Live Online session is recorded in HD and published to the Canvas Virtual Campus student portal within **2 hours** after class conclusion.
+- **Free 1-on-1 Makeup Tutoring Sessions**: Every enrolled student has the right to **2 complimentary 45-minute private makeup sessions per module** with a tutor to review missed topics or prepare for assessments.
+
+---
+
+## 4. Schedule Changes and Transfers
+
+- **Requesting a Schedule Change**: Students can request a shift or group change by notifying admissions at least **5 business days** in advance.
+- **Immediate Transfers**: If an urgent work or personal conflict occurs, immediate transfers can be accommodated subject to open seat availability in the target shift.
+- **Modality Swapping (Hybrid Flexibility)**: Students in on-campus programs can attend classes online via Zoom if traveling or unable to commute, ensuring zero lost hours.

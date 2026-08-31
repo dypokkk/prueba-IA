@@ -202,6 +202,20 @@
 
                         <!-- Card Body -->
                         <div class="space-y-2.5 flex-1">
+                            {% if ticket.student_name or ticket.email or ticket.phone %}
+                            <div class="p-2.5 rounded-xl bg-brand-500/10 border border-brand-400/20 text-xs">
+                                {% if ticket.student_name %}
+                                <div class="font-bold text-white flex items-center gap-1.5">
+                                    <i class="fa-solid fa-user-circle text-brand-400"></i> {{ ticket.student_name }}
+                                </div>
+                                {% endif %}
+                                <div class="text-[11px] text-slate-300 flex flex-wrap items-center gap-x-3 gap-y-0.5 mt-1">
+                                    {% if ticket.email %}<span class="text-amber-300"><i class="fa-solid fa-envelope text-[10px] mr-1"></i>{{ ticket.email }}</span>{% endif %}
+                                    {% if ticket.phone %}<span class="text-emerald-300"><i class="fa-solid fa-phone text-[10px] mr-1"></i>{{ ticket.phone }}</span>{% endif %}
+                                </div>
+                            </div>
+                            {% endif %}
+
                             <div>
                                 <span class="text-[10px] uppercase font-bold tracking-wider text-slate-400">Motivo:</span>
                                 <div class="mt-0.5 inline-block">
@@ -300,6 +314,20 @@
 
                         <!-- Card Body -->
                         <div class="space-y-2.5 flex-1">
+                            {% if ticket.student_name or ticket.email or ticket.phone %}
+                            <div class="p-2.5 rounded-xl bg-white/5 border border-white/10 text-xs">
+                                {% if ticket.student_name %}
+                                <div class="font-bold text-slate-200 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-user-circle text-slate-400"></i> {{ ticket.student_name }}
+                                </div>
+                                {% endif %}
+                                <div class="text-[11px] text-slate-400 flex flex-wrap items-center gap-x-3 gap-y-0.5 mt-1">
+                                    {% if ticket.email %}<span><i class="fa-solid fa-envelope text-[10px] mr-1"></i>{{ ticket.email }}</span>{% endif %}
+                                    {% if ticket.phone %}<span><i class="fa-solid fa-phone text-[10px] mr-1"></i>{{ ticket.phone }}</span>{% endif %}
+                                </div>
+                            </div>
+                            {% endif %}
+
                             <div>
                                 <span class="text-[10px] uppercase font-bold tracking-wider text-slate-400">Motivo:</span>
                                 <div class="mt-0.5 inline-block">

@@ -100,11 +100,42 @@ document.addEventListener("DOMContentLoaded", () => {
     let socket = null;
     let isWebSocketReady = false;
 
-    // Persistent Multi-turn Session Identifier
-    let currentSessionId = sessionStorage.getItem("gla_session_id");
+    // Persistent Multi-turn Session Identifier (localStorage survives page reload and tab closing)
+    let currentSessionId = localStorage.getItem("gla_persistent_session_id");
     if (!currentSessionId) {
         currentSessionId = "web_" + Math.random().toString(36).substring(2, 10);
-        sessionStorage.setItem("gla_session_id", currentSessionId);
+        localStorage.setItem("gla_persistent_session_id", currentSessionId);
+    }
+
+    // Load full conversational history from SQLite API on startup
+    async function loadHistory() {
+        if (!currentSessionId) return;
+        try {
+            const resp = await fetch(`/api/chat/history/${currentSessionId}`);
+            if (resp.ok) {
+                const data = await resp.json();
+                if (data.history && data.history.length > 0) {
+                    // Only populate if messages container only has initial greeting
+                    const count = (modalMessagesContainer ? modalMessagesContainer.children.length : 0);
+                    if (count <= 1) {
+                        data.history.forEach(item => {
+                            if (item.role === "user") {
+                                appendUserMessage(item.content);
+                            } else if (item.role === "assistant" || item.role === "admin") {
+                                appendBotMessage({
+                                    answer: item.content,
+                                    tier: item.tier || "ai_rag",
+                                    sender_role: item.role,
+                                    author: item.role === "admin" ? "Asesor de Admisiones Humano" : "Global Language Academy"
+                                });
+                            }
+                        });
+                    }
+                }
+            }
+        } catch (e) {
+            console.warn("Could not load previous history from SQLite:", e);
+        }
     }
 
     // 1. Establish WebSocket Connection
@@ -131,7 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     const data = JSON.parse(event.data);
                     if (data.session_id) {
                         currentSessionId = data.session_id;
-                        sessionStorage.setItem("gla_session_id", currentSessionId);
+                        localStorage.setItem("gla_persistent_session_id", currentSessionId);
                     }
                     if (data.tier !== "system" && data.event !== "user_message") {
                         appendBotMessage(data);
@@ -162,6 +193,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     initWebSocket();
+    loadHistory();
 
     // 2. Handle Message Submission (Modal)
     if (modalChatForm) {
