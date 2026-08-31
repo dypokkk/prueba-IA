@@ -1,18 +1,26 @@
 {% extends "base.html" %}
 
-{% block title %}Operational Metrics & Knowledge Base - Global Language Academy{% endblock %}
+{% block title %}Admin Dashboard & Soporte Humano - Global Language Academy{% endblock %}
 
 {% block content %}
-<div class="space-y-8 max-w-7xl w-full mx-auto">
+<div class="space-y-8 max-w-7xl w-full mx-auto py-4">
 
     <!-- Header & Quick Actions in Frosted Glass Panel -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 glass-panel rounded-3xl p-6 sm:p-7 shadow-xl">
         <div>
+            <div class="flex items-center gap-2 mb-1">
+                <span class="px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 text-[11px] font-bold border border-indigo-400/30">
+                    Panel Administrativo
+                </span>
+                <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[11px] font-bold border border-emerald-400/30">
+                    Gemini 3.5 Flash Lite
+                </span>
+            </div>
             <h1 class="text-2xl font-bold text-white tracking-tight flex items-center gap-2.5">
-                <i class="fa-solid fa-chart-pie text-brand-400"></i> Analytics & RAG Observability
+                <i class="fa-solid fa-gauge-high text-brand-400"></i> Observabilidad, Base de Datos & Soporte Humano
             </h1>
             <p class="text-sm text-slate-300 mt-1">
-                Seguimiento en tiempo real de consumo de tokens Gemini 3.5 Flash Lite, eficiencia de enrutamiento determinista y escalamiento a soporte humano.
+                Seguimiento de consumo de tokens, gestión de tickets escalados a humanos y consulta de la base de conocimiento indexada.
             </p>
         </div>
         <div class="flex items-center space-x-3">
@@ -98,24 +106,134 @@
 
     </div>
 
-    <!-- Knowledge Base Documents Inspector in Glass Panel -->
+    <!-- MAIN ADMIN TABS NAVIGATION -->
     <div class="glass-panel rounded-3xl overflow-hidden shadow-2xl">
-        <div class="p-6 border-b border-white/10 bg-slate-900/40 backdrop-blur-md flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-                <h2 class="text-lg font-bold text-white flex items-center gap-2">
-                    <i class="fa-solid fa-book-bookmark text-brand-400"></i> Documentos Indexados de la Base de Conocimiento
-                </h2>
-                <p class="text-xs text-slate-400 mt-0.5">
-                    {{ documents|length }} documentos oficiales en Markdown con segmentación por fragmentos (chunks) y ranking BM25 multilingüe.
-                </p>
+        <div class="p-6 border-b border-white/10 bg-slate-900/50 backdrop-blur-md flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center space-x-2 bg-slate-900/60 p-1.5 rounded-2xl border border-white/10 backdrop-blur-md">
+                <button 
+                    onclick="switchAdminTab('tickets')" 
+                    id="admin-tab-btn-tickets" 
+                    class="admin-main-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-2 bg-gradient-to-r from-rose-600 to-amber-600 text-white shadow-md border border-white/20"
+                >
+                    <i class="fa-solid fa-headset"></i>
+                    <span>Tickets de Soporte Humano</span>
+                    {% if pending_count > 0 %}
+                    <span class="px-2 py-0.2 bg-white text-rose-900 text-[10px] font-black rounded-full shadow-sm">{{ pending_count }}</span>
+                    {% endif %}
+                </button>
+                <button 
+                    onclick="switchAdminTab('docs')" 
+                    id="admin-tab-btn-docs" 
+                    class="admin-main-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-2 text-slate-400 hover:text-slate-200 hover:bg-white/5 border border-transparent"
+                >
+                    <i class="fa-solid fa-book-bookmark"></i>
+                    <span>Base de Conocimiento ({{ documents|length }} Docs)</span>
+                </button>
             </div>
+
             <div class="text-xs font-mono bg-white/5 border border-white/10 px-3.5 py-1.5 rounded-2xl text-slate-300 backdrop-blur-md">
                 {{ total_chunks }} Chunks en <code class="text-brand-300 font-bold">vector_store.json</code>
             </div>
         </div>
 
-        <!-- Document Tabs -->
-        <div class="p-6">
+        <!-- 1. TAB CONTENT: TICKETS DE SOPORTE HUMANO -->
+        <div id="admin-panel-tickets" class="admin-main-panel p-6 space-y-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-inbox text-amber-400"></i> Cola de Escalamientos a Asesores Humanos
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-0.5">
+                        Consultas fuera de alcance, solicitudes de becas especiales, reembolsos o atención personalizada.
+                    </p>
+                </div>
+                <span class="px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-400/30">
+                    {{ pending_count }} Pendientes
+                </span>
+            </div>
+
+            {% if tickets and tickets|length > 0 %}
+            <div class="glass-card rounded-2xl overflow-hidden border border-white/10">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-white/10 text-left text-xs">
+                        <thead class="bg-slate-900/60 uppercase text-slate-400 font-semibold tracking-wider">
+                            <tr>
+                                <th class="px-5 py-3.5">Ticket ID</th>
+                                <th class="px-5 py-3.5">Fecha</th>
+                                <th class="px-5 py-3.5">Canal</th>
+                                <th class="px-5 py-3.5">Consulta del Estudiante</th>
+                                <th class="px-5 py-3.5">Motivo de Escalamiento</th>
+                                <th class="px-5 py-3.5">Estado</th>
+                                <th class="px-5 py-3.5 text-right">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-white/5 text-slate-200">
+                            {% for ticket in tickets %}
+                            <tr class="hover:bg-white/5 transition-colors">
+                                <td class="px-5 py-3.5 font-mono font-bold text-brand-300">
+                                    {{ ticket.ticket_id }}
+                                </td>
+                                <td class="px-5 py-3.5 text-slate-400 whitespace-nowrap">
+                                    {{ ticket.timestamp }}
+                                </td>
+                                <td class="px-5 py-3.5">
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-[10px] font-medium bg-white/5 border border-white/10 text-slate-300">
+                                        <i class="fa-solid {% if ticket.channel == 'telegram' %}fa-paper-plane text-sky-400{% else %}fa-globe text-brand-400{% endif %} mr-1"></i>
+                                        {{ ticket.channel }}
+                                    </span>
+                                </td>
+                                <td class="px-5 py-3.5 max-w-xs truncate" title="{{ ticket.user_query }}">
+                                    "{{ ticket.user_query }}"
+                                </td>
+                                <td class="px-5 py-3.5">
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-[10px] font-medium bg-rose-500/20 text-rose-300 border border-rose-400/30">
+                                        {{ ticket.escalation_reason }}
+                                    </span>
+                                </td>
+                                <td class="px-5 py-3.5">
+                                    {% if ticket.status == 'PENDING' %}
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-500/20 text-amber-300 border border-amber-400/30">
+                                        <i class="fa-solid fa-clock mr-1 text-[9px]"></i> Pendiente
+                                    </span>
+                                    {% else %}
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">
+                                        <i class="fa-solid fa-check mr-1 text-[9px]"></i> Resuelto
+                                    </span>
+                                    {% endif %}
+                                </td>
+                                <td class="px-5 py-3.5 text-right">
+                                    {% if ticket.status == 'PENDING' %}
+                                    <form action="/escalations/{{ ticket.ticket_id }}/resolve" method="POST" class="inline">
+                                        <button type="submit" class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-[11px] font-bold px-3 py-1.5 rounded-xl transition-all shadow border border-white/20">
+                                            <i class="fa-solid fa-check mr-1"></i> Marcar Resuelto
+                                        </button>
+                                    </form>
+                                    {% else %}
+                                    <span class="text-slate-500 italic text-[11px]">Atendido</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% else %}
+            <div class="glass-card rounded-2xl p-10 text-center text-slate-400 space-y-2">
+                <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mx-auto text-emerald-400 text-xl shadow">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <h3 class="text-sm font-semibold text-slate-200">No hay tickets de soporte pendientes</h3>
+                <p class="text-xs text-slate-400 max-w-sm mx-auto">
+                    Todas las consultas están siendo resueltas por el motor de IA y las reglas deterministas.
+                </p>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- 2. TAB CONTENT: BASE DE CONOCIMIENTO (DOCUMENTOS MARKDOWN) -->
+        <div id="admin-panel-docs" class="admin-main-panel p-6 space-y-6 hidden">
+            <!-- Document Tabs -->
             <div class="flex space-x-2 border-b border-white/10 pb-4 overflow-x-auto no-scrollbar">
                 {% for doc in documents %}
                 <button 
@@ -130,21 +248,57 @@
             </div>
 
             <!-- Tab Content Viewer -->
-            <div class="mt-6">
+            <div>
                 {% for doc in documents %}
                 <div id="doc-content-{{ doc.name }}" class="doc-content-pane {% if not loop.first %}hidden{% endif %}">
-                    <div class="glass-card rounded-2xl p-6 prose prose-invert max-w-none text-sm leading-relaxed text-slate-200 overflow-x-auto max-h-[500px] overflow-y-auto">
+                    <div class="glass-card rounded-2xl p-6 prose prose-invert max-w-none text-xs sm:text-sm leading-relaxed text-slate-200 overflow-x-auto max-h-[550px] overflow-y-auto custom-scrollbar">
                         {{ doc.html_content | safe }}
                     </div>
                 </div>
                 {% endfor %}
             </div>
         </div>
+
     </div>
 
 </div>
 {% endblock %}
 
 {% block scripts %}
+<script>
+// Admin Main Tab Switcher (Tickets vs Docs)
+window.switchAdminTab = function(tabName) {
+    const panels = document.querySelectorAll(".admin-main-panel");
+    const btns = document.querySelectorAll(".admin-main-tab-btn");
+
+    panels.forEach(p => p.classList.add("hidden"));
+    btns.forEach(b => {
+        b.classList.remove("bg-gradient-to-r", "from-rose-600", "to-amber-600", "from-brand-600", "to-indigo-600", "text-white", "shadow-md", "border-white/20");
+        b.classList.add("text-slate-400", "hover:text-slate-200", "hover:bg-white/5", "border-transparent");
+    });
+
+    const activePanel = document.getElementById(`admin-panel-${tabName}`);
+    const activeBtn = document.getElementById(`admin-tab-btn-${tabName}`);
+
+    if (activePanel) activePanel.classList.remove("hidden");
+    if (activeBtn) {
+        activeBtn.classList.remove("text-slate-400", "hover:text-slate-200", "hover:bg-white/5", "border-transparent");
+        if (tabName === 'tickets') {
+            activeBtn.classList.add("bg-gradient-to-r", "from-rose-600", "to-amber-600", "text-white", "shadow-md", "border-white/20");
+        } else {
+            activeBtn.classList.add("bg-gradient-to-r", "from-brand-600", "to-indigo-600", "text-white", "shadow-md", "border-white/20");
+        }
+    }
+};
+
+// Check for hash on load (e.g. /dashboard#tickets or /dashboard#docs)
+document.addEventListener("DOMContentLoaded", () => {
+    if (window.location.hash === '#docs') {
+        switchAdminTab('docs');
+    } else {
+        switchAdminTab('tickets');
+    }
+});
+</script>
 <script src="/static/js/dashboard.js"></script>
 {% endblock %}

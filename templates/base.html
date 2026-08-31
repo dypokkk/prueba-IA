@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es" class="min-h-screen bg-[#090d16]">
+<html lang="es" class="min-h-screen bg-[#090d16] scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Global Language Academy - Support Assistant{% endblock %}</title>
+    <title>{% block title %}Global Language Academy - Aprende Idiomas con Inmersión Total{% endblock %}</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -41,7 +41,7 @@
 <body class="min-h-screen flex flex-col text-slate-100 antialiased selection:bg-brand-500 selection:text-white relative bg-[#090d16] overflow-x-hidden">
 
     <!-- Ambient Glowing Light Orbs Mesh (Glassmorphism Backdrop) -->
-    <div class="ambient-mesh">
+    <div class="ambient-mesh pointer-events-none">
         <div class="glow-orb glow-orb-1"></div>
         <div class="glow-orb glow-orb-2"></div>
         <div class="glow-orb glow-orb-3"></div>
@@ -49,50 +49,198 @@
     </div>
 
     <!-- Frosted Glass Navigation Bar -->
-    <header class="glass-header sticky top-0 z-50">
+    <header class="glass-header sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
+            <div class="flex items-center justify-between h-16 sm:h-20">
                 <!-- Logo & Brand -->
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-500 via-indigo-500 to-emerald-400 flex items-center justify-center shadow-lg shadow-brand-500/30 border border-white/20 transition-transform duration-300 hover:scale-105 hover:rotate-3">
+                <a href="/" class="flex items-center space-x-3 group">
+                    <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-brand-500 via-indigo-500 to-emerald-400 flex items-center justify-center shadow-lg shadow-brand-500/30 border border-white/20 transition-transform duration-300 group-hover:scale-105 group-hover:rotate-3">
                         <i class="fa-solid fa-graduation-cap text-white text-lg drop-shadow"></i>
                     </div>
                     <div>
-                        <span class="font-bold text-lg text-white tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-slate-300">Global Language Academy</span>
-                        <span class="hidden sm:inline-block ml-2 px-2.5 py-0.5 text-[11px] font-semibold bg-brand-500/20 text-brand-300 rounded-full border border-brand-400/30 backdrop-blur-md">AI Assistant</span>
+                        <span class="font-bold text-base sm:text-lg text-white tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-slate-300">Global Language Academy</span>
+                        <div class="text-[10px] text-brand-300 font-medium tracking-wide flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block animate-pulse"></span> Bogotá • Medellín • Live Online
+                        </div>
                     </div>
-                </div>
+                </a>
 
-                <!-- Navigation Links with Frosted Pills -->
-                <nav class="flex items-center space-x-1 sm:space-x-2 bg-slate-900/40 p-1 rounded-xl border border-white/10 backdrop-blur-md">
-                    <a href="/chat" class="px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all duration-300 {% if active_tab == 'chat' %}bg-gradient-to-r from-brand-600 to-indigo-600 text-white shadow-md shadow-brand-600/40 border border-white/20 scale-[1.02]{% else %}text-slate-300 hover:text-white hover:bg-white/5{% endif %}">
-                        <i class="fa-regular fa-comments mr-1.5"></i> Chat
-                    </a>
-                    <a href="/dashboard" class="px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all duration-300 {% if active_tab == 'dashboard' %}bg-gradient-to-r from-brand-600 to-indigo-600 text-white shadow-md shadow-brand-600/40 border border-white/20 scale-[1.02]{% else %}text-slate-300 hover:text-white hover:bg-white/5{% endif %}">
-                        <i class="fa-solid fa-chart-line mr-1.5"></i> Metrics & Docs
-                    </a>
-                    <a href="/escalations" class="px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all duration-300 {% if active_tab == 'escalations' %}bg-gradient-to-r from-brand-600 to-indigo-600 text-white shadow-md shadow-brand-600/40 border border-white/20 scale-[1.02]{% else %}text-slate-300 hover:text-white hover:bg-white/5{% endif %}">
-                        <i class="fa-solid fa-headset mr-1.5"></i> Support Desk
-                    </a>
+                <!-- Public Navigation Links -->
+                <nav class="hidden lg:flex items-center space-x-1 bg-slate-900/40 p-1.5 rounded-2xl border border-white/10 backdrop-blur-md text-xs font-medium text-slate-300">
+                    <a href="/#programas" class="px-3.5 py-1.5 rounded-xl hover:text-white hover:bg-white/5 transition-all">Programas</a>
+                    <a href="/#precios" class="px-3.5 py-1.5 rounded-xl hover:text-white hover:bg-white/5 transition-all">Tarifas & Financiación</a>
+                    <a href="/#sedes" class="px-3.5 py-1.5 rounded-xl hover:text-white hover:bg-white/5 transition-all">Sedes & Horarios</a>
+                    <a href="/#prueba-nivel" class="px-3.5 py-1.5 rounded-xl hover:text-white hover:bg-white/5 transition-all">Prueba de Nivel</a>
+                    <a href="/#faq" class="px-3.5 py-1.5 rounded-xl hover:text-white hover:bg-white/5 transition-all">Preguntas Frecuentes</a>
                 </nav>
 
-                <!-- Live Glowing Status Badge -->
-                <div class="hidden md:flex items-center space-x-2 bg-emerald-950/40 px-3 py-1.5 rounded-full border border-emerald-500/30 backdrop-blur-md shadow-sm">
-                    <span class="relative flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
-                    </span>
-                    <span class="text-xs text-emerald-300 font-medium">Live Online</span>
+                <!-- CTA Button to open Chat Modal -->
+                <div class="flex items-center space-x-3">
+                    <button onclick="openChatModal()" class="glass-button bg-gradient-to-r from-brand-600 to-indigo-600 text-white text-xs font-semibold px-4 py-2.5 rounded-2xl shadow-lg shadow-brand-600/30 flex items-center gap-2 border border-white/20 transition-all hover:scale-105 active:scale-95">
+                        <i class="fa-solid fa-wand-magic-sparkles text-brand-300"></i>
+                        <span class="hidden sm:inline">Consultar con Asesor IA</span>
+                        <span class="sm:hidden">Asesor IA</span>
+                    </button>
                 </div>
             </div>
         </div>
     </header>
 
     <!-- Main Content Area -->
-    <main class="flex-1 max-w-7xl w-full mx-auto p-2 sm:p-4 md:p-6 flex flex-col relative z-10">
+    <main class="flex-1 w-full flex flex-col relative z-10">
         {% block content %}{% endblock %}
     </main>
 
+    <!-- Discreet Staff Footer with Secluded Dashboard Link -->
+    <footer class="mt-auto border-t border-white/5 bg-slate-950/60 backdrop-blur-md py-8 text-xs text-slate-400 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-2">
+                <div class="w-6 h-6 rounded-lg bg-brand-600/30 flex items-center justify-center text-brand-400 border border-brand-500/20">
+                    <i class="fa-solid fa-graduation-cap text-xs"></i>
+                </div>
+                <span>© 2026 Global Language Academy. Todos los derechos reservados.</span>
+            </div>
+            
+            <div class="flex items-center space-x-6">
+                <a href="/#programas" class="hover:text-slate-200 transition-colors">Idiomas</a>
+                <a href="/#prueba-nivel" class="hover:text-slate-200 transition-colors">Diagnóstico MCER</a>
+                <a href="/#precios" class="hover:text-slate-200 transition-colors">Financiación</a>
+                <a href="/dashboard" class="text-slate-500 hover:text-brand-400 transition-colors flex items-center gap-1">
+                    <i class="fa-solid fa-shield-halved text-[10px]"></i> Staff Dashboard
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ================================================================= -->
+    <!-- FLOATING ACTION BUTTON (FAB) & GLASSMORPHIC CHAT MODAL WIDGET     -->
+    <!-- ================================================================= -->
+
+    <!-- Glowing Floating Trigger Button -->
+    <div id="floating-chat-trigger" class="fixed bottom-6 right-6 z-50">
+        <button 
+            id="fab-chat-btn" 
+            onclick="toggleChatModal()" 
+            class="relative w-14 h-14 sm:w-16 sm:h-16 rounded-3xl bg-gradient-to-tr from-brand-600 via-indigo-600 to-emerald-500 p-[1px] shadow-2xl shadow-brand-500/50 transition-all duration-300 hover:scale-110 active:scale-95 group focus:outline-none"
+            aria-label="Abrir Asistente IA"
+        >
+            <div class="w-full h-full rounded-3xl bg-slate-900/90 backdrop-blur-xl flex items-center justify-center relative overflow-hidden">
+                <!-- Inner Light Sweep Effect -->
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+                
+                <!-- Bot / Chat Icons -->
+                <i id="fab-open-icon" class="fa-solid fa-comments text-xl sm:text-2xl text-white drop-shadow transition-transform duration-300 group-hover:rotate-6"></i>
+                <i id="fab-close-icon" class="fa-solid fa-xmark text-2xl text-white drop-shadow hidden"></i>
+                
+                <!-- Online Ping Badge -->
+                <span class="absolute top-2 right-2 flex h-3 w-3">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-400 border-2 border-slate-900"></span>
+                </span>
+            </div>
+        </button>
+    </div>
+
+    <!-- Glassmorphic Chat Modal Container -->
+    <div 
+        id="chat-modal-container" 
+        class="fixed bottom-24 right-4 sm:right-6 z-50 w-[420px] max-w-[calc(100vw-2rem)] h-[620px] max-h-[calc(100vh-7.5rem)] glass-panel rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-white/20 transition-all duration-300 transform scale-95 opacity-0 pointer-events-none"
+    >
+        <!-- Modal Header -->
+        <div class="p-4 border-b border-white/10 bg-slate-900/60 backdrop-blur-md flex items-center justify-between flex-shrink-0">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-brand-600 to-indigo-500 flex items-center justify-center text-white shadow-md border border-white/20">
+                    <i class="fa-solid fa-graduation-cap text-base"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-sm text-white flex items-center gap-1.5">
+                        Global Language Academy
+                        <span class="px-2 py-0.2 bg-brand-500/20 text-brand-300 text-[10px] rounded-full border border-brand-400/30">IA 3.5</span>
+                    </h3>
+                    <div class="flex items-center space-x-2 text-[11px] text-slate-400">
+                        <span id="modal-connection-dot" class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                        <span id="modal-connection-status">En línea</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-1.5">
+                <button id="modal-clear-chat-btn" title="Reiniciar Conversación" class="w-8 h-8 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 flex items-center justify-center text-xs transition-colors border border-white/10">
+                    <i class="fa-solid fa-rotate-right"></i>
+                </button>
+                <button onclick="closeChatModal()" title="Cerrar" class="w-8 h-8 rounded-xl bg-white/5 hover:bg-rose-500/20 hover:text-rose-300 text-slate-300 flex items-center justify-center text-xs transition-colors border border-white/10">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Suggestion Chips Bar -->
+        <div class="px-3 py-2 border-b border-white/5 bg-slate-900/30 flex space-x-1.5 overflow-x-auto no-scrollbar flex-shrink-0">
+            <button class="modal-chip-btn text-[11px] px-3 py-1 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10 whitespace-nowrap transition-colors" data-query="¿Cuáles son los precios de los cursos de inglés?">
+                💰 Precios de inglés
+            </button>
+            <button class="modal-chip-btn text-[11px] px-3 py-1 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10 whitespace-nowrap transition-colors" data-query="¿Cómo funciona la prueba de nivelación gratuita?">
+                🎯 Prueba gratuita
+            </button>
+            <button class="modal-chip-btn text-[11px] px-3 py-1 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10 whitespace-nowrap transition-colors" data-query="¿Qué horarios tienen los sábados?">
+                ⏰ Horarios sábados
+            </button>
+            <button class="modal-chip-btn text-[11px] px-3 py-1 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10 whitespace-nowrap transition-colors" data-query="¿Dónde quedan sus sedes en Bogotá y Medellín?">
+                📍 Sedes
+            </button>
+        </div>
+
+        <!-- Messages Scroll Container -->
+        <div id="modal-messages-container" class="flex-1 overflow-y-auto p-4 space-y-4 min-h-0 custom-scrollbar">
+            <!-- Initial Welcome Message -->
+            <div class="flex items-start space-x-3 bot-message">
+                <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-500 flex items-center justify-center text-white flex-shrink-0 text-xs shadow border border-white/20">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div class="glass-bubble rounded-2xl rounded-tl-none p-4 text-slate-100 max-w-[85%] text-xs sm:text-sm leading-relaxed">
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="text-[11px] font-bold text-brand-300 uppercase tracking-wide">Global Language Academy</span>
+                        <span class="text-[10px] text-slate-400 font-mono">En vivo</span>
+                    </div>
+                    <p>¡Hola! 👋 Soy tu asesor académico virtual con IA. Puedo resolver al instante tus dudas sobre <strong>precios</strong>, <strong>horarios</strong>, <strong>sedes</strong>, <strong>prueba diagnóstica gratuita</strong> o <strong>certificaciones internacionales</strong>.</p>
+                    <p class="mt-2 text-slate-300">¿En qué idioma o programa te gustaría iniciar?</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Typing Indicator -->
+        <div id="modal-typing-indicator" class="hidden px-4 py-2 flex items-center space-x-2 text-xs text-brand-300 flex-shrink-0 bg-slate-900/40">
+            <span class="flex space-x-1 items-center">
+                <span class="w-1.5 h-1.5 bg-brand-400 rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+                <span class="w-1.5 h-1.5 bg-brand-400 rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+                <span class="w-1.5 h-1.5 bg-brand-400 rounded-full animate-bounce"></span>
+            </span>
+            <span class="font-medium">El asesor está redactando tu respuesta...</span>
+        </div>
+
+        <!-- Input Form -->
+        <div class="p-3 border-t border-white/10 bg-slate-900/60 backdrop-blur-md flex-shrink-0">
+            <form id="modal-chat-form" class="flex items-center gap-2">
+                <input 
+                    type="text" 
+                    id="modal-user-input" 
+                    placeholder="Escribe tu consulta aquí..." 
+                    autocomplete="off" 
+                    class="flex-1 bg-white/5 border border-white/10 focus:border-brand-400 rounded-2xl px-4 py-2.5 text-xs sm:text-sm text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500/20 backdrop-blur-md transition-all"
+                >
+                <button 
+                    type="submit" 
+                    id="modal-send-btn" 
+                    class="glass-button bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-brand-600/30 border border-white/20 transition-all hover:scale-105 active:scale-95"
+                >
+                    <i class="fa-solid fa-paper-plane text-xs"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/static/js/chat.js"></script>
     {% block scripts %}{% endblock %}
 </body>
 </html>
