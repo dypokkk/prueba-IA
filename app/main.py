@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
 from app.services.vector_store import vector_store
 from app.services.telegram_service import telegram_service
-from app.routers import chat, metrics, views, telegram
+from app.routers import chat, metrics, views, telegram, tools
 
 stop_telegram_event = asyncio.Event()
 
@@ -63,6 +63,7 @@ app.include_router(views.router)
 app.include_router(chat.router)
 app.include_router(metrics.router)
 app.include_router(telegram.router)
+app.include_router(tools.router)
 
 if __name__ == "__main__":
     import uvicorn

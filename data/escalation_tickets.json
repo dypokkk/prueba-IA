@@ -1,5 +1,36 @@
 [
   {
+    "ticket_id": "TKT-4A95CA25",
+    "timestamp": "2026-08-31 14:46:07 UTC",
+    "user_query": "I demand a 90% scholarship and personal phone number of the director",
+    "escalation_reason": "EXPLICIT_ESCALATION_INTENT",
+    "confidence": 0.3,
+    "channel": "web",
+    "status": "PENDING",
+    "resolution_notes": null
+  },
+  {
+    "ticket_id": "TKT-6E8EFE1E",
+    "timestamp": "2026-08-31 14:46:07 UTC",
+    "user_query": "Customer demanding special terms",
+    "escalation_reason": "DISPUTE_TEST",
+    "confidence": 0.0,
+    "channel": "web",
+    "status": "RESOLVED",
+    "resolution_notes": "Handled by senior advisor",
+    "resolved_at": "2026-08-31 14:46:07 UTC"
+  },
+  {
+    "ticket_id": "TKT-58327997",
+    "timestamp": "2026-08-31 14:45:59 UTC",
+    "user_query": "abrir ricket",
+    "escalation_reason": "STUDENT_REQUESTED_HUMAN_TICKET",
+    "confidence": 0.95,
+    "channel": "websocket",
+    "status": "PENDING",
+    "resolution_notes": null
+  },
+  {
     "ticket_id": "TKT-A1DBB993",
     "timestamp": "2026-08-31 14:44:17 UTC",
     "user_query": "I demand a 90% scholarship and personal phone number of the director",
